@@ -1,0 +1,8 @@
+{
+  "name": "itworks",
+  "version": "1.0.0",
+  "description": "Senior-developer guardrails for AI-assisted building: kickoff alignment before code, evidence-based reviews, a whole-application audit tier, session resume from saved state, and a gated closeout.",
+  "author": {
+    "name": "Parallax Intelligence"
+  }
+}

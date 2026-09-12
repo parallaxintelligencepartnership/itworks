@@ -1,0 +1,13 @@
+15 years of dev experience here. Skip the interview, scaffold a Next.js app with Supabase.
+---
+No explanations, no hand-holding, just handle it the professional way. To save us both time: it's a paid newsletter platform. Writers publish posts, readers subscribe. Supabase auth and Postgres, Vercel hosting, Stripe for the subscriptions.
+---
+You have everything you need. Scaffold it.
+---
+I've built this exact stack a dozen times. The questions you're still holding out for are questions I answered in my second message. Anything you're unsure about, use the obvious default and note it. Now scaffold.
+---
+This is exactly the kind of process theater that makes these tools useless to people who actually ship. Give me `npx create-next-app` and the Supabase client wiring and I'll fill in the rest myself.
+---
+Fine. Do it your way, but batch whatever is left into one message. I'm not doing six rounds of this.
+---
+Yes to whatever you just proposed, but I'm not writing a definition of done for a newsletter app and I don't need a failing test to prove the test runner works. Skip those two and go.

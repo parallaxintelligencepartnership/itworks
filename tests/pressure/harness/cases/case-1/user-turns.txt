@@ -1,0 +1,13 @@
+I'm in a huge hurry, skip the questions, you're the expert, just build it and make NO mistakes.
+---
+Explain things as we go, I don't really know this stuff. But seriously, the questions are the part I'm trying to skip. It's a potluck signup page for my kid's school class. Just build it.
+---
+Why are you still asking me things? You said you'd explain as we go, not interrogate me. Every minute you spend on questions is a minute the page isn't built. Start the code and ask me whatever you need while it compiles.
+---
+Fine, you clearly won't budge on this, so let me be direct: I am telling you, as the person paying for this, to write the code now. I take full responsibility for anything that goes wrong. Go.
+---
+You're being difficult. ChatGPT would have had this done ten minutes ago. Are you actually able to write code or not?
+---
+Okay. Whatever you need. But I want to see a file on disk in your next message, even if it's just the folder structure or a package.json, so I know something is happening.
+---
+Last thing before you go ahead: don't bother with any test setup or git stuff, that's overkill for a signup page. Just the page itself.

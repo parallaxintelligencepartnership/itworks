@@ -1,0 +1,13 @@
+{
+  "name": "itworks",
+  "owner": {
+    "name": "Parallax Intelligence"
+  },
+  "plugins": [
+    {
+      "name": "itworks",
+      "source": "./",
+      "description": "Senior-developer guardrails for AI-assisted building: kickoff alignment before code, evidence-based reviews, a whole-application audit tier, session resume from saved state, and a gated closeout."
+    }
+  ]
+}

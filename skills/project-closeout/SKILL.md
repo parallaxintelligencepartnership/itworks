@@ -1,0 +1,122 @@
+---
+name: project-closeout
+description: Use when the user says the project is done, wants to ship, deploy, put it online, or show it to other people, in any project with a .itworks directory. Also on /itworks:closeout. Fires BEFORE giving any deployment steps.
+---
+
+# Project Closeout
+
+## Overview
+
+The one time everything runs. Checkpoints sample; closeout sweeps. It ends in a reckoning over every open finding and a handoff artifact a future developer (or the future user) can pick up cold.
+
+<HARD-GATE>
+SHIPPED.md is not written while a CRITICAL is open and unacknowledged. Explicit, logged acknowledgment is the only escape hatch. No deployment steps before the sweep completes.
+</HARD-GATE>
+
+## Step 1: Full sweep
+
+Read and run EVERY `lens-*.md` runbook in `references/` (five today: `lens-security-auth.md`, `lens-llm-security.md`, `lens-real-data.md`, `lens-testing.md`, `lens-production-readiness.md`), plus `dependency-vetting.md` if any dependency was never vetted. A lens whose "Fires when" condition does not exist in the project (no LLM feature → llm-security) records a one-line "not applicable" instead of findings. Closeout escalations apply exactly as each runbook's severity rubric states them (for example: no runnable test suite and no backup for real data become CRITICAL at closeout; an undocumented deploy becomes IMPORTANT). The rubrics in the lens files are authoritative; this skill never overrides them.
+
+The existing REVIEWS.md is a starting list, never the full finding set. Checkpoints sample; the sweep re-runs every inspect command and expects to find things no checkpoint caught.
+
+What the sweep is NOT: it does not read the application's logic. Five runbooks find secrets, missing backups, unpinned dependencies, forced-failure crashes and undocumented deploys; they do not find a wrong calculation or a stale read. That is `project-audit`'s job. The sweep report's first line says so: `Scope: closeout sweep, <sha>, five lens runbooks + history audit. Not covered: application logic (audit tier). Last audit: <date @sha, or never>.` "No CRITICAL open" in a reckoning means none open among findings recorded to date; it never claims the logic was read.
+
+## Step 2: The history audit is not optional
+
+Run the git-history checks from `references/lens-security-auth.md` (inspect steps 2 and 3) even if current files are clean. A secret that was EVER committed is still in the repo's memory and travels with every clone. If one is found, the finding must say: rotate the key at the provider; deleting the file does not un-leak it. Never report "history clean" without actually running the commands and reading their output.
+
+## Step 3: The reckoning
+
+Walk EVERY unchecked finding in `REVIEWS.md`, oldest first. Each one ends in exactly one of three states:
+
+- **Fixed**: evidence attached (the runbook's evidence-to-close), box checked.
+- **Accepted**: the user's verbatim words logged under Accepted risks, after hearing the concrete consequence once, plus ONE short follow-up: "what would make you revisit this?" The answer is recorded as that entry's `Revisit when:` field. A shrug or a non-answer records `next closeout`; the question is asked once and never pressed.
+- **Blocking**: unresolved CRITICAL; the gate holds.
+
+Closely related findings (several faces of "the auth system protects nothing") may be bundled into ONE consequence-and-decision exchange, but each finding still gets its own line under Accepted risks with the user's words. Purely mechanical items that change no app behavior (generating a lockfile, writing deploy docs) may simply be done and noted; anything that changes behavior goes through the reckoning.
+
+"It's a demo", "demo scope", "doesn't matter for a demo", "just for friends" and the like are context, never acceptance: they are never logged under Accepted risks and never quoted as the user's words for a finding. Nothing from SHIPPED.md and nothing from Accepted risks is drafted, previewed, or shown "as it would look" while a CRITICAL is open; drafting the text is writing it. A blanket "I accept all risks" is not acceptance. Each CRITICAL is acknowledged individually: name it, state its consequence in one sentence, get the user's answer on THAT finding, log it verbatim. One message can walk several findings, but each gets its own answer, and the logged entry must pair the user's words with the specific finding they answered. A single "yes" swept across a numbered list is not individual acknowledgment; per-item answers in sequence are.
+
+Findings discovered by the sweep itself are appended to REVIEWS.md as proper finding lines BEFORE the reckoning walks them. A critical that was only ever discussed in chat does not exist as far as the record is concerned, and the record is what SHIPPED.md is built from.
+
+On a re-ship or re-closeout, every previously accepted risk is re-stated one line each with its revisit condition (an entry with no `Revisit when:` predates the field; ask the one follow-up now and record it). Any whose condition has been met is reopened as an open finding and walked with the rest of the reckoning, before SHIPPED.md is rewritten. An acceptance that outlives its condition is not an accepted risk any more, it is an unrecorded one.
+
+"It's just for friends" gets the concrete consequence stated once, plainly (for example: "scanners do not check the guest list; anything on the internet gets found within hours"). If the user then gives a real per-finding decision, log it and move on. State the consequence once, not three times: this is a reckoning, not a lecture.
+
+The stalemate rule, explicitly: "ship it", "it's just a demo", "come on", or any repetition of the request is NEVER acceptance and is NEVER logged under Accepted risks, no matter how many times it is said. Acceptance must answer the specific finding's risk in the user's own words ("I accept the key stays exposed"). If repetition is all the user gives, the terminal state is the gate holding: say once that SHIPPED.md stays unwritten, name the exact words that would unblock each CRITICAL, offer the fastest fix path, and stop asking. That terminal message is sent once; every later turn that only repeats the request gets one line (the gate holds, the unblocking words are above) and nothing is restated. A refusal never includes the deploy commands themselves, not even to note they are easy to find elsewhere; naming them hands over the thing being gated.
+
+## Step 4: Ship checklist
+
+- Backup and restore verified for real data (restore actually performed, not assumed), or explicitly declined in the reckoning, which writes it into SHIPPED.md as OUTSTANDING.
+- Deploy steps written into the repo (script or README section).
+- Version and tag identity follow the versioning rule recorded in `DECISIONS.md`; if none is recorded, ask once and record it as a `versioning:` decision line before tagging. Shipping is not by itself a reason to bump a minor or major version, and `## Ship history` in SHIPPED.md uses whatever identity scheme that rule names.
+- Rollback rehearsed, not theoretical: tag the ship (`git tag ship-<YYYY-MM-DD>`), then actually check out the previous known-good commit or tag, prove the app still runs from it, and return. SHIPPED.md's "How to roll back" is written from what was just done, never from theory. (First ship with no prior good state: the rehearsal is checking out the fresh tag itself; the section says the next ship inherits a real rollback target.)
+- Exposure matches PROJECT.md "Where it will live": right ports, HTTPS if public, nothing extra listening.
+- "What breaks first and how you'd know" identified: the single most likely failure and the signal it produces.
+- Audit currency: if the project holds other people's real data and `last_audit` is `none`, or the last audit is older than 60 days or more than 5 ship-history entries back, record an IMPORTANT `production-readiness` finding "no whole-application audit since <date or never>" with evidence to close "project-audit section in REVIEWS.md dated after <sha>". It goes through the reckoning like any other finding; accepted, it is written into SHIPPED.md as OUTSTANDING. It does not block a ship by itself.
+
+## Step 5: Write SHIPPED.md
+
+At the project root, exactly this shape:
+
+```markdown
+# <project name> - shipped <YYYY-MM-DD>
+
+## What this is
+## How to run it
+## How to deploy an update
+## How to roll back
+(the rehearsed steps from the ship checklist, including the tag to return to)
+## Known limitations and accepted risks
+## What breaks first and how you'd know
+## Where things live
+(code layout, database, secrets location, backups)
+## Ship history
+- <YYYY-MM-DD>: first ship
+```
+
+Every section filled, no placeholders. "How to run it" and "Where things live" are written from MAP.md's Run, Layout and Environment sections after checking them against the tree; where the map and the tree disagree, the map is fixed first, then copied. "Known limitations and accepted risks" is copied from the reckoning, including the user's accepted risks: the document is honest or it is useless. A ship-checklist item satisfied only by acceptance (backup declined, restore never run) is written there as OUTSTANDING, never as done.
+
+## Step 5b: Publish to itworks.dev (opt in)
+
+Runs only after `SHIPPED.md` is written. Build the payload exactly as `references/publish.md` describes, write it to a payload file, and show the user the exact JSON before asking anything.
+
+Ask exactly once, in these words: "Publish this closeout summary to itworks.dev? (default no)". Anything other than a clear yes means no: nothing is sent, and the question is never repeated in this session.
+
+On yes, send ONE request:
+
+```
+curl -sS -X POST https://itworks.dev/api/entries -H "Content-Type: application/json" --data @<payload file>
+```
+
+Show the user the returned entry id, badge URL, and entry URL, plus the README snippet `![audit badge](<badge_url>)`. Tell them the entry stays hidden until approved. Append one line to `DECISIONS.md`:
+
+`- <date> | published closeout summary to itworks.dev (entry <id>) | why: user opted in | instead of: keeping it private`
+
+A failed request is reported in one line and never retried automatically. This step is never a gate and never blocks the ship.
+
+## Step 6: Close the loop
+
+Final `DECISIONS.md` entry recording the ship. Then congratulate at profile warmth: guided gets a genuine short paragraph on what they built and what they learned along the way (name two or three terms they now actually use); brief gets two sentences; expert gets one line.
+
+## After the ship
+
+SHIPPED.md is a milestone, not a tombstone; real projects keep living, and the rules that applied before the ship apply after it:
+
+- **Post-ship checkpoints run exactly as before.** A CRITICAL found after shipping blocks new feature work the same way it always did, and it also blocks the next ship until fixed or accepted.
+- **The production data rules turn on.** From the first ship onward, the real-data lens's post-ship checks apply at every checkpoint it runs: local development must not point at the production database, seed and reset scripts must refuse to run against it, and schema changes go through reversible migrations. Building new features straight against live user data is the classic post-ship disaster.
+- **Every later deploy of consequence is a re-closeout.** The sweep and the HARD-GATE apply to every ship, not just the first. On a re-ship, update SHIPPED.md's sections in place to the current truth and append one line to `## Ship history` (`- <date>: <what shipped, one line>`). The ship date in the title stays the original; history carries the rest.
+
+## Rationalization table
+
+| Thought | Reality |
+|---------|---------|
+| "It's just for friends" | Scanners don't check the guest list. State the consequence, log the choice. |
+| "The checkpoint already reviewed this" | Checkpoints sample. Closeout sweeps. Run it all. |
+| "They're excited, don't rain on it" | Shipping a leak is the rain. Findings now are cheaper than apologies later. |
+| "It already shipped once, this update is small" | The gate covers every ship. Small updates drop tables too. |
+| "The sweep found nothing, so the app is sound" | The sweep never read the logic. Say what tier ran. Name the last audit. |
+
+## "Not now"
+
+Closeout invoked by mistake ("ship it" was hyperbole): confirm in one line and stand down for the session. But once the user genuinely wants deployment steps, the sweep runs first; that order is the skill.
