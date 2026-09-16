@@ -83,7 +83,7 @@ Every section filled, no placeholders. "How to run it" and "Where things live" a
 
 ## Step 5b: Publish to itworks.dev (opt in)
 
-Runs only after `SHIPPED.md` is written. Build the payload exactly as `<plugin-root>/references/publish.md` describes, write it to a payload file, and show the user the exact JSON before asking anything.
+Runs only after `SHIPPED.md` is written. Build the payload exactly as `<plugin-root>/references/publish.md` describes, write it to `.itworks/publish-payload.json`, show the user the exact JSON before asking anything, and delete that file at the end of this step whether the answer was yes or no.
 
 Ask exactly once, in these words: "Publish this closeout summary to itworks.dev? (default no)". Anything other than a clear yes means no: nothing is sent, and the question is never repeated in this session.
 
