@@ -49,7 +49,7 @@ Question 2 decides whether authentication matters. Question 3 decides whether ro
 
 Write all five state files per `<plugin-root>/references/state-format.md`. MAP.md at kickoff holds what is already known: the run and test commands the Step 4 structure proposal settles on, and the environment facts the interview surfaced (the host from question 5, and what that host actually is). Its Layout table fills in at the first checkpoint, once the scaffold exists. Build the terminology map from the user's actual phrases: if they said "the login thing," that exact phrase goes in the map next to "authentication."
 
-In guided profile, introduce each new term with its two-line card from `<plugin-root>/references/glossary.md` the first time it naturally comes up, including mid-interview (at most one card per message during the interview, so questions stay questions). In brief profile, name the term with a half-line gloss. In expert profile, just use the term.
+In guided profile, introduce each new term with its two-line card from `<plugin-root>/references/glossary.md` the first time it naturally comes up, including mid-interview (at most one card per message, so questions stay questions). Step 4's structure proposal is capped the same way: name the structure in plain words, and give cards for at most two terms in that message, offering the rest on request. In brief profile, name the term with a half-line gloss. In expert profile, just use the term.
 
 Propose a working project name from the user's own description; it gets confirmed as part of the Step 5 playback, not with its own question.
 
@@ -67,7 +67,7 @@ Step 4 is PROPOSAL ONLY. Nothing here is executed (no git init, no files, no har
 
 ## Step 5: Confirm gate
 
-Play the summary back in the user's own vocabulary (use the terminology map). Proceed only on explicit confirmation. Log the confirmation in `DECISIONS.md`:
+Play the summary back in the user's own vocabulary (use the terminology map). Proceed only when the user plays back what it is in their own words, not on "yep" alone: ask "in your own words, what are we building?" if the confirmation is a bare yes. Log the confirmation in `DECISIONS.md`:
 
 `- <date> | kickoff confirmed: <one-line summary> | why: user approved the played-back summary | instead of: n/a`
 
