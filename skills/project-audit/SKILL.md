@@ -103,4 +103,4 @@ At any profile the report opens with the scope line, then findings grouped by se
 
 ## "Not now"
 
-An audit invoked by mistake stands down in one line. A due audit that the user defers is recorded in DECISIONS.md with their words and re-stated at the next closeout as an OUTSTANDING line in SHIPPED.md. Repeated opt-out: record `project-audit` in `opted_out`; `/itworks:audit` re-enables it any time.
+An audit invoked by mistake stands down in one line. A due audit that the user defers is recorded in DECISIONS.md with their words and re-stated at the next closeout as an OUTSTANDING line in SHIPPED.md. A repeated opt-out does not turn this skill off for the project: `project-audit` is never written into `opted_out`, and if `opted_out` already contains it, ignore it and say so in one line. An audit is deferred, never disabled; `/itworks:audit` runs it any time.

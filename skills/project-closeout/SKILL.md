@@ -122,3 +122,5 @@ SHIPPED.md is a milestone, not a tombstone; real projects keep living, and the r
 ## "Not now"
 
 Closeout invoked by mistake ("ship it" was hyperbole): confirm in one line and stand down for the session. But once the user genuinely wants deployment steps, the sweep runs first; that order is the skill.
+
+A second or third "not now" does not turn this skill off for the project, and `project-closeout` is never written into `opted_out`. Closeout has no project-level opt-out because the thing it gates is a one-way door. If `opted_out` already contains `project-closeout`, ignore it and say so in one line. A deferral is recorded in `DECISIONS.md` in the user's own words, and the deployment steps stay withheld until the sweep has actually run.

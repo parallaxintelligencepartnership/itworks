@@ -68,14 +68,14 @@ One quirk: the updater compares version strings, not content. If the repo change
 - In a project that carries itworks state (a `.itworks/` folder), the full session rules load. Everywhere else, only a short new-project reminder loads, and existing projects without state are left alone.
 - The first time it runs in a project it asks one question: explain as we go, keep it short, or just handle it. That choice (guided, brief, or expert) sticks for the project and changes only the wording, never the checks.
 - Every gate can be overridden; your project, your call. Overrides are written down in your own words and re-surfaced at closeout. The one hard stop: the final ship document is not written while a critical problem is open and unacknowledged.
-- Saying "not now" works, and saying it twice makes that skill stay quiet for the project.
+- Saying "not now" works, and saying it twice makes kickoff, checkpoint or resume stay quiet for the project. Closeout and audit have no project-level opt-out: they can be deferred, never turned off, and closeout always runs before deployment steps.
 - When you correct it about a fact of your project (that server is not what its name suggests, that script does not do what it says), the correction is written down in the same turn, so the next session does not make the same mistake.
 
 ## Turning it off
 
 - This directory only: create a `.itworks-off` file at the project root.
 - Everywhere: `export ITWORKS_DISABLE=1`, or `touch ~/.config/itworks/disabled`.
-- One skill in one project: tell it "not now" twice, and it stays quiet there.
+- One skill in one project: tell kickoff, checkpoint or resume "not now" twice, and it stays quiet there. Closeout and audit are the exception: they can be deferred, never turned off.
 
 ## The slash commands
 
