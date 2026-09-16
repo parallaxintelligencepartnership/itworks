@@ -39,7 +39,7 @@ Decide from what was just built:
 
 ## Step 3: Run the runbooks
 
-Read ONLY the selected lens files from `<plugin-root>/references/` (`lens-security-auth.md`, `lens-real-data.md`, `lens-testing.md`, `lens-production-readiness.md`). Execute their inspect steps with the real commands. Capture command output as evidence. Do not improvise checks the runbook does not call for; do not skip ones it does.
+Read ONLY the selected lens files from `<plugin-root>/references/` (`lens-security-auth.md`, `lens-llm-security.md`, `lens-real-data.md`, `lens-testing.md`, `lens-production-readiness.md`). Execute their inspect steps with the real commands. Capture command output as evidence. Do not improvise checks the runbook does not call for; do not skip ones it does.
 
 Two edge rules:
 - A live probe that cannot run right now (no server up, no route built yet) is not skipped and not guessed green: assign severity from what the code shows, and put "not verified live:" plus the exact command into the evidence-to-close field. The finding closes only when that command has actually run clean.
