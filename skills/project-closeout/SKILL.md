@@ -49,6 +49,7 @@ The stalemate rule, explicitly: "ship it", "it's just a demo", "come on", or any
 
 ## Step 4: Ship checklist
 
+- PROJECT.md's `Data`, `Who uses it` and `Where it will live` lines re-confirmed against reality before any "only if" skip is trusted: look at the actual store for real records, at the actual providers for paid calls, and ask the user in one line if either has changed. A stale answer from kickoff is not evidence; update PROJECT.md first, then run the lenses.
 - Backup and restore verified for real data (restore actually performed, not assumed), or explicitly declined in the reckoning, which writes it into SHIPPED.md as OUTSTANDING.
 - Deploy steps written into the repo (script or README section).
 - Version and tag identity follow the versioning rule recorded in `DECISIONS.md`; if none is recorded, ask once and record it as a `versioning:` decision line before tagging. Shipping is not by itself a reason to bump a minor or major version, and `## Ship history` in SHIPPED.md uses whatever identity scheme that rule names.

@@ -43,7 +43,7 @@ Read ONLY the selected lens files from `<plugin-root>/references/` (`lens-securi
 
 Two edge rules:
 - A live probe that cannot run right now (no server up, no route built yet) is not skipped and not guessed green: assign severity from what the code shows, and put "not verified live:" plus the exact command into the evidence-to-close field. The finding closes only when that command has actually run clean.
-- Runbook steps gated by their own "only if" are skipped when the condition is absent. But if PROJECT.md REQUIRES the missing thing (auth needed: yes and no auth code exists), the absence itself is a finding, not a skip.
+- Runbook steps gated by their own "only if" are skipped when the condition is absent. But if PROJECT.md REQUIRES the missing thing (auth needed: yes and no auth code exists), the absence itself is a finding, not a skip. And when the code shows the thing PROJECT.md says is absent (real user records in a store PROJECT.md calls sample-only, a paid API client where PROJECT.md says no paid services), the PROJECT.md line is what is wrong: fix it in the same turn and run the gated step.
 
 ## Step 4: Report at profile depth
 
