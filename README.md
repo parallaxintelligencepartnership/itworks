@@ -65,7 +65,7 @@ One quirk: the updater compares version strings, not content. If the repo change
 ## How it behaves
 
 - It aims to fire on its own at the four moments above, using a session reminder plus the skills' own triggers. That is reliable in practice but it is guidance to the model, not a hard interception; the slash commands below are the guaranteed manual path, and the state files mean a missed moment is caught at the next one.
-- In a project that carries itworks state (a `.itworks/` folder), the full session rules load. Everywhere else, only a short new-project reminder loads, and existing projects without state are left alone.
+- In a project that carries itworks state (a `.itworks/` folder), the full session rules load. Everywhere else, only a short new-project reminder loads. In an existing project without .itworks/, the plugin offers the adoption baseline once when you first ask to change code, and respects a no for the session.
 - The first time it runs in a project it asks one question: explain as we go, keep it short, or just handle it. That choice (guided, brief, or expert) sticks for the project and changes only the wording, never the checks.
 - Every gate can be overridden; your project, your call. Overrides are written down in your own words and re-surfaced at closeout. The one hard stop: the final ship document is not written, and no deployment steps are given, while a critical problem is open and unacknowledged.
 - Saying "not now" works, and saying it twice makes kickoff, checkpoint or resume stay quiet for the project. Closeout and audit have no project-level opt-out: they can be deferred, never turned off, and closeout always runs before deployment steps.

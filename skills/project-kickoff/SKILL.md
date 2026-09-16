@@ -1,6 +1,6 @@
 ---
 name: project-kickoff
-description: Use when the user asks to build a new app, site, tool, bot, or script and no .itworks directory exists yet, or before writing the first code in any project without one. Also on /itworks:kickoff. Fires BEFORE any scaffolding, file creation, or code.
+description: Use when the user asks to build a new app, site, tool, bot, or script and no .itworks directory exists yet, or, in an existing project without one, offered once when the user first asks to add or change code (Adoption mode). Also on /itworks:kickoff. Fires BEFORE any scaffolding, file creation, or code.
 ---
 
 # Project Kickoff
