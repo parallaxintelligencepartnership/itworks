@@ -11,7 +11,7 @@ model: opus
 The one time everything runs. Checkpoints sample; closeout sweeps. It ends in a reckoning over every open finding and a handoff artifact a future developer (or the future user) can pick up cold.
 
 <HARD-GATE>
-SHIPPED.md is not written while a CRITICAL is open and unacknowledged. Explicit, logged acknowledgment is the only escape hatch. No deployment steps before the sweep completes.
+SHIPPED.md is not written while a CRITICAL is open and unacknowledged. Explicit, logged acknowledgment is the only escape hatch. No deployment steps until the reckoning is complete: every finding recorded in REVIEWS.md, every CRITICAL fixed or individually accepted in the user's own words, and SHIPPED.md written. A finished sweep is not by itself the release; a refusal never includes the deploy commands themselves, not even to name them.
 This skill is pinned to an Opus-class model. If the running model is not Opus class, say so in one line before Step 1 and do not report a completed sweep; the recorded evidence is that the sweep is skipped below Opus class (`tests/pressure/pressure-tests.md`).
 </HARD-GATE>
 
