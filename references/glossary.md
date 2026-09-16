@@ -96,6 +96,11 @@ A backup is a copy of your data kept somewhere else. A restore is proving you ca
 **Why you care:** an untested backup is a hope, not a plan. The day you need it is the worst day to discover the copy was empty.
 **Comes up when:** production readiness, and it is a blocker at closeout if real user data has no backup.
 
+## dev vs production data
+Development data is the throwaway copy you build and test against; production data is the real thing, your users' actual records. They live in separate databases, with separate credentials.
+**Why you care:** pointing local work at the production database is how a seed or reset script wipes real people's records in one command. Separation is what makes that mistake impossible instead of merely unlikely.
+**Comes up when:** the real-data lens's post-ship checks; deploys and migrations.
+
 # Security
 
 ## authentication (auth)

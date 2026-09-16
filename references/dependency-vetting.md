@@ -40,6 +40,6 @@ The registry lookup output showing the exact intended package; the grep showing 
 
 ## Guided cards
 
-Terms this runbook touches: dependency (package), package registry, typosquatting, lockfile, version pinning, supply chain attack.
+Terms this runbook touches: dependency, package registry, typosquatting, lockfile, version pinning, supply chain attack.
 
 In guided profile, show each term's two-line card from `glossary.md` the first time it appears in a finding.
