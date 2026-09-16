@@ -35,11 +35,11 @@ Decide from what was just built:
 
 **Cap at 2 lenses.** (Two sanctioned exceptions run all lenses: the adoption-mode baseline in `project-kickoff`, and the closeout sweep.) Force-include any lens whose `lens_debt` is 3 or more. If forced inclusion would exceed the cap, the forced lens wins over the lower-priority contextual one. Priority order: `security-auth` > `llm-security` > `real-data` > `testing` > `production-readiness`.
 
-**Outside the cap:** if the diff since `last_checkpoint` adds or changes dependencies (package.json, go.mod, requirements.txt, Cargo.toml, Gemfile, composer.json), also run `references/dependency-vetting.md`. It is a small fixed runbook, not a lens; it never counts against the cap and never gets skipped for cap reasons.
+**Outside the cap:** if the diff since `last_checkpoint` adds or changes dependencies (package.json, go.mod, requirements.txt, Cargo.toml, Gemfile, composer.json), also run `<plugin-root>/references/dependency-vetting.md`. The plugin root is the directory above `skills/`; the loader reports the skill's base directory as `<plugin-root>/skills/<name>`. It is a small fixed runbook, not a lens; it never counts against the cap and never gets skipped for cap reasons.
 
 ## Step 3: Run the runbooks
 
-Read ONLY the selected lens files from `references/` (`lens-security-auth.md`, `lens-real-data.md`, `lens-testing.md`, `lens-production-readiness.md`). Execute their inspect steps with the real commands. Capture command output as evidence. Do not improvise checks the runbook does not call for; do not skip ones it does.
+Read ONLY the selected lens files from `<plugin-root>/references/` (`lens-security-auth.md`, `lens-real-data.md`, `lens-testing.md`, `lens-production-readiness.md`). Execute their inspect steps with the real commands. Capture command output as evidence. Do not improvise checks the runbook does not call for; do not skip ones it does.
 
 Two edge rules:
 - A live probe that cannot run right now (no server up, no route built yet) is not skipped and not guessed green: assign severity from what the code shows, and put "not verified live:" plus the exact command into the evidence-to-close field. The finding closes only when that command has actually run clean.
@@ -49,7 +49,7 @@ Two edge rules:
 
 The report's first line is the scope statement, at every profile: `Scope: checkpoint, diff <sha>..<sha>, lenses <a, b>. Not covered: code outside the diff, application logic, <anything the runbooks could not run here>. Last audit: <date or never>.` A reader who sees only that line knows what was and was not checked.
 
-Findings use the five-field grammar from `references/state-format.md`. Always include: severity, location (file:line where applicable), and evidence to close.
+Findings use the five-field grammar from `<plugin-root>/references/state-format.md`. Always include: severity, location (file:line where applicable), and evidence to close.
 
 - If `last_audit` is `none` and the project holds other people's real data, or `SHIPPED.md` exists and the last audit is older than 60 days, add one line after the scope statement: "An audit is due (last: <date or never>)." Say it once per session; it is a statement, not a gate.
 - `guided`: each new term gets its glossary card, and each finding gets one short paragraph on what it means for the user. When one checkpoint surfaces more than 3 findings, paragraphs and cards go to the CRITICALs only; the rest get one line each. Guided depth never justifies a wall.
@@ -82,7 +82,7 @@ The guard exists to prevent checkpoint spam on trivial edits, and it NEVER outra
 
 The user may proceed over IMPORTANT or ADVISORY findings; log each as an accepted risk in `REVIEWS.md`, quoting their words verbatim. Proceeding over a CRITICAL requires the user to say so AFTER being told the concrete consequence in one sentence; log it verbatim. Closeout will re-surface every accepted risk.
 
-Each acceptance gets ONE short follow-up: "what would make you revisit this?" The answer is recorded as that entry's `Revisit when:` field (required, per `references/state-format.md`). A shrug or a non-answer records `next closeout`; the question is asked once and never pressed.
+Each acceptance gets ONE short follow-up: "what would make you revisit this?" The answer is recorded as that entry's `Revisit when:` field (required, per `<plugin-root>/references/state-format.md`). A shrug or a non-answer records `next closeout`; the question is asked once and never pressed.
 
 Acceptance is per finding: the user's words must answer the specific finding they cover ("it's a burner key" accepts the key exposure, nothing else). With several CRITICALs open, each needs its own answer before work proceeds past it; a broad "keep building" covers none of them.
 

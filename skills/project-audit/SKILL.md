@@ -42,7 +42,7 @@ Read `PROFILE.md` (`last_audit`), `PROJECT.md` (Verification expectations, Data,
 
 ## Step 2: Lanes
 
-Read `references/audit-method.md` for the lane contract. Lanes live in `.itworks/LANES.md`. If the file exists, use it, and update it when the code layout has moved (a lane whose listed files no longer exist is stale). If it does not exist, derive lanes now:
+Read `<plugin-root>/references/audit-method.md` for the lane contract. The plugin root is the directory above `skills/`; the loader reports the skill's base directory as `<plugin-root>/skills/<name>`. Lanes live in `.itworks/LANES.md`. If the file exists, use it, and update it when the code layout has moved (a lane whose listed files no longer exist is stale). If it does not exist, derive lanes now:
 
 1. Start from PROJECT.md's Verification expectations table: each feature row that carries money, time, identity, permissions, stored records, or exports is a lane candidate.
 2. Start from MAP.md's Layout table, then walk the tree for anything it misses (and add those rows to MAP.md), and assign every package or directory to exactly one lane, or to an explicit "not in scope" list with a reason. Nothing is unassigned silently.
@@ -52,7 +52,7 @@ Read `references/audit-method.md` for the lane contract. Lanes live in `.itworks
 
 ## Step 3: Review, one reviewer per lane
 
-Each lane gets one reviewer with the brief in `references/audit-method.md`. The reviewer:
+Each lane gets one reviewer with the brief in `<plugin-root>/references/audit-method.md`. The reviewer:
 
 - reads every file in scope in full, and lists any file it skipped and why (a skip is a coverage gap in the report, never silence);
 - reads the tests for what they prove and what they do not;
@@ -77,7 +77,7 @@ Each suspicion ends as CONFIRMED (with the reproduction and the final severity),
 Append to `REVIEWS.md` under `## Audit - <YYYY-MM-DD> - <context>`:
 
 - a scope line: target sha, lanes read, lanes or files skipped and why, the verifier method, and what was NOT covered (live hardware, external systems, anything only a person can test);
-- one five-field finding line per CONFIRMED item, grammar per `references/state-format.md`, filed under the lane's lens id;
+- one five-field finding line per CONFIRMED item, grammar per `<plugin-root>/references/state-format.md`, filed under the lane's lens id;
 - a `### Refuted` list, one line each with the evidence, so the suspicion is not re-raised;
 - a `### Coverage gaps` list: every skipped file, every lane not run, every probe that could not run here.
 

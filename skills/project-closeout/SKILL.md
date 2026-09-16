@@ -17,7 +17,7 @@ This skill is pinned to an Opus-class model. If the running model is not Opus cl
 
 ## Step 1: Full sweep
 
-Read and run EVERY `lens-*.md` runbook in `references/` (five today: `lens-security-auth.md`, `lens-llm-security.md`, `lens-real-data.md`, `lens-testing.md`, `lens-production-readiness.md`), plus `dependency-vetting.md` if any dependency was never vetted. A lens whose "Fires when" condition does not exist in the project (no LLM feature → llm-security) records a one-line "not applicable" instead of findings. Closeout escalations apply exactly as each runbook's severity rubric states them (for example: no runnable test suite and no backup for real data become CRITICAL at closeout; an undocumented deploy becomes IMPORTANT). The rubrics in the lens files are authoritative; this skill never overrides them.
+Read and run EVERY `lens-*.md` runbook in `<plugin-root>/references/` (five today: `lens-security-auth.md`, `lens-llm-security.md`, `lens-real-data.md`, `lens-testing.md`, `lens-production-readiness.md`), plus `dependency-vetting.md` if any dependency was never vetted. The plugin root is the directory above `skills/`; the loader reports the skill's base directory as `<plugin-root>/skills/<name>`. A lens whose "Fires when" condition does not exist in the project (no LLM feature → llm-security) records a one-line "not applicable" instead of findings. Closeout escalations apply exactly as each runbook's severity rubric states them (for example: no runnable test suite and no backup for real data become CRITICAL at closeout; an undocumented deploy becomes IMPORTANT). The rubrics in the lens files are authoritative; this skill never overrides them.
 
 The existing REVIEWS.md is a starting list, never the full finding set. Checkpoints sample; the sweep re-runs every inspect command and expects to find things no checkpoint caught.
 
@@ -25,7 +25,7 @@ What the sweep is NOT: it does not read the application's logic. Five runbooks f
 
 ## Step 2: The history audit is not optional
 
-Run the git-history checks from `references/lens-security-auth.md` (inspect steps 2 and 3) even if current files are clean. A secret that was EVER committed is still in the repo's memory and travels with every clone. If one is found, the finding must say: rotate the key at the provider; deleting the file does not un-leak it. Never report "history clean" without actually running the commands and reading their output.
+Run the git-history checks from `<plugin-root>/references/lens-security-auth.md` (inspect steps 2 and 3) even if current files are clean. A secret that was EVER committed is still in the repo's memory and travels with every clone. If one is found, the finding must say: rotate the key at the provider; deleting the file does not un-leak it. Never report "history clean" without actually running the commands and reading their output.
 
 ## Step 3: The reckoning
 
@@ -81,7 +81,7 @@ Every section filled, no placeholders. "How to run it" and "Where things live" a
 
 ## Step 5b: Publish to itworks.dev (opt in)
 
-Runs only after `SHIPPED.md` is written. Build the payload exactly as `references/publish.md` describes, write it to a payload file, and show the user the exact JSON before asking anything.
+Runs only after `SHIPPED.md` is written. Build the payload exactly as `<plugin-root>/references/publish.md` describes, write it to a payload file, and show the user the exact JSON before asking anything.
 
 Ask exactly once, in these words: "Publish this closeout summary to itworks.dev? (default no)". Anything other than a clear yes means no: nothing is sent, and the question is never repeated in this session.
 

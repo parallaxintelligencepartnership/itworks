@@ -11,14 +11,14 @@ Read the saved state, replay where things stand in about six lines, ask one ques
 
 ## Step 1: Validate the state
 
-Run the deterministic linter first: `bash <plugin-root>/scripts/itworks-lint.sh <project-root>` (the script lives in this plugin's `scripts/` directory, next to `skills/`). If no shell is available, check the Validation rules in `references/state-format.md` by hand (read it now if you have not):
+Run the deterministic linter first: `bash <plugin-root>/scripts/itworks-lint.sh <project-root>` (the script lives in this plugin's `scripts/` directory, next to `skills/`). The plugin root is the directory above `skills/`; the loader reports the skill's base directory as `<plugin-root>/skills/<name>`. If no shell is available, check the Validation rules in `<plugin-root>/references/state-format.md` by hand (read it now if you have not):
 
 1. PROJECT.md, DECISIONS.md, REVIEWS.md and PROFILE.md exist.
 2. `profile:` is exactly one of `guided`, `brief`, `expert`.
 3. Every unchecked finding line parses to the five-field grammar.
 4. PROJECT.md has all eight section headings.
 
-Linter ERRORS (or a hand-checked rule violation) → Rebuild section below. Linter WARNINGS are drift, not corruption: fix the mechanical ones silently in passing (add `format_version: 3`, add a missing `llm-security` lens_debt key at 0, add a missing sha to `last_checkpoint` at the next checkpoint) and continue to Step 2. A missing `MAP.md` is fixed in passing too: write it from the tree and the README per `references/state-format.md` (run and test commands, the layout table, environment facts, an empty Gotchas list), at most about 60 lines, reading for layout only and never for findings, and say so in half a line of the replay.
+Linter ERRORS (or a hand-checked rule violation) → Rebuild section below. Linter WARNINGS are drift, not corruption: fix the mechanical ones silently in passing (add `format_version: 3`, add a missing `llm-security` lens_debt key at 0, add a missing sha to `last_checkpoint` at the next checkpoint) and continue to Step 2. A missing `MAP.md` is fixed in passing too: write it from the tree and the README per `<plugin-root>/references/state-format.md` (run and test commands, the layout table, environment facts, an empty Gotchas list), at most about 60 lines, reading for layout only and never for findings, and say so in half a line of the replay.
 
 Then read `MAP.md` whole before anything else. Its Gotchas section is the list of mistakes this project has already paid for once; a session that repeats one of them has not resumed, it has restarted.
 
@@ -56,7 +56,7 @@ Say plainly and calmly that the project notes do not match the expected format, 
 1. Scan the code: stack, entry points, routes, storage. Re-derive the PROJECT.md facts the code can prove, and write the scan into MAP.md (carrying over any legible Gotchas from the old file verbatim).
 2. Carry over every legible finding and accepted risk from the old files VERBATIM, including lines that do not parse. Rebuild the line's STRUCTURE (checkbox, severity, lens id) around the user's unchanged words; never invent content that was not there, and never fabricate a file:line (it is optional, so omit it unless your own code scan verified one). A guessed severity is written as the bare token `ADVISORY` with "severity best-guess, pending re-review" appended inside the description text.
 3. Ask ONE confirmation question: "Here is what I can tell from the code: <summary>. Right?" An invalid `profile:` is folded into this same question: default to `guided`, state the default plainly, and let the answer correct it. The code cannot prove a tone preference, so the question is the sanctioned place to recover it.
-4. Rewrite all five files valid per `references/state-format.md`.
+4. Rewrite all five files valid per `<plugin-root>/references/state-format.md`.
 
 Never rerun the full kickoff interview. Never trust the invalid values (a `profile: fancy` is treated as unknown, not guessed). Never crash on a malformed line.
 
