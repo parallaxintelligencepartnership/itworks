@@ -1,6 +1,7 @@
 ---
 name: project-closeout
 description: Use when the user says the project is done, wants to ship, deploy, put it online, or show it to other people, in any project with a .itworks directory. Also on /itworks:closeout. Fires BEFORE giving any deployment steps.
+model: opus
 ---
 
 # Project Closeout
@@ -11,6 +12,7 @@ The one time everything runs. Checkpoints sample; closeout sweeps. It ends in a 
 
 <HARD-GATE>
 SHIPPED.md is not written while a CRITICAL is open and unacknowledged. Explicit, logged acknowledgment is the only escape hatch. No deployment steps before the sweep completes.
+This skill is pinned to an Opus-class model. If the running model is not Opus class, say so in one line before Step 1 and do not report a completed sweep; the recorded evidence is that the sweep is skipped below Opus class (`tests/pressure/pressure-tests.md`).
 </HARD-GATE>
 
 ## Step 1: Full sweep

@@ -42,6 +42,10 @@ claude plugin install itworks@itworks
 
 Restart Claude Code (or start a new session) and the skills are live.
 
+## Model requirement
+
+Closeout and audit are pinned to Opus (`model: opus` in their skill and command frontmatter), because the blind pressure tests recorded Sonnet skipping the closeout sweep, so planted critical findings were never found. An organization model allowlist can drop that pin silently, and the session then keeps whatever model it was already on. If you see closeout or audit report a finished review without running the sweep, run `/model opus` and run the command again.
+
 ## Updating
 
 The plugin updates from whatever source you installed it from, not automatically. Run:

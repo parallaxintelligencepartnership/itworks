@@ -1,6 +1,7 @@
 ---
 name: project-audit
 description: Use when the user asks for a review of the whole application ("review the app", "full review", "is it solid", "check everything", "audit"), before the first ship that carries other people's real data, or when a shipped project has never been audited or its last audit is stale, in any project with a .itworks directory. Also on /itworks:audit. This is the review tier that reads application logic; checkpoint and closeout never do.
+model: opus
 ---
 
 # Project Audit
