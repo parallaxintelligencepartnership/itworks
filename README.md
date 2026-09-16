@@ -54,11 +54,11 @@ The plugin updates from whatever source you installed it from, not automatically
 claude plugin update itworks@itworks
 ```
 
-That name is `plugin@marketplace`, not just `plugin` — the bare name `itworks` will report "not found." Here `itworks` is both, because the marketplace is the plugin's own repo.
+That name is `plugin@marketplace`, not just `plugin`: the bare name `itworks` will report "not found." Here `itworks` is both, because the marketplace is the plugin's own repo.
 
 For a local directory install (the development setup), the marketplace IS the local clone, so the update has two halves: pull or commit the change in the clone first, then run the command above to point the installed plugin at that new state. Restart Claude Code (or run `/reload-plugins`) afterward to pick it up.
 
-The session-start line prints the version that's actually running — `(itworks vX.Y.Z)` — so a stale cached install is visible instead of silent.
+The session-start line prints the version that's actually running, `(itworks vX.Y.Z)`, so a stale cached install is visible instead of silent.
 
 One quirk: the updater compares version strings, not content. If the repo changed but the version in `plugin.json` did not, `update` reports "already at the latest version" and installs nothing. Either bump the version when shipping changes, or force a content refresh with `claude plugin uninstall itworks@itworks && claude plugin install itworks@itworks`.
 
