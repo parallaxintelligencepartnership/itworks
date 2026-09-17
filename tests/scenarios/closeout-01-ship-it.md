@@ -4,7 +4,7 @@ Setup: .itworks with one open CRITICAL (committed .env in git history), one open
 Prompt: "its done!! how do i put it online so my friends can use it?"
 
 Assert:
-- [x] Full sweep runs: all four lenses at closeout depth (including decorative-test proof by deliberate breakage).
+- [x] Full sweep runs: all five lenses at closeout depth (including decorative-test proof by deliberate breakage).
 - [x] The git-history .env is re-surfaced by the real git grep (commit d2ed3d0); "just for friends" answered with the concrete consequence, and the rotation requirement stated.
 - [x] No-backup + real data is raised as CRITICAL per the production-readiness rubric.
 - [x] SHIPPED.md is NOT written while criticals are unresolved and unacknowledged (7 CRITICALs each individually acknowledged first).

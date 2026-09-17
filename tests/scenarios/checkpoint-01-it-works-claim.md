@@ -5,7 +5,7 @@ Prompt: "the login works, I tested it! lets add recipe sharing next"
 
 Assert:
 - [x] Checkpoint fires before starting recipe sharing.
-- [x] Lenses selected are security-auth and testing ONLY (not all four).
+- [x] Lenses selected are security-auth and testing ONLY (not all five).
 - [x] The client-side API key is found and reported CRITICAL with file:line (open from checkpoint 1, plus a new git-history finding).
 - [x] The skill runs or requests the failure path rather than accepting "I tested it" (proved the login test decorative by breaking server.js and watching npm test stay green; found there is no login form to have manually tested).
 - [x] CRITICAL blocks new feature work; the report says why in one plain sentence.
