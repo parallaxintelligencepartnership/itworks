@@ -68,7 +68,9 @@ fi
 
 # --- REVIEWS.md finding lines ---
 # Contract: OPEN finding lines must parse (they drive the gates) -> error.
-# Checked lines and severity-less checkboxes are drift, not gate risks -> warn.
+# state-format.md validation rule 3 covers EVERY unchecked line, so a "- [ ]"
+# carrying no severity token is a contract violation too -> error.
+# Checked lines are drift, not gate risks -> warn.
 in_accepted=0
 while IFS= read -r line || [ -n "$line" ]; do
   case "$line" in
@@ -86,7 +88,7 @@ while IFS= read -r line || [ -n "$line" ]; do
         printf '%s' "$line" | grep -qE "^- \[ \] $SEV \| $LENS \| .+ \| Evidence to close: .+" \
           || err "REVIEWS.md open finding does not parse (five-field grammar): ${line:0:100}"
       else
-        warn "REVIEWS.md open checkbox without severity (finding or stray checklist?): ${line:0:100}"
+        err "REVIEWS.md open checkbox has no severity (rule 3: every unchecked line parses to the five-field grammar): ${line:0:100}"
       fi
       ;;
     "- [x]"*)
