@@ -13,8 +13,10 @@ Review runbook for apps that themselves call an LLM or AI API (chatbots, generat
 1. **Find the surface.** Grep dependencies and code for the AI clients and collect every place a prompt is built and every place model output lands. The rest of the lens walks those two lists.
 
    ```bash
-   grep -rniE "openai|anthropic|claude|gpt-|gemini|ollama|mistral|langchain|generateText|chat.?completion" --include='*.js' --include='*.ts' --include='*.py' --include='*.go' src/ app/ 2>/dev/null | grep -v test | head -30
+   grep -rniE "openai|anthropic|claude|gpt-|gemini|ollama|mistral|langchain|generateText|chat.?completion" --include='*.js' --include='*.ts' --include='*.py' --include='*.go' --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist --exclude-dir=build --exclude-dir=vendor . | grep -v test | head -30
    ```
+
+   Run it from the project root: named directories like `src/` and `app/` miss an app whose code sits in `public/`, `lib/`, or `functions/`, and hiding the error with `2>/dev/null` turns that miss into a clean bill of health. Empty output does not by itself settle the "Fires when" question either: read the dependency manifest (`package.json`, `go.mod`, `requirements.txt`, `pyproject.toml`) and the entry points before recording "not applicable". No lens is gated off by a grep exit code.
 
 2. **Nothing secret in the prompt.** Read every system prompt and prompt template. Treat everything sent to the model as text the end user can extract: users get system prompts out of chatbots routinely, and no wording reliably prevents it.
 

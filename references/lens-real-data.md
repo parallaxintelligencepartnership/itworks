@@ -13,8 +13,10 @@ Review runbook. Detects the "shell app" problem: screens that look finished but 
 1. **Placeholder markers still wired in:**
 
    ```bash
-   grep -rniE "lorem ipsum|placeholder|dummy|sample.?data|fake.?data|hardcoded|FIXME|mock" --include='*.js' --include='*.jsx' --include='*.ts' --include='*.tsx' --include='*.py' --include='*.go' --include='*.html' --include='*.json' src/ app/ 2>/dev/null | grep -v test | head -30
+   grep -rniE "lorem ipsum|placeholder|dummy|sample.?data|fake.?data|hardcoded|FIXME|mock" --include='*.js' --include='*.jsx' --include='*.ts' --include='*.tsx' --include='*.py' --include='*.go' --include='*.html' --include='*.json' --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist --exclude-dir=build --exclude-dir=vendor . | grep -v test | head -30
    ```
+
+   Run it from the project root. Naming `src/` and `app/` misses every app that keeps its code in `public/`, `lib/`, or `functions/`, and `2>/dev/null` hid the "No such file or directory" that would have said so.
 
    Good: hits only in test files and seed scripts. Bad: hits in rendering or API code are IMPORTANT; CRITICAL if the user believes this data is real.
 
