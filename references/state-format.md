@@ -168,6 +168,29 @@ lens_debt:             # checkpoints run since each lens last ran; checkpoint ha
 
 `lens_debt` counts CHECKPOINTS, not features: each checkpoint resets the lenses that ran to 0 and increments every other lens by 1. At 3, checkpoint force-includes the lens.
 
+## SHIPPED.md
+
+Not a `.itworks/` file: `project-closeout` writes it at the project root, and its presence is what turns on validation rule 5 and the cross-file checks below. REVIEWS.md says what was found; SHIPPED.md says what was shipped and what shipped with it. The shape, written in full by the closeout skill:
+
+```markdown
+# <project name> - shipped <YYYY-MM-DD>
+
+## What this is
+## How to run it
+## How to deploy an update
+## How to roll back
+## Known limitations and accepted risks
+## What breaks first and how you'd know
+## Where things live
+## Ship history
+- <YYYY-MM-DD>: first ship
+```
+
+Two literal tokens in this file are load-bearing, because the lint reads them:
+
+- **`OUTSTANDING`**, in capitals: the word that marks work which shipped unfinished (a declined backup, a deferred audit, an accepted finding with a remainder). It goes under "Known limitations and accepted risks". A hand-written "still to do" says the same thing to a human and nothing at all to the lint.
+- **`accepted risks`**, matched without regard to case: it must appear somewhere in the file whenever any REVIEWS.md finding is Accepted. The standard heading supplies it; a file that renames that heading loses the check.
+
 ## Validation rules
 
 `project-resume` checks these before trusting state (prefer running `scripts/itworks-lint.sh`, which encodes exactly these):
