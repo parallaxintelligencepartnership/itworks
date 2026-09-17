@@ -11,6 +11,7 @@
 - Publishing is rewritten around the pull request mechanism: an entry is one `entries/<id>.json` file submitted as a pull request to `parallaxintelligencepartnership/itworks-site`, and the site owner's merge is the approval.
 - Added the `critical_accepted` field, so an accepted CRITICAL keeps the badge red instead of publishing as a clean record.
 - The derivation rules for every published field are validated against the site's own receiving contract (`internal/entry/entry.go` and `docs/SPEC.md`).
+- closeout publish target and badge URLs now point at itworks.build (was itworks.dev)
 
 **Runbooks**
 

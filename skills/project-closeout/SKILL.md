@@ -81,23 +81,23 @@ At the project root, exactly this shape:
 
 Every section filled, no placeholders. "How to run it" and "Where things live" are written from MAP.md's Run, Layout and Environment sections after checking them against the tree; where the map and the tree disagree, the map is fixed first, then copied. "Known limitations and accepted risks" is copied from the reckoning, including the user's accepted risks: the document is honest or it is useless. A ship-checklist item satisfied only by acceptance (backup declined, restore never run) is written there as OUTSTANDING, never as done.
 
-## Step 5b: Publish to itworks.dev (opt in)
+## Step 5b: Publish to itworks.build (opt in)
 
 Runs only after `SHIPPED.md` is written. Never before it, never as part of the ship gate. This step is never a gate and never blocks the ship.
 
-itworks.dev is a static site built from one JSON file per entry in a GitHub repository. There is no endpoint and nothing to POST. Publishing is a pull request that adds one file, `entries/<id>.json`, and the site owner merges it by hand.
+itworks.build is a static site built from one JSON file per entry in a GitHub repository. There is no endpoint and nothing to POST. Publishing is a pull request that adds one file, `entries/<id>.json`, and the site owner merges it by hand.
 
 Derive the entry exactly as `<plugin-root>/references/publish.md` describes. Every field, every limit, the id, the transport commands and the failure handling live there and nowhere else. Write the JSON to `.itworks/publish/<id>.json` and show the user that exact JSON, in full, before asking anything. The file stays on disk either way; it is the user's copy.
 
-Ask exactly once, in these words: "Publish this closeout summary to itworks.dev? (default no)". Anything other than a clear yes means no: nothing leaves the machine, the question is never repeated in this session, and the no is recorded in `DECISIONS.md`.
+Ask exactly once, in these words: "Publish this closeout summary to itworks.build? (default no)". Anything other than a clear yes means no: nothing leaves the machine, the question is never repeated in this session, and the no is recorded in `DECISIONS.md`.
 
 When showing the JSON, say that the summary is a sentence they wrote and that nothing scans it: if it names a path, an internal hostname, a person, or anything that looks like a key, it gets edited before the yes.
 
 On a yes, follow `references/publish.md` section 4 in order, command by command. Any command that fails is reported in one line and ends the step; there is no retry. If `gh` is missing or not logged in, print the manual fork-and-pull-request steps and stop; the user is never asked for a token or a password.
 
-After the pull request is open, show its URL and the badge markdown `[![itworks](https://itworks.dev/badge/<id>.svg)](https://itworks.dev/e/<id>/)`, and say: "The badge renders after the site owner merges the pull request, and the URL returns 404 until then." Record the entry id, the pull request URL and the date in `SHIPPED.md` under `## Ship history`, and append one line to `DECISIONS.md`:
+After the pull request is open, show its URL and the badge markdown `[![itworks](https://itworks.build/badge/<id>.svg)](https://itworks.build/e/<id>/)`, and say: "The badge renders after the site owner merges the pull request, and the URL returns 404 until then." Record the entry id, the pull request URL and the date in `SHIPPED.md` under `## Ship history`, and append one line to `DECISIONS.md`:
 
-`- <date> | published closeout summary to itworks.dev (entry <id>) | why: user opted in | instead of: keeping it private`
+`- <date> | published closeout summary to itworks.build (entry <id>) | why: user opted in | instead of: keeping it private`
 
 ## Step 6: Close the loop
 

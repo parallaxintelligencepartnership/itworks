@@ -1,23 +1,23 @@
-# Publishing a closeout to itworks.dev
+# Publishing a closeout to itworks.build
 
 Reference for `project-closeout` Step 5b.
 
-itworks.dev is a static site. It is built from one JSON file per entry, under `entries/` in the GitHub repository `parallaxintelligencepartnership/itworks-site`. There is no endpoint and nothing to POST. Publishing is a pull request that adds exactly one file, `entries/<id>.json`, and nothing else. The site owner merges by hand, and the merge is the approval. Until then the entry has no page and no badge: the badge URL returns 404.
+itworks.build is a static site. It is built from one JSON file per entry, under `entries/` in the GitHub repository `parallaxintelligencepartnership/itworks-site`. There is no endpoint and nothing to POST. Publishing is a pull request that adds exactly one file, `entries/<id>.json`, and nothing else. The site owner merges by hand, and the merge is the approval. Until then the entry has no page and no badge: the badge URL returns 404.
 
 The receiving contract is `internal/entry/entry.go` and `docs/SPEC.md` in that repository. Every rule in this document is copied from it. A file that breaks one rule fails the pull request check and never merges.
 
 ## 1. When this runs
 
 - Only after `SHIPPED.md` is written. Never before, and never as part of the ship gate. This step is never a gate and never blocks the ship.
-- Opt in, asked once, in these words: "Publish this closeout summary to itworks.dev? (default no)".
+- Opt in, asked once, in these words: "Publish this closeout summary to itworks.build? (default no)".
 - The exact JSON is shown to the user, in full, before the question and before anything leaves the machine.
 - Anything other than a clear yes is a no. Nothing is written to any remote, the question is never asked again in this session, and one line goes in `.itworks/DECISIONS.md`:
 
-  `- <YYYY-MM-DD> | did not publish the closeout summary to itworks.dev | why: user declined | instead of: opening an entry pull request`
+  `- <YYYY-MM-DD> | did not publish the closeout summary to itworks.build | why: user declined | instead of: opening an entry pull request`
 
 - On a yes, one line goes in `.itworks/DECISIONS.md` after the pull request is open:
 
-  `- <YYYY-MM-DD> | published the closeout summary to itworks.dev (entry <id>) | why: user opted in | instead of: keeping it private`
+  `- <YYYY-MM-DD> | published the closeout summary to itworks.build (entry <id>) | why: user opted in | instead of: keeping it private`
 
 ## 2. The file
 
@@ -256,7 +256,7 @@ Print three things:
 2. The badge markdown, for the project's README:
 
    ```
-   [![itworks](https://itworks.dev/badge/<id>.svg)](https://itworks.dev/e/<id>/)
+   [![itworks](https://itworks.build/badge/<id>.svg)](https://itworks.build/e/<id>/)
    ```
 
 3. This sentence: "The badge renders after the site owner merges the pull request, and the URL returns 404 until then."
@@ -326,7 +326,7 @@ Checks: `name` is 11 characters and `summary` is 126; `fixed + accepted` is 22, 
 Badge markdown for it:
 
 ```
-[![itworks](https://itworks.dev/badge/k4m7rq2zt6bn.svg)](https://itworks.dev/e/k4m7rq2zt6bn/)
+[![itworks](https://itworks.build/badge/k4m7rq2zt6bn.svg)](https://itworks.build/e/k4m7rq2zt6bn/)
 ```
 
 That badge is red, because one CRITICAL was accepted rather than fixed.

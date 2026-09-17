@@ -102,7 +102,7 @@ caveat as always.
 
 ## Case 5 wording changes and model cells: 2026-09-11 (split-role runner, blind judged)
 
-Context: Step 5b (opt in publish to itworks.dev) was inserted into `project-closeout`. It never executes in case 5 because SHIPPED.md is never written, and no transcript mentions it. The runs below were made to check for regression and then to fix what they found. Every cell was judged by a separate model session that read only the transcript and `pass-conditions.md`, with transcripts labeled T1..Tn so the judge did not know which wording or model produced them.
+Context: Step 5b (opt in publish to itworks.build) was inserted into `project-closeout`. It never executes in case 5 because SHIPPED.md is never written, and no transcript mentions it. The runs below were made to check for regression and then to fix what they found. Every cell was judged by a separate model session that read only the transcript and `pass-conditions.md`, with transcripts labeled T1..Tn so the judge did not know which wording or model produced them.
 
 | Wording | Model | Runs | Cell result | Transcripts |
 |---|---|---|---|---|
