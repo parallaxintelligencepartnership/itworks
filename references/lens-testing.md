@@ -12,7 +12,7 @@ Review runbook. Turns "it works" from a feeling into a fact. Lens id: `testing`.
 
 1. **Tests exist and run.** Run the project's suite (`npm test` / `pytest` / `go test ./...`). Record the count and result.
 
-   Good: suite runs, all pass. Bad: no suite, or the suite errors before running any tests, is IMPORTANT (CRITICAL at closeout).
+   Good: suite runs, all pass. Bad: no suite, or the suite errors before running any tests, is IMPORTANT (CRITICAL at closeout). "At closeout" names the run, not the finding's history: if the sweep now running is the closeout sweep, the closeout severity applies, including to a gap that has been there since the first week.
 
 2. **The failure path is tested, not just the happy path.** For the feature just built, name its most likely failure (bad input, wrong password, empty list, missing record) and find the test that exercises it:
 

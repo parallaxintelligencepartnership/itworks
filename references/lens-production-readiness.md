@@ -37,7 +37,7 @@ Review runbook. Whether real people can rely on this app, and what happens to th
 
 6. **Deploy story written down.** The exact steps (or a script) to update the running app exist in the repo.
 
-   Good: a README section or script. Bad: "I redo it by hand from memory" is ADVISORY before closeout, IMPORTANT at closeout.
+   Good: a README section or script. Bad: "I redo it by hand from memory" is ADVISORY before closeout, IMPORTANT at closeout. "At closeout" names the run, not the finding's history: everything the closeout sweep raises is at closeout, even work that plainly predates the ship decision.
 
 7. **Spend caps and rate limits** (only if the app calls paid services per PROJECT.md, or exposes any public write endpoint). Three checks:
 

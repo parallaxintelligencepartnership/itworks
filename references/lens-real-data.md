@@ -18,7 +18,7 @@ Review runbook. Detects the "shell app" problem: screens that look finished but 
 
    Run it from the project root. Naming `src/` and `app/` misses every app that keeps its code in `public/`, `lib/`, or `functions/`, and `2>/dev/null` hid the "No such file or directory" that would have said so.
 
-   Good: hits only in test files and seed scripts. Bad: hits in rendering or API code are IMPORTANT; CRITICAL if the user believes this data is real.
+   Good: hits only in test files and seed scripts. Bad: hits in rendering or API code are IMPORTANT; CRITICAL when the screen showing this data is one the user has called finished or has shown to someone else (check DECISIONS.md and the checkpoint record for that claim, do not guess at what the user believes).
 
 2. **Mock modules imported at runtime.** Grep the entry points for imports from `mocks/`, `fixtures/`, `__mocks__/` outside test files. Bad: IMPORTANT.
 
@@ -52,7 +52,7 @@ Post-ship checks (only after the project has shipped, i.e. SHIPPED.md exists; fr
 
 ## Severity rubric
 
-- **CRITICAL:** the user believes fake data is real, or data does not survive a restart; dev pointed at the production database; destructive schema change on real data with no backup.
+- **CRITICAL:** fake data on a screen the user has called finished or shown to someone else, or data does not survive a restart; dev pointed at the production database; destructive schema change on real data with no backup.
 - **IMPORTANT:** mock imports at runtime, dropped fields, typed-in numbers, unguarded destructive scripts, hand-applied schema changes.
 - **ADVISORY:** seed data still present but clearly labeled as sample content.
 

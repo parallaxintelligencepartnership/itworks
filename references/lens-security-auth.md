@@ -60,7 +60,7 @@ Steps 1 and 2 share ONE canonical pattern set: `references/secret-patterns.grep`
    grep -rEn -f "$INJ" --include='*.js' --include='*.ts' --include='*.jsx' --include='*.tsx' --include='*.py' --include='*.go' --include='*.rb' --include='*.php' --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist --exclude-dir=build --exclude-dir=vendor .
    ```
 
-   Read every hit; a hit inside a test fixture or a comment is not a finding, a hit that glues a request value into a query is. Good: no matches (parameterized queries only). Bad: IMPORTANT; CRITICAL if the glued-in value comes straight from a form or URL.
+   Read every hit; a hit inside a test fixture or a comment is not a finding, a hit that glues a request value into a query is. Good: no matches (parameterized queries only). Bad: IMPORTANT at checkpoint and closeout; the audit tier raises it to CRITICAL when it traces the value to a form field or URL parameter. Checkpoint and closeout do not read application logic, so they do not make that call.
 
 7. **Stored XSS.** `grep -rn "innerHTML\|dangerouslySetInnerHTML" <client dirs>`. Any hit that is fed by user-written data without sanitization is IMPORTANT.
 
