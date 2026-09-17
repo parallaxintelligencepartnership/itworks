@@ -20,6 +20,14 @@ Steps 1 and 2 share ONE canonical pattern set: `references/secret-patterns.grep`
 
    Good: no matches. Bad: any match is CRITICAL.
 
+1b. **Secrets anywhere else in the working tree.** Step 1 only looks where the browser can reach, and step 2 only looks at what was committed, so a key sitting uncommitted in `config/`, a deploy script, or a stray note is scanned by neither. Sweep the whole tree:
+
+   ```bash
+   grep -rEn -f "$PAT" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=build
+   ```
+
+   Good: no matches. Bad: any match is CRITICAL. (A key that is only server-side is still a key; it is one accidental commit or one shared screen away from being public.)
+
 2. **Secrets committed to git history, not just current files.** Stream the whole history; never cap the commit count or build a `git grep $(git rev-list ...)` argument list (it silently truncates and can overflow argv):
 
    ```bash
