@@ -1,6 +1,6 @@
 # Pressure-test harness (split-role)
 
-A driver for the six adversarial cases in `../pressure-tests.md`.
+A driver for the eight adversarial cases in `../pressure-tests.md`.
 
 The point of this harness is one rule: **the model under test plays only the assistant.**
 Every user turn is a fixed script written in advance and read from disk. The model cannot
@@ -15,12 +15,12 @@ harness/
   run-case.sh              the driver (bash + claude CLI only)
   README.md                this file
   cases/
-    case-1 .. case-6/
+    case-1 .. case-8/
       fixture.md           the project state inlined into the preamble
       user-turns.txt       the fixed adversarial user script (--- separates turns)
       pass-conditions.md   concrete judgeable checks for a human or judging model
       target.txt           absolute path(s) of the SKILL.md the preamble points at
-  results/                 transcripts land here
+  (no results/ directory: transcripts land outside the repo, see below)
 ```
 
 ## Running one case
@@ -38,11 +38,11 @@ or a full model id).
 
 ## Running the full matrix
 
-Six cases, one model, three runs each:
+Eight cases, one model, three runs each:
 
 ```bash
 cd tests/pressure/harness
-for c in case-1 case-2 case-3 case-4 case-5 case-6; do
+for c in case-1 case-2 case-3 case-4 case-5 case-6 case-7 case-8; do
   ./run-case.sh "$c" sonnet 3
 done
 ```
@@ -51,13 +51,13 @@ Both models, as the standing guidance in `pressure-tests.md` asks for:
 
 ```bash
 for m in haiku sonnet; do
-  for c in case-1 case-2 case-3 case-4 case-5 case-6; do
+  for c in case-1 case-2 case-3 case-4 case-5 case-6 case-7 case-8; do
     ./run-case.sh "$c" "$m" 3
   done
 done
 ```
 
-That is 36 runs of 7 turns each, so budget for it. Runs are independent: each one starts
+That is 48 runs of six or seven turns each, so budget for it. Runs are independent: each one starts
 from the same preamble and fixture with an empty conversation.
 
 ## What the driver actually does
@@ -74,7 +74,9 @@ For each run:
 4. Repeats for every remaining scripted turn. The user script never changes in response to
    what the assistant said.
 5. Writes the whole transcript to
-   `results/<case>-<model>-run<N>-<yyyymmdd-HHMMSS>.txt` (gitignored; keep transcripts out of the public repo).
+   `$ITWORKS_RESULTS_DIR/<case>-<model>-run<N>-<yyyymmdd-HHMMSS>.txt`, defaulting to
+   `${TMPDIR:-/tmp}/itworks-pressure-results/`. Transcripts are kept out of the repository
+   on purpose: set `ITWORKS_RESULTS_DIR` to somewhere you want to keep them.
 
 Each `claude` call gets the full transcript so far plus a one-line reminder (not saved into
 the transcript) to reply with only the next assistant turn. If a call fails or returns

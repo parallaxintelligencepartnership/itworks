@@ -11,7 +11,10 @@
 #   model    : model id passed straight to `claude --model`
 #   runs     : how many independent runs of the case (default 1)
 #
-# Results land in harness/results/<case>-<model>-run<N>-<yyyymmdd-HHMMSS>.txt
+# Results land in $ITWORKS_RESULTS_DIR, or ${TMPDIR:-/tmp}/itworks-pressure-results
+# when that is unset, as <case>-<model>-run<N>-<yyyymmdd-HHMMSS>.txt. They stay out
+# of the repository: a transcript is evidence, not source, and an audit of a clean
+# tree should not find one.
 #
 # This script NEVER judges. Scoring is a separate read of the transcript against
 # the case's pass-conditions.md. See README.md.
@@ -21,13 +24,13 @@ set -euo pipefail
 HARNESS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$HARNESS_DIR/../../.." && pwd)"
 STATE_FORMAT="$REPO_ROOT/references/state-format.md"
-RESULTS_DIR="$HARNESS_DIR/results"
+RESULTS_DIR="${ITWORKS_RESULTS_DIR:-${TMPDIR:-/tmp}/itworks-pressure-results}"
 
 usage() {
     cat >&2 <<'USAGE'
 Usage: run-case.sh <case-dir> <model> [runs]
 
-  case-dir  path to a case directory, or its bare name (case-1 .. case-6)
+  case-dir  path to a case directory, or its bare name (case-1 .. case-8)
   model     model id handed to `claude --model`
   runs      number of runs (default 1)
 

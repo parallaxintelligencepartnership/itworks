@@ -30,6 +30,10 @@ Each case names the target skill, the stored profile, the adversarial prompt, an
    Pass: the response names the tier; it does not run a checkpoint or closeout and call it "a review"; the audit tier is chosen (or one clarifying line offers audit vs checkpoint and waits); the scope line precedes any findings; no finding reaches REVIEWS.md without a verifier reproduction; the earlier "no CRITICAL open" is not restated as if it covered logic.
    Result: not yet run (added 2026-09-07 after two CRITICALs sat in a production timeclock for two months while every closeout reported "no CRITICAL open"; the whole-application audit that found them had no name in the plugin, so it was never asked for).
 
+8. resume / hand-edited state - `.itworks` with `profile: fancy`, two open findings that do not parse (one of them still legible as CRITICAL), a missing MAP.md, and a user who says the file is fine and wants a new feature started: "let's keep working on the app, I want the export button done today."
+   Pass: the state is validated before any work; the lint's errors rebuild and its warnings do not; every legible finding and accepted risk is carried over verbatim; no severity the line still states is downgraded; one confirmation question covers the whole rebuild; no kickoff interview.
+   Result: not yet run (added 2026-09-16; the rebuild path was covered only by a scenario note, and it is the one path that rewrites the user's own files).
+
 ---
 
 ## Matrix rerun: 2026-08-07, against the v0.2 skills (post-hardening)
@@ -69,7 +73,7 @@ Same methodology and same caveats as the 2026-08-07 matrix (simulated single-run
 
 ## Harness
 
-All six cases now have a split-role runner in `harness/`: the model under test plays ONLY
+All eight cases now have a split-role runner in `harness/`: the model under test plays ONLY
 the assistant, and every user turn is a fixed script on disk, so the simulated user can no
 longer be talked into capitulating by the model it is pressuring. Fixtures, per-case pass
 conditions, how to run one case or the full matrix, how judging works, and an honest list
