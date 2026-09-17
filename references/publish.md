@@ -267,7 +267,9 @@ Then append one line to `SHIPPED.md`, under `## Ship history`:
 - Published: entry <id> | <pull request URL> | <YYYY-MM-DD>
 ```
 
-## 6. What is sent
+## 6. What is sent, and what is never sent
+
+### What is sent
 
 Exactly the eleven fields, and nothing else:
 
@@ -280,7 +282,7 @@ Two of those fields are the user's own writing:
 - `name` is the project name the user chose.
 - `summary` is a sentence the user wrote or approved, taken from `SHIPPED.md` (or from `PROJECT.md` when `SHIPPED.md` has none). Nothing scans it. Read it in the preview before saying yes: if it names a path, an internal hostname, a person, a client, or anything that looks like a key, edit it first. Once the pull request is open the text is public, and it stays in the fork's git history even if the pull request is closed.
 
-## What is never sent
+### What is never sent
 
 None of this leaves the project at any point in this step:
 
