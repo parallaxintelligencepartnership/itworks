@@ -10,7 +10,7 @@ Review runbook. Run the inspect steps in order with the real commands; capture o
 
 ## Inspect
 
-Steps 1 and 2 share ONE canonical pattern set: `references/secret-patterns.grep`, which sits next to this lens file (`PAT` below is its path). Never retype patterns inline; the file is maintained so Stripe (`sk_live_`), OpenAI project keys (`sk-proj-`), GitHub fine-grained tokens, and JWTs are covered. If `gitleaks` is installed (`command -v gitleaks`), prefer it: `gitleaks detect --source . --no-banner` covers current files AND full git history in one run; the greps below are the no-dependency fallback.
+Steps 1 and 2 share ONE canonical pattern set: `references/secret-patterns.grep`, which sits next to this lens file (`PAT` below is its path). Never retype patterns inline; the file is maintained so Stripe (`sk_live_`), OpenAI project keys (`sk-proj-`), GitHub fine-grained tokens, JWTs, database connection strings with credentials in them, and AWS, Discord and Telegram tokens are covered. It holds extended regular expressions, so always read it with `grep -E -f`: plain `grep -f` treats them as basic expressions and silently matches only the PEM line. If `gitleaks` is installed (`command -v gitleaks`), prefer it: `gitleaks detect --source . --no-banner` covers current files AND full git history in one run; the greps below are the no-dependency fallback.
 
 1. **Secrets in client-reachable code.** Run against every directory served to browsers AND the built bundle (`dist/`, `build/`, `public/`):
 
