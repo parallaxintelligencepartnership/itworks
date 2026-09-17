@@ -86,6 +86,8 @@ Written the first time `project-audit` runs; the lane manifest for whole-applica
 
 `REVIEWS.md` grows with every checkpoint. When it passes about 800 lines, sections in which every finding is checked and that hold no `### Accepted risks` entry may be moved verbatim into `.itworks/archive/REVIEWS-<first date>-to-<last date>.md`, oldest first, with one line left in REVIEWS.md under `## Archive` naming the file and its date range. Accepted risks and open findings never move; the reckoning and the lint read REVIEWS.md only. Archived text is never rewritten.
 
+Published counts are the one exception to "REVIEWS.md only": **published counts include archived sections.** The found and fixed numbers are lifetime figures, so whatever derives them counts `.itworks/REVIEWS.md` plus every file under `.itworks/archive/`. Archiving moves closed work out of the live file, never out of the record; a number that shrank because the file was tidied would tell the reader something untrue.
+
 ## DECISIONS.md
 
 One line per decision, newest last. A decision line is the ruling and its reason, not the session that produced it: keep it under about 400 characters and put evidence, transcripts and verification detail in the project's docs with a path on the line. Resume reads this file whole at every session start; paragraphs here are paid for every time.
