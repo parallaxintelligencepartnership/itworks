@@ -46,13 +46,13 @@ Steps 1 and 2 share ONE canonical pattern set: `references/secret-patterns.grep`
 
 5. **Role boundaries** (only if PROJECT.md says roles exist). Log in as the lowest role, request an admin-only route the same way. Good: denied. Bad: CRITICAL. A hidden admin button is not access control; the endpoint behind it is.
 
-6. **Injection.** Find queries built by gluing user text into strings:
+6. **Injection.** Find queries built by gluing user text into strings. The patterns live in `references/injection-patterns.grep` beside this file (`INJ` below is its path), the same single-source rule as `PAT` above; never retype them inline:
 
    ```bash
-   grep -rnE "(query|execute|exec)[[:space:]]*\([[:space:]]*[\"'\`][^\"'\`]*(\+|\$\{)" --include=*.js --include=*.ts --include=*.py --include=*.go --include=*.rb --include=*.php .
+   grep -rEn -f "$INJ" --include='*.js' --include='*.ts' --include='*.jsx' --include='*.tsx' --include='*.py' --include='*.go' --include='*.rb' --include='*.php' --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist --exclude-dir=build --exclude-dir=vendor .
    ```
 
-   Good: no matches (parameterized queries only). Bad: IMPORTANT; CRITICAL if the glued-in value comes straight from a form or URL.
+   Read every hit; a hit inside a test fixture or a comment is not a finding, a hit that glues a request value into a query is. Good: no matches (parameterized queries only). Bad: IMPORTANT; CRITICAL if the glued-in value comes straight from a form or URL.
 
 7. **Stored XSS.** `grep -rn "innerHTML\|dangerouslySetInnerHTML" <client dirs>`. Any hit that is fed by user-written data without sanitization is IMPORTANT.
 

@@ -1,0 +1,7 @@
+# Injection patterns for lens-security-auth step 6, one POSIX ERE pattern per line.
+# grep reads these comment lines as patterns too, so they are written long enough never to match real code.
+# Run the file whole with grep -rEn -f <path to this file>, never plain grep -f, which loses the -E.
+(SELECT|INSERT|UPDATE|DELETE|select|insert|update|delete)[^;]*["'`][[:space:]]*(\+|\.|%)[[:space:]]*[$A-Za-z_(]
+(SELECT|INSERT|UPDATE|DELETE|select|insert|update|delete)[^;]*\$\{
+[fF]["'][^;]*(SELECT|INSERT|UPDATE|DELETE|select|insert|update|delete)[^;]*\{[[:space:]]*[A-Za-z_]
+(Sprintf|sprintf|format)[[:space:]]*\([^;]*(SELECT|INSERT|UPDATE|DELETE|select|insert|update|delete)[^;]*%[a-z]
