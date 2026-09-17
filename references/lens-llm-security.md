@@ -13,7 +13,7 @@ Review runbook for apps that themselves call an LLM or AI API (chatbots, generat
 1. **Find the surface.** Grep dependencies and code for the AI clients and collect every place a prompt is built and every place model output lands. The rest of the lens walks those two lists.
 
    ```bash
-   grep -rniE "openai|anthropic|claude|gpt-|gemini|ollama|mistral|langchain|generateText|chat.?completion" --include=*.js --include=*.ts --include=*.py --include=*.go src/ app/ 2>/dev/null | grep -v test | head -30
+   grep -rniE "openai|anthropic|claude|gpt-|gemini|ollama|mistral|langchain|generateText|chat.?completion" --include='*.js' --include='*.ts' --include='*.py' --include='*.go' src/ app/ 2>/dev/null | grep -v test | head -30
    ```
 
 2. **Nothing secret in the prompt.** Read every system prompt and prompt template. Treat everything sent to the model as text the end user can extract: users get system prompts out of chatbots routinely, and no wording reliably prevents it.

@@ -13,7 +13,7 @@ Review runbook. Detects the "shell app" problem: screens that look finished but 
 1. **Placeholder markers still wired in:**
 
    ```bash
-   grep -rniE "lorem ipsum|placeholder|dummy|sample.?data|fake.?data|hardcoded|FIXME|mock" --include=*.js --include=*.jsx --include=*.ts --include=*.tsx --include=*.py --include=*.go --include=*.html --include=*.json src/ app/ 2>/dev/null | grep -v test | head -30
+   grep -rniE "lorem ipsum|placeholder|dummy|sample.?data|fake.?data|hardcoded|FIXME|mock" --include='*.js' --include='*.jsx' --include='*.ts' --include='*.tsx' --include='*.py' --include='*.go' --include='*.html' --include='*.json' src/ app/ 2>/dev/null | grep -v test | head -30
    ```
 
    Good: hits only in test files and seed scripts. Bad: hits in rendering or API code are IMPORTANT; CRITICAL if the user believes this data is real.
