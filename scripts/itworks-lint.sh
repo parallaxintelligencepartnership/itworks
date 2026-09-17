@@ -70,7 +70,7 @@ fi
 # Contract: OPEN finding lines must parse (they drive the gates) -> error.
 # Checked lines and severity-less checkboxes are drift, not gate risks -> warn.
 in_accepted=0
-while IFS= read -r line; do
+while IFS= read -r line || [ -n "$line" ]; do
   case "$line" in
     "### Accepted risks"*) in_accepted=1 ;;
     "#"*) in_accepted=0 ;;
@@ -111,7 +111,7 @@ done < <(grep -E '^## ' "$vc/REVIEWS.md")
 # --- Cross-file: REVIEWS.md <-> SHIPPED.md ---
 # A ship record exists, so the review state and the ship record must agree.
 if [ -f "$root/SHIPPED.md" ]; then
-  while IFS= read -r line; do
+  while IFS= read -r line || [ -n "$line" ]; do
     err "SHIPPED.md exists but a CRITICAL finding is open (ship gate drift): ${line:0:100}"
   done < <(grep -E "^- \[ \] CRITICAL \|" "$vc/REVIEWS.md")
 
