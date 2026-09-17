@@ -103,7 +103,7 @@ These files are yours; they are readable notes, not tooling lock-in. A developer
 
 itworks.dev is a public wall of projects that finished a real closeout, each with a badge showing its audit date and whether a critical finding is still open.
 
-Closeout asks before anything is sent, once, and a plain no (or anything short of a clear yes) ends it for the session. What actually goes out is a short summary built from your own project notes, never your code, file paths, secrets, environment variables, or the notes themselves; the full list is in `references/publish.md`.
+Closeout asks before anything is sent, once, and a plain no (or anything short of a clear yes) ends it for the session. An entry is one JSON file submitted as a pull request to `parallaxintelligencepartnership/itworks-site`; the site owner merges it to approve. The badge renders after the merge and returns 404 before it. What is sent is the project name, a one line summary you wrote or approved in `SHIPPED.md`, the public repo URL if there is one, the audit tier and date, and five counts; never your code, file paths, environment values, secrets, or the state files. The full list is in `references/publish.md`.
 
 The site itself never runs a model. It stores what you send, renders it on a page, and serves a badge image.
 
