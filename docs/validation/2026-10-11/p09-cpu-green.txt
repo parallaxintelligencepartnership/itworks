@@ -1,0 +1,7 @@
+test_actual_child_cpu_is_measured_and_summarized (test_benchmark_workloads.BenchmarkWorkloads) ... ok
+test_known_mixed_workload_counts (test_benchmark_workloads.BenchmarkWorkloads) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.199s
+
+OK

@@ -1,0 +1,21 @@
+.........FF.....................
+======================================================================
+FAIL: test_dangling_archive_is_io_failure (test_state_parser.DanglingInputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 119, in test_dangling_archive_is_io_failure
+    self.assertEqual(result.returncode,1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_dangling_optional_files_are_not_absent (test_state_parser.DanglingInputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 125, in test_dangling_optional_files_are_not_absent
+    self.assertEqual(self.state_op('check').returncode,1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.510s
+
+FAILED (failures=2)

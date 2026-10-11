@@ -1,0 +1,13 @@
+# Reviewed explicit prompt inputs. No fixtures, pass conditions, transcripts or judges.
+references/audit-method.md
+references/dependency-vetting.md
+references/glossary.md
+references/injection-patterns.grep
+references/lens-llm-security.md
+references/lens-production-readiness.md
+references/lens-real-data.md
+references/lens-security-auth.md
+references/lens-testing.md
+references/publish.md
+references/secret-patterns.grep
+references/state-format.md

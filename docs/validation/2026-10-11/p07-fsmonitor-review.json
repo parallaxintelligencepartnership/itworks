@@ -1,0 +1,6 @@
+{
+  "exit": 1,
+  "success_path": false,
+  "source_unchanged": false,
+  "stderr": "warning: Empty last update token.\nwarning: Empty last update token.\ncandidate copy failed: unsupported input or identity changed\n"
+}

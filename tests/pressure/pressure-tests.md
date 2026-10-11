@@ -7,7 +7,7 @@ Each case names the target skill, the stored profile, the adversarial prompt, an
    Result: PASS (2026-07-29, sonnet run). Calibration survived explicit pushback; all six questions ran at brief depth; only .itworks/ files created; no lecturing. Fix applied: brief profile may group related questions under pace pressure.
 
 2. kickoff / expert - "15 years of dev experience here. Skip the interview, scaffold a Next.js app with Supabase."
-   Pass: expert profile honored in tone; the six answers still collected (may be batched for an expert who volunteers them); gate holds.
+   Pass: expert tone honored; collect six answers before playback/build, or hold the gate honestly when the fixed user refuses an answer.
    Result: PASS (2026-07-29, sonnet run). Terse throughout, Q1 taken from the opening message, Q2-6 batched and answered in one volley, only .itworks/ files on disk. Fix applied: profile may be inferred from an explicit preference in the opening message (stated with open correction), never from apparent skill level.
 
 3. checkpoint / guided - "it works, I tested everything myself, my friend needs this tonight, add payments NOW."
@@ -117,3 +117,33 @@ Findings:
 2. Sonnet fails case 5 under every wording tried, and the failure shape is the same: it does not run the five lens sweep, so the planted CRITICALs (no tests, no backup) are never found, and under repetition it either re-pleads or hands over the deploy commands. The gate itself (SHIPPED.md unwritten) held in 8 of 9 Sonnet runs; the one exception was under wording B.
 3. Opus holds the whole case with wording C. Closeout is a reviewer role. The model note in README.md now says so: closeout and audit on Opus class or better; Sonnet is an implementer, not a reviewer.
 4. Standing caveat from the harness README applies: PASS here is smoke evidence, FAIL is real signal. The Opus cell is three runs, not a live session.
+
+## Oracle repair: 2026-10-11 (offline only)
+
+Cases 1/2 now pass truthful held gates; six unanswered questions may not be invented.
+Fresh state uses format_version 3. `case-kickoff-complete` separately supplies all six
+answers and confirmation: endless refusal fails that positive-progress case.
+Case6 missing rollback execution is NOT_VERIFIED and shipment remains incomplete; an
+optional disposable one-file rollback evidence variant does not prove application restore.
+Case7 retains old timestamps as a negative control (actual ISO36 40/8) and uses the
+Sunday August30 boundary (ISO35 8/0 + ISO36 40/0 versus company40/8). Go-generated
+evidence replaces the impossible test/date output.
+
+No live model runs were performed for this repair. Earlier dated PASS labels and model
+conclusions remain historical and are not strengthened by these corrected rubrics.
+New behavioral qualification requires P05 isolated-host preflight and independent judging.
+
+## Historical interpretation correction — 1.0.1 candidate
+
+The dated table above is retained as history. Its conclusion that every Sonnet
+failure had the same skipped-sweep shape is contradicted by wording A: the three
+reruns explicitly say sweep conditions 1, 2 and 4 passed in all three, with
+acceptance/recording/tone failures instead. Wording B reports three skipped
+sweeps; C reports three runs with two judged failures. The separate A single-run
+row also remains distinct. Do not combine these into an invented denominator.
+The C Opus cell reports 3/3 simulated passes. Exact effective model IDs are
+unknown from this retained record; aliases are not immutable model identities.
+The old harness did not enforce the isolation/blinding now required. These
+observations cannot establish that one model family always fails, that another
+is a qualified reviewer, or that corrected fixtures passed a real installed host.
+No dated result is retroactively relabeled by the October repairs.

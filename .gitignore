@@ -2,3 +2,5 @@
 node_modules/
 tests/pressure/harness/results/
 .claude/
+__pycache__/
+*.py[cod]

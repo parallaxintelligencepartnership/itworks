@@ -10,39 +10,35 @@ Review runbook. Run the inspect steps in order with the real commands; capture o
 
 ## Inspect
 
-Steps 1 and 2 share ONE canonical pattern set: `references/secret-patterns.grep`, which sits next to this lens file (`PAT` below is its path). Never retype patterns inline; the file is maintained so Stripe (`sk_live_`), OpenAI project keys (`sk-proj-`), GitHub fine-grained tokens, JWTs, database connection strings with credentials in them, and AWS, Discord and Telegram tokens are covered. It holds extended regular expressions, so always read it with `grep -E -f`: plain `grep -f` treats them as basic expressions and silently matches only the PEM line. If `gitleaks` is installed (`command -v gitleaks`), prefer it: `gitleaks detect --source . --no-banner` covers current files AND full git history in one run; the greps below are the no-dependency fallback.
+Steps 1 and 2 share ONE canonical pattern set: `references/secret-patterns.grep`, which sits next to this lens file (`PAT` below is its path). Never retype patterns inline; the file is maintained so Stripe (`sk_live_`), OpenAI project keys (`sk-proj-`), GitHub fine-grained tokens, JWTs, database connection strings with credentials in them, and AWS, Discord and Telegram tokens are covered. It holds extended regular expressions, so always read it with `grep -E -f`: plain `grep -f` treats them as basic expressions and silently matches only the PEM line. If `gitleaks` is installed (`command -v gitleaks`), prefer it: `gitleaks detect --source . --no-banner --redact` covers current files AND full git history in one run; the greps below are the no-dependency fallback.
 
-1. **Secrets in client-reachable code.** Run against every directory served to browsers AND the built bundle (`dist/`, `build/`, `public/`):
-
-   ```bash
-   grep -rEn -f "$PAT" <client dirs>
-   ```
-
-   Good: no matches. Bad: any match is CRITICAL.
-
-1b. **Secrets anywhere else in the working tree.** Step 1 only looks where the browser can reach, and step 2 only looks at what was committed, so a key sitting uncommitted in `config/`, a deploy script, or a stray note is scanned by neither. Sweep the whole tree:
+1. **Inspect candidate secret matches without retaining values.** `PAT` is the absolute canonical pattern-file path. Scan explicit client/served directories and built bundles, then the remaining working tree, excluding dependency and git storage. A match is a candidate requiring context, not automatically a leak. Use file/line-only output; never paste matching lines or token values into REVIEWS, chat or artifacts. Do not enable shell tracing. `gitleaks`, when used, must have redaction enabled.
 
    ```bash
-   grep -rEn -f "$PAT" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=build
+   # secret-candidate-scan
+   grep -rEn -f "$PAT" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=build | cut -d: -f1,2
    ```
 
-   Good: no matches. Bad: any match is CRITICAL. (A key that is only server-side is still a key; it is one accidental commit or one shared screen away from being public.)
+   Scan excluded built output separately if served; exclusions never establish it clean. Inspect matching content privately and classify using actual served roots, tracked paths (`git ls-files --error-unmatch -- "$path"`), ignore rules (`git check-ignore -- "$path"`), deployment configuration and history. File names alone do not establish exposure.
 
-2. **Secrets committed to git history, not just current files.** Stream the whole history; never cap the commit count or build a `git grep $(git rev-list ...)` argument list (it silently truncates and can overflow argv):
+   | Context | Classification and action |
+   |---|---|
+   | Ignored, untracked server `.env`, proven unserved and not in history | Intentional private configuration; no automatic CRITICAL. Keep excluded from commits and evidence. |
+   | Matching credential in client bundle, tracked source/template or committed history | Exposure; record location and consequence, normally CRITICAL; revoke/rotate affected live credentials. |
+   | `.env.example` containing placeholders only | Inspect content; placeholder template is not a credential finding. |
+   | `.env.example` containing credential-shaped material | Exposure candidate even though its filename says example; inspect, never stage known material. |
+   | Served/tracked/history context unknown | Unverified; name the missing evidence. Do not claim clean or invent exposure. |
+
+2. **Scan complete git history, including removed values.** Never cap commits or infer historical cleanliness from the current tree. Retain patch line numbers only; inspect matching history privately to identify affected paths/commits, without retaining raw values.
 
    ```bash
-   git log --all -p | grep -En -f "$PAT" | head -20
+   # secret-history-scan
+   git log --all -p | grep -En -f "$PAT" | cut -d: -f1
    ```
 
-   Good: nothing. Bad: CRITICAL even if the current file is clean. History is public once pushed; a leaked key must be rotated at the provider, not just deleted from the file.
+   Empty output is meaningful only if git and grep executed successfully (grep exit1 means no match; exit2 is error). Run each command with failure checking; a pipeline alone cannot prove all stages succeeded. For history leaks, deletion alone is not remediation: retain rotation/revocation evidence and scope history cleanup separately.
 
-3. **`.env` or key files tracked by git:**
-
-   ```bash
-   git ls-files | grep -E "(^|/)\.env|\.pem$|credentials"
-   ```
-
-   Good: nothing, and `.gitignore` contains `.env`. Bad: CRITICAL.
+3. **Inspect tracked configuration contents.** `git ls-files` identifies tracked `.env`, key and credential files for private content review. A filename match is not automatically CRITICAL: a placeholder `.env.example` may be intentional. Real matching values in tracked configuration require exposure assessment. An ignored server `.env` must also be proven unserved; `.gitignore` alone is insufficient.
 
 4. **Doors actually locked.** List every route or page that should require login (from PROJECT.md "Who uses it"), then hit each WITHOUT a token or session:
 
@@ -74,7 +70,7 @@ Steps 1 and 2 share ONE canonical pattern set: `references/secret-patterns.grep`
 
 ## Evidence to close
 
-Re-run the exact inspect command and paste output showing it clean. For route findings, the curl output showing 401/403. For history leaks, confirmation the key was rotated at the provider plus the clean re-grep. Never close on "changed the code, should be fine."
+Re-run the exact inspect command and retain redacted file/line-only evidence with command exit statuses. For route findings, the curl output showing 401/403. For history leaks, confirmation the key was rotated at the provider plus the clean re-grep. Never close on "changed the code, should be fine."
 
 ## Guided cards
 

@@ -1,6 +1,6 @@
 # State format: the `.itworks/` directory
 
-Contracts for the `.itworks/` state directory. Skills read these files at start and update them at end. `project-resume` validates against this document and rebuilds on mismatch.
+Contracts for the `.itworks/` state directory. Skills read these files at start and update them at end. `project-resume` validates against this document; review diagnostics before any targeted, backed-up repair.
 
 All five files live in `.itworks/` at the project root. They are plain, readable notes that belong to the user, written so a future developer (or the user themselves) can read them without any tooling. Four of them hold intent and judgment (PROJECT, DECISIONS, REVIEWS, PROFILE); the fifth, MAP.md, holds the facts about the code and its environment that a fresh session would otherwise re-derive or guess.
 
@@ -156,9 +156,9 @@ opted_out: []          # skill names the user told to stop auto-firing for this 
 last_checkpoint: <YYYY-MM-DD @<git short sha>, or none before the first checkpoint>
                        # the sha is what the cadence guard diffs against; date alone cannot measure a diff
 last_audit: <YYYY-MM-DD @<git short sha>, or none>
-                       # set only by project-audit after its REVIEWS.md section is written; resume and
+                       # set only by project-audit after completed declared scope is recorded; resume and
                        # closeout read it to say whether a whole-application audit is due
-lens_debt:             # checkpoints run since each lens last ran; checkpoint hard-fires a lens at 3
+lens_debt:             # applicable checkpoints since each lens last ran; overdue at 3
   security-auth: 0
   llm-security: 0      # stays 0 forever in projects with no LLM/AI feature; the lens self-gates
   real-data: 0
@@ -166,7 +166,7 @@ lens_debt:             # checkpoints run since each lens last ran; checkpoint ha
   production-readiness: 0
 ```
 
-`lens_debt` counts CHECKPOINTS, not features: each checkpoint resets the lenses that ran to 0 and increments every other lens by 1. At 3, checkpoint force-includes the lens.
+`lens_debt` counts applicable CHECKPOINTS, not features. Selected lenses reset to 0, unselected applicable lenses increment, and nonapplicable lenses stay 0. Select at most two: overdue debt >=3 first by descending debt, then security-auth, llm-security, real-data, testing, production-readiness tie order; fill remaining slots with contextual lenses by that same order. Overflow remains overdue for next time; the cap never waives current feature test evidence. Only completed declared audit scope advances last_audit; an INCOMPLETE attempt preserves its old marker and remains incomplete/due in resume.
 
 ## SHIPPED.md
 
@@ -206,3 +206,54 @@ REVIEWS.md and SHIPPED.md are two halves of one record, so when SHIPPED.md exist
 Drift that is NOT corruption (mention it, fix it in passing, never trigger a rebuild): missing `format_version` (v1 file; add it), missing `MAP.md` (v2 state; write it from the tree and the README, then set `format_version: 3`), a MAP.md missing one of its five headings or running past about 80 lines, missing `llm-security` lens_debt key (add at 0), missing `last_audit` (add as `none`), REVIEWS.md past the archive threshold, DECISIONS.md lines far past the length guide, checked lines missing a closure keyword, Accepted risks entries without `Revisit when:` (pre-field entries; add the condition when the entry is next walked), unsanctioned section headings, `last_checkpoint` without a sha.
 
 On a real violation: do not trust the invalid values, do not crash, do not restart the full kickoff interview. Rebuild per the `project-resume` skill: scan the code, carry over every legible finding and accepted risk verbatim, confirm once with the user, rewrite valid files.
+
+## Read-only patch protocol
+
+`bash scripts/itworks-state.sh check|gate|counts <project-root>` shares one
+POSIX awk parser with the existing human-facing lint wrapper. Runtime remains
+Bash 3.2 and standard Unix tools; Python is only a development-test dependency.
+All operations preserve input bytes, including CRLF and absent final newlines.
+
+Profiles are complete scalars (`guided`, `brief`, `expert`), optionally followed
+by whitespace and a comment. Duplicates are errors. PROJECT headings match
+exactly, allowing trailing whitespace and closing Markdown hashes. Explicit
+unsupported versions are errors; missing legacy fields remain warnings.
+Unchecked task candidates include indented and `*`/`+` bullets: noncanonical
+syntax is an error, never an omitted finding. Checked malformed lines remain
+historical drift; unresolved critical closures block strict gate/counts.
+The closure/evidence boundary is a known field delimiter outside inline code;
+a closure word inside prose is not closure evidence. Ambiguous Markdown needs
+review, never a guessed waiver. Archived malformed records invalidate counts.
+
+Acceptance joins use the complete description and finding-text fields, trimming
+outer whitespace only. One accepted finding must map to exactly one dated entry
+with nonempty quoted User's words. No fuzzy/date-only matching; duplicate
+findings or entries are ambiguous. Empty records are errors. Genuine historical
+quotes with uncertain linkage remain check warnings and block gate/counts for
+critical acceptances. Missing Revisit when stays warning-only; preserve the
+quote and request the condition at the next applicable reckoning. The parser
+establishes record consistency, not proof that the user spoke the words.
+
+Protocol version 1 is UTF-8 TSV: `FORMAT\t1`, zero or more
+`ERROR|WARN|BLOCKED\tcode\tpath\tline\tsafe-message`, optionally the five
+`COUNT\tkey\tinteger` records, and `SUMMARY\terrors\twarnings\tblocked`.
+Text columns encode percent, tab, CR and LF as `%25`, `%09`, `%0D`, `%0A`.
+Diagnostics never echo finding descriptions or quotes. Readers require the
+supported FORMAT, complete final SUMMARY and successful process status.
+`check` returns 0/1; `gate` and `counts` return 0 eligible, 1 invalid/I/O,
+2 otherwise-valid blocked evidence. Usage errors return 64 with no protocol.
+Counts are buffered until validation succeeds; keys are exactly found, fixed,
+accepted, critical_open, critical_accepted. A successful gate is necessary but
+cannot prove tests ran, consent occurred or all risks were found. A successful
+count is never ship or publication permission. SHIPPED remains historical;
+new critical findings still block the next release and are never deleted to
+make validation pass.
+
+## Recovery before repair
+
+Follow [upgrade-recovery.md](upgrade-recovery.md) before state-writing repair.
+Keep a verified independent external snapshot for at least 30 days and two
+subsequent verified sessions, whichever is longer. Stage and validate changes
+separately; preserve original quotes/severity/history; pause other writers and
+abort on changed preimages. Restore to an empty directory and verify before
+replacement. Validation/counting never performs these writes automatically.

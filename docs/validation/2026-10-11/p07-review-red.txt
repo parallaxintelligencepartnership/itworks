@@ -1,0 +1,32 @@
+test_dirty_candidate_mutation_restore_and_original_identity (test_candidate_copy.CandidateCopy) ... ok
+test_hash_failure_never_publishes_copy_identity (test_candidate_copy.CandidateCopy) ... FAIL
+test_interruption_after_copied_mutation_preserves_source (test_candidate_copy.CandidateCopy) ... ok
+test_missing_dependency_is_infrastructure_not_red (test_candidate_copy.CandidateCopy) ... ok
+test_option_like_relative_path (test_candidate_copy.CandidateCopy) ... FAIL
+test_reject_paths_and_symlinks (test_candidate_copy.CandidateCopy) ... ok
+test_source_change_and_copy_corruption_fail_closed (test_candidate_copy.CandidateCopy) ... ok
+
+======================================================================
+FAIL: test_hash_failure_never_publishes_copy_identity (test_candidate_copy.CandidateCopy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_candidate_copy.py", line 95, in test_hash_failure_never_publishes_copy_identity
+    self.assertNotEqual(result.returncode,0,'Failed hash command must invalidate identity')
+AssertionError: 0 == 0 : Failed hash command must invalidate identity
+
+======================================================================
+FAIL: test_option_like_relative_path (test_candidate_copy.CandidateCopy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_candidate_copy.py", line 103, in test_option_like_relative_path
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 1 != 0 : dirname: illegal option -- o
+usage: dirname string [...]
+cp: /var/folders/jl/0qz_rxp92j7dq2wkfx9dgfsc0000gn/T//itworks-copy.B3wZMoSt/candidate/-odd/source.txt: No such file or directory
+candidate copy failed: unsupported input or identity changed
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 5.615s
+
+FAILED (failures=2)

@@ -1,0 +1,15 @@
+[
+  {
+    "case": "failed-hasher",
+    "exit": 0,
+    "stdout": "/var/folders/jl/0qz_rxp92j7dq2wkfx9dgfsc0000gn/T//itworks-copy.pUPxXd5g/candidate\n",
+    "stderr": "",
+    "inventory": "source.txt\t644\t\n"
+  },
+  {
+    "case": "leading-dash-parent",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "dirname: illegal option -- o\nusage: dirname string [...]\ncp: /var/folders/jl/0qz_rxp92j7dq2wkfx9dgfsc0000gn/T//itworks-copy.SaxA6KWY/candidate/-odd/source.txt: No such file or directory\ncandidate copy failed: unsupported input or identity changed\n"
+  }
+]

@@ -1,0 +1,65 @@
+test_diagnostics_do_not_echo_findings (test_state_parser.ParserRegression) ... FAIL
+test_duplicate_profile (test_state_parser.ParserRegression) ... FAIL
+test_inline_comment_and_closing_hash_headings (test_state_parser.ParserRegression) ... ok
+test_noncanonical_candidates (test_state_parser.ParserRegression) ... test_unknown_explicit_version (test_state_parser.ParserRegression) ... FAIL
+
+======================================================================
+FAIL: test_diagnostics_do_not_echo_findings (test_state_parser.ParserRegression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 35, in test_diagnostics_do_not_echo_findings
+    self.assertNotIn(secret, result.stdout + result.stderr)
+AssertionError: 'synthetic-sensitive-value-never-print' unexpectedly found in 'ERROR: REVIEWS.md open finding does not parse (five-field grammar): - [ ] CRITICAL | broken synthetic-sensitive-value-never-print\nERROR: SHIPPED.md exists but a CRITICAL finding is open (ship gate drift): - [ ] CRITICAL | broken synthetic-sensitive-value-never-print\nwarn:  REVIEWS.md has 1 open CRITICAL/IMPORTANT finding(s) but SHIPPED.md never says OUTSTANDING (open risk invisible to the ship record)\n2 error(s), 1 warning(s)\n'
+
+======================================================================
+FAIL: test_duplicate_profile (test_state_parser.ParserRegression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 16, in test_duplicate_profile
+    self.assertEqual(self.lint().returncode, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_noncanonical_candidates (test_state_parser.ParserRegression) (bullet='  -')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 11, in test_noncanonical_candidates
+    self.assertEqual(self.lint().returncode, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_noncanonical_candidates (test_state_parser.ParserRegression) (bullet='\t-')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 11, in test_noncanonical_candidates
+    self.assertEqual(self.lint().returncode, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_noncanonical_candidates (test_state_parser.ParserRegression) (bullet='*')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 11, in test_noncanonical_candidates
+    self.assertEqual(self.lint().returncode, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_noncanonical_candidates (test_state_parser.ParserRegression) (bullet='+')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 11, in test_noncanonical_candidates
+    self.assertEqual(self.lint().returncode, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unknown_explicit_version (test_state_parser.ParserRegression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 28, in test_unknown_explicit_version
+    self.assertEqual(self.lint().returncode, 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.379s
+
+FAILED (failures=7)

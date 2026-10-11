@@ -83,3 +83,12 @@ Fixes for confirmed findings are a normal branch. Each fix carries a test that f
 ## Retention
 
 Keep the lane reports and verifications in the repository's documentation area, named by date and lane. The next audit starts by reading the previous one's coverage list, and a reviewer who can see what was read last time reads the rest first.
+
+## Completion and currency
+
+Completion requires the declared scope actually read and each suspicion disposed
+with retained verification evidence. Keep intentional external exclusions stated
+before review distinct from unread in-scope files. Partial attempts append an
+INCOMPLETE audit section and remaining-work list, preserving the prior last_audit
+marker. Only a completed declared scope advances that marker. Unavailable probes
+remain explicit gaps; unsupported critical verification cannot become confirmed.

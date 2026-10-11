@@ -1,0 +1,38 @@
+[
+  {
+    "case": "missing-date-empty",
+    "operation": "check",
+    "exit": 1,
+    "stdout": "FORMAT\t1\nERROR\tE_ACCEPTANCE_EMPTY\t.itworks/REVIEWS.md\t4\tAcceptance requires nonempty quoted user words\nWARN\tW_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t4\tHistorical acceptance cannot be linked precisely\nWARN\tW_REVISIT_MISSING\t.itworks/REVIEWS.md\t4\tAcceptance has no revisit condition\nWARN\tW_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tAccepted finding has no unique exact acceptance entry\nSUMMARY\t1\t3\t0\n"
+  },
+  {
+    "case": "missing-date-empty",
+    "operation": "gate",
+    "exit": 1,
+    "stdout": "FORMAT\t1\nERROR\tE_ACCEPTANCE_EMPTY\t.itworks/REVIEWS.md\t4\tAcceptance requires nonempty quoted user words\nWARN\tW_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t4\tHistorical acceptance cannot be linked precisely\nWARN\tW_REVISIT_MISSING\t.itworks/REVIEWS.md\t4\tAcceptance has no revisit condition\nWARN\tW_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tAccepted finding has no unique exact acceptance entry\nBLOCKED\tB_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tCritical acceptance linkage requires review\nSUMMARY\t1\t3\t1\n"
+  },
+  {
+    "case": "missing-date-empty",
+    "operation": "counts",
+    "exit": 1,
+    "stdout": "FORMAT\t1\nERROR\tE_ACCEPTANCE_EMPTY\t.itworks/REVIEWS.md\t4\tAcceptance requires nonempty quoted user words\nWARN\tW_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t4\tHistorical acceptance cannot be linked precisely\nWARN\tW_REVISIT_MISSING\t.itworks/REVIEWS.md\t4\tAcceptance has no revisit condition\nWARN\tW_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tAccepted finding has no unique exact acceptance entry\nBLOCKED\tB_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tCritical acceptance linkage requires review\nSUMMARY\t1\t3\t1\n"
+  },
+  {
+    "case": "ambiguous-legacy",
+    "operation": "check",
+    "exit": 0,
+    "stdout": "FORMAT\t1\nWARN\tW_REVISIT_MISSING\t.itworks/REVIEWS.md\t4\tAcceptance has no revisit condition\nWARN\tW_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tAccepted finding has no unique exact acceptance entry\nSUMMARY\t0\t2\t0\n"
+  },
+  {
+    "case": "ambiguous-legacy",
+    "operation": "gate",
+    "exit": 2,
+    "stdout": "FORMAT\t1\nWARN\tW_REVISIT_MISSING\t.itworks/REVIEWS.md\t4\tAcceptance has no revisit condition\nWARN\tW_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tAccepted finding has no unique exact acceptance entry\nBLOCKED\tB_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tCritical acceptance linkage requires review\nSUMMARY\t0\t2\t1\n"
+  },
+  {
+    "case": "ambiguous-legacy",
+    "operation": "counts",
+    "exit": 2,
+    "stdout": "FORMAT\t1\nWARN\tW_REVISIT_MISSING\t.itworks/REVIEWS.md\t4\tAcceptance has no revisit condition\nWARN\tW_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tAccepted finding has no unique exact acceptance entry\nBLOCKED\tB_ACCEPTANCE_LINK\t.itworks/REVIEWS.md\t2\tCritical acceptance linkage requires review\nSUMMARY\t0\t2\t1\n"
+  }
+]

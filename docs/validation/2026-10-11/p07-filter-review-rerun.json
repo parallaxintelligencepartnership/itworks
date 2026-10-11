@@ -1,0 +1,23 @@
+[
+  {
+    "case": "clean",
+    "exit": 1,
+    "source_unchanged": true,
+    "successful_path": false,
+    "stderr": "candidate copy failed: unsupported input or identity changed\n"
+  },
+  {
+    "case": "process",
+    "exit": 1,
+    "source_unchanged": true,
+    "successful_path": false,
+    "stderr": "candidate copy failed: unsupported input or identity changed\n"
+  },
+  {
+    "case": "fsmonitor",
+    "exit": 0,
+    "source_unchanged": true,
+    "successful_path": true,
+    "stderr": ""
+  }
+]

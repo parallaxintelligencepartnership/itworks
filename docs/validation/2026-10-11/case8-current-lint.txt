@@ -1,0 +1,12 @@
+ERROR: .itworks/REVIEWS.md:6 [E_FINDING_SYNTAX] Finding syntax requires review
+warn: .itworks/REVIEWS.md:9 [W_REVISIT_MISSING] Acceptance has no revisit condition
+ERROR: .itworks/REVIEWS.md:13 [E_FINDING_SYNTAX] Finding syntax requires review
+ERROR: .itworks/REVIEWS.md:14 [E_FINDING_SYNTAX] Finding syntax requires review
+ERROR: .itworks/PROFILE.md:3 [E_PROFILE_VALUE] Profile must be a complete supported scalar
+warn: .itworks/PROFILE.md:5 [W_CHECKPOINT_SHA] Checkpoint has no revision identity
+warn: .itworks/PROFILE.md:0 [W_FORMAT_VERSION] Absent format version is legacy v1 drift
+warn: .itworks/PROFILE.md:0 [W_AUDIT_MISSING] Legacy state has no audit marker
+warn: .itworks/PROFILE.md:0 [W_DEBT_MISSING] Legacy state has no LLM debt key
+warn: .itworks/MAP.md:0 [W_MAP_MISSING] Legacy state has no code map
+4 error(s), 6 warning(s)
+exit=1

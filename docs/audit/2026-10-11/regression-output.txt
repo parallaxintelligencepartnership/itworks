@@ -1,0 +1,79 @@
+test_case7_recorded_bucket_matches_source_algorithm (__main__.FixtureOracle) ... FAIL
+test_alternate_bullet_critical_must_not_disappear (__main__.StateContract) ... FAIL
+test_canonical_critical_control (__main__.StateContract) ... ok
+test_empty_acceptance_is_not_a_waiver (__main__.StateContract) ... FAIL
+test_heading_prefix_is_not_required_heading (__main__.StateContract) ... FAIL
+test_indented_critical_must_not_disappear (__main__.StateContract) ... FAIL
+test_profile_requires_complete_enum (__main__.StateContract) ... FAIL
+test_unterminated_bad_finding_control (__main__.StateContract) ... ok
+test_valid_state_control (__main__.StateContract) ... ok
+
+======================================================================
+FAIL: test_case7_recorded_bucket_matches_source_algorithm (__main__.FixtureOracle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 100, in test_case7_recorded_bucket_matches_source_algorithm
+    self.assertEqual(actual, recorded,
+AssertionError: {'2026-W36': (40, 8.0)} != {'2026-W36': (40.0, 0.0), '2026-W37': (8.0, 0.0)}
+- {'2026-W36': (40, 8.0)}
++ {'2026-W36': (40.0, 0.0), '2026-W37': (8.0, 0.0)} : Recorded evidence disagrees with the supplied ISOWeek algorithm. Repair the fixture/oracle together, not payroll code to fit false evidence.
+
+======================================================================
+FAIL: test_alternate_bullet_critical_must_not_disappear (__main__.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 62, in test_alternate_bullet_critical_must_not_disappear
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 46, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+======================================================================
+FAIL: test_empty_acceptance_is_not_a_waiver (__main__.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 66, in test_empty_acceptance_is_not_a_waiver
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 46, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+======================================================================
+FAIL: test_heading_prefix_is_not_required_heading (__main__.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 76, in test_heading_prefix_is_not_required_heading
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 46, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+======================================================================
+FAIL: test_indented_critical_must_not_disappear (__main__.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 58, in test_indented_critical_must_not_disappear
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 46, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+======================================================================
+FAIL: test_profile_requires_complete_enum (__main__.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 71, in test_profile_requires_complete_enum
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/docs/audit/2026-10-11/reproduce.py", line 46, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.426s
+
+FAILED (failures=6)

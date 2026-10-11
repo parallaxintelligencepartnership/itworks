@@ -1,0 +1,17 @@
+test_dirty_candidate_mutation_restore_and_original_identity (test_candidate_copy.CandidateCopy) ... ok
+test_each_hash_backend_failure_and_malformed_output_cleans_owned_temp (test_candidate_copy.CandidateCopy) ... ok
+test_empty_or_invalid_mode_cannot_establish_copy_identity (test_candidate_copy.CandidateCopy) ... ok
+test_git_clean_and_process_filters_block_before_source_mutation (test_candidate_copy.CandidateCopy) ... ok
+test_git_fsmonitor_cannot_mutate_source_during_identity (test_candidate_copy.CandidateCopy) ... ok
+test_hash_failure_never_publishes_copy_identity (test_candidate_copy.CandidateCopy) ... ok
+test_interruption_after_copied_mutation_preserves_source (test_candidate_copy.CandidateCopy) ... ok
+test_missing_dependency_is_infrastructure_not_red (test_candidate_copy.CandidateCopy) ... ok
+test_option_like_relative_path (test_candidate_copy.CandidateCopy) ... ok
+test_real_sha256sum_fallback_matches_copied_identity (test_candidate_copy.CandidateCopy) ... ok
+test_reject_paths_and_symlinks (test_candidate_copy.CandidateCopy) ... ok
+test_source_change_and_copy_corruption_fail_closed (test_candidate_copy.CandidateCopy) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 40.097s
+
+OK

@@ -1,0 +1,6 @@
+{
+  "test_exit": 0,
+  "external_fixture_hook_ran": true,
+  "hook_bytes": 12,
+  "test_summary": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.502s\n\nOK\n"
+}

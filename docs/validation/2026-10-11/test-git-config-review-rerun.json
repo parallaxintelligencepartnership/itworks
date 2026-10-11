@@ -1,0 +1,7 @@
+{
+  "test_exit": 0,
+  "external_hook_ran": false,
+  "global_config_unchanged": true,
+  "caller_index_unchanged": true,
+  "test_summary": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.943s\n\nOK\n"
+}

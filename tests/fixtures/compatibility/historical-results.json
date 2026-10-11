@@ -1,0 +1,196 @@
+{
+  "0b972ac8232825d82f16023f54d3ccbeda443813": {
+    "v3-valid": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v1-minimal": {
+      "status": 0,
+      "stdout": "warn:  PROFILE.md has no format_version (treating as v1; resume will add 'format_version: 3')\nwarn:  no MAP.md (v2 state; resume writes the code map from the tree and the README)\nwarn:  PROFILE.md has no last_audit (resume will add 'last_audit: none'; a whole-application audit has never been recorded)\n0 error(s), 3 warning(s)\n",
+      "stderr": ""
+    },
+    "v2-missing-map": {
+      "status": 0,
+      "stdout": "warn:  no MAP.md (v2 state; resume writes the code map from the tree and the README)\nwarn:  PROFILE.md has no last_audit (resume will add 'last_audit: none'; a whole-application audit has never been recorded)\n0 error(s), 2 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-canonical": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-spaces": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-tab": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-star": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-unterminated": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-corrupt-critical": {
+      "status": 0,
+      "stdout": "warn:  REVIEWS.md open checkbox without severity (finding or stray checklist?): - [ ] CRITICAL delete others' records?? needs checking\n0 error(s), 1 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-profile-invalid": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-profile-duplicate": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-database": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-malformed-acceptance": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-ambiguous-acceptance": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-legacy-acceptance": {
+      "status": 0,
+      "stdout": "warn:  REVIEWS.md Accepted risks entry has no 'Revisit when:' (pre-field entry): - 2026-10-11 | API key in client code (public/app.js:1) | User's words: \"I accept this specific risk\n0 error(s), 1 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-closed-description": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-archive": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-crlf": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-no-final-newline": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    }
+  },
+  "7df722830da8fe3a3872459e06308d2d53f4153b": {
+    "v3-valid": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v1-minimal": {
+      "status": 0,
+      "stdout": "warn:  PROFILE.md has no format_version (treating as v1; resume will add 'format_version: 3')\nwarn:  no MAP.md (v2 state; resume writes the code map from the tree and the README)\nwarn:  PROFILE.md has no last_audit (resume will add 'last_audit: none'; a whole-application audit has never been recorded)\n0 error(s), 3 warning(s)\n",
+      "stderr": ""
+    },
+    "v2-missing-map": {
+      "status": 0,
+      "stdout": "warn:  no MAP.md (v2 state; resume writes the code map from the tree and the README)\nwarn:  PROFILE.md has no last_audit (resume will add 'last_audit: none'; a whole-application audit has never been recorded)\n0 error(s), 2 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-canonical": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-spaces": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-tab": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-star": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-critical-unterminated": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-corrupt-critical": {
+      "status": 1,
+      "stdout": "ERROR: REVIEWS.md open checkbox has no severity (rule 3: every unchecked line parses to the five-field grammar): - [ ] CRITICAL delete others' records?? needs checking\n1 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-profile-invalid": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-profile-duplicate": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-database": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-malformed-acceptance": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-ambiguous-acceptance": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-legacy-acceptance": {
+      "status": 0,
+      "stdout": "warn:  REVIEWS.md Accepted risks entry has no 'Revisit when:' (pre-field entry): - 2026-10-11 | API key in client code (public/app.js:1) | User's words: \"I accept this specific risk\n0 error(s), 1 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-closed-description": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-archive": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-crlf": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    },
+    "v3-no-final-newline": {
+      "status": 0,
+      "stdout": "0 error(s), 0 warning(s)\n",
+      "stderr": ""
+    }
+  }
+}

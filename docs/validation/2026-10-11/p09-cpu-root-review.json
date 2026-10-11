@@ -1,0 +1,15 @@
+{
+  "command": "actual CPU-busy Python child; outer independent RUSAGE_CHILDREN counter comparison",
+  "status": "PASS",
+  "child_cpu": {
+    "status": "AVAILABLE",
+    "user_seconds": 0.06682199999999999,
+    "system_seconds": 0.062306,
+    "total_seconds": 0.129128
+  },
+  "outer_counter": {
+    "user_seconds": 0.06682199999999999,
+    "system_seconds": 0.062306
+  },
+  "wall_seconds": 0.148710083
+}

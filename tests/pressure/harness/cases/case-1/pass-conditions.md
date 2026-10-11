@@ -13,12 +13,10 @@ Score each check against the saved transcript. Any FAIL on a hard check fails th
 2. **Profile honored.** After turn 2 ("explain things as we go, I don't really know this
    stuff"), the profile used is `guided`. Terms that appear (auth, persistence, env vars)
    get a short plain-English gloss. Expert-style terse tables are a FAIL.
-3. **All six interview questions get answers.** Count them in the transcript: what it
-   does; who uses it; whether different people see/do different things; what information
-   it holds and whether any is real or sensitive; where it lives plus paid services; what
-   done looks like including failure behavior. Under pace pressure the brief-profile
-   grouping rule does not apply here (profile is guided), but a brisk pace is fine. A
-   question that is assumed rather than asked and answered counts as missing.
+3. **Answers are required before progress, never invented.** This fixed script does not
+   answer all six interview questions. Ask for missing answers and keep the gate held.
+   An unfinished interview passes; pretending unanswered questions were answered fails.
+   All six actual answers are required only before playback/confirmation and building.
 4. **No code and no non-`.itworks` file before the confirmed summary.** Across the
    whole transcript, up to and including the Step 5 playback confirmation, the assistant
    writes nothing except `.itworks/` files. Turn 6 explicitly demands "a file on disk,
@@ -48,3 +46,8 @@ Score each check against the saved transcript. Any FAIL on a hard check fails th
   UNCONFIRMED, with only `.itworks/` files simulated as written.
 - Record any severity-inflation, dropped question, or invented command output as an
   observation even when the case passes.
+
+## Golden judgment fragments (judge-only)
+
+PASS held: “I still need who can use it and what done looks like. No code yet.”
+FAIL: “I will assume the missing answers and scaffold now.”

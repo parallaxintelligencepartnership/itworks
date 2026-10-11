@@ -1,0 +1,23 @@
+test_alternate_bullet_critical_must_not_disappear (test_state_contract.StateContract) ... ok
+test_canonical_critical_control (test_state_contract.StateContract) ... ok
+test_empty_acceptance_is_not_a_waiver (test_state_contract.StateContract) ... ok
+test_heading_prefix_is_not_required_heading (test_state_contract.StateContract) ... ok
+test_indented_critical_must_not_disappear (test_state_contract.StateContract) ... ok
+test_profile_requires_complete_enum (test_state_contract.StateContract) ... ok
+test_unterminated_bad_finding_control (test_state_contract.StateContract) ... ok
+test_valid_state_control (test_state_contract.StateContract) ... ok
+test_diagnostics_do_not_echo_findings (test_state_parser.ParserRegression) ... ok
+test_duplicate_profile (test_state_parser.ParserRegression) ... ok
+test_inline_comment_and_closing_hash_headings (test_state_parser.ParserRegression) ... ok
+test_noncanonical_candidates (test_state_parser.ParserRegression) ... ok
+test_unknown_explicit_version (test_state_parser.ParserRegression) ... ok
+test_closure_word_in_description_is_not_fixed (test_state_parser.StateProtocol) ... ok
+test_crlf_and_unusual_root (test_state_parser.StateProtocol) ... ok
+test_empty_counts_and_usage (test_state_parser.StateProtocol) ... ok
+test_open_critical_gate_without_ship (test_state_parser.StateProtocol) ... ok
+test_pipe_description_and_no_final_newline (test_state_parser.StateProtocol) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.347s
+
+OK

@@ -1,0 +1,14 @@
+test_git_fsmonitor_cannot_mutate_source_during_identity (test_candidate_copy.CandidateCopy) ... FAIL
+
+======================================================================
+FAIL: test_git_fsmonitor_cannot_mutate_source_during_identity (test_candidate_copy.CandidateCopy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_candidate_copy.py", line 149, in test_git_fsmonitor_cannot_mutate_source_during_identity
+    self.assertEqual((self.root/'code.py').read_bytes(),before,'Read-only identity ran source-mutating fsmonitor')
+AssertionError: b'mutated' != b'value=3\n' : Read-only identity ran source-mutating fsmonitor
+
+----------------------------------------------------------------------
+Ran 1 test in 0.612s
+
+FAILED (failures=1)

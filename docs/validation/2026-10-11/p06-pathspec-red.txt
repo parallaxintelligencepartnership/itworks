@@ -1,0 +1,26 @@
+test_actual_path_limited_commit_preserves_unrelated_index (test_checkpoint_staging.CheckpointStaging) ... ok
+test_literal_task_filename_does_not_expand_pathspec (test_checkpoint_staging.CheckpointStaging) ... FAIL
+
+======================================================================
+FAIL: test_literal_task_filename_does_not_expand_pathspec (test_checkpoint_staging.CheckpointStaging)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_checkpoint_staging.py", line 46, in test_literal_task_filename_does_not_expand_pathspec
+    self.assertEqual(git('diff-tree','--no-commit-id','--name-only','-r','HEAD').splitlines(),['task[1].py'])
+AssertionError: Lists differ: ['task1.py', 'task[1].py'] != ['task[1].py']
+
+First differing element 0:
+'task1.py'
+'task[1].py'
+
+First list contains 1 additional elements.
+First extra element 1:
+'task[1].py'
+
+- ['task1.py', 'task[1].py']
++ ['task[1].py']
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.227s
+
+FAILED (failures=1)

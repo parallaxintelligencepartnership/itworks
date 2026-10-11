@@ -1,0 +1,7 @@
+{
+  "exit": 0,
+  "committed_paths": [
+    "task1.py",
+    "task[1].py"
+  ]
+}

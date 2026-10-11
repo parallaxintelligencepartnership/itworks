@@ -1,0 +1,19 @@
+test_actual_patch_version (test_release_documentation.ReleaseDocumentation) ... FAIL
+
+======================================================================
+FAIL: test_actual_patch_version (test_release_documentation.ReleaseDocumentation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_release_documentation.py", line 11, in test_actual_patch_version
+    self.assertEqual(json.loads((REPO/'.claude-plugin/plugin.json').read_text())['version'],'1.0.1')
+AssertionError: '1.0.0' != '1.0.1'
+- 1.0.0
+?     ^
++ 1.0.1
+?     ^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

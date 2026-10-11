@@ -24,12 +24,13 @@ Review runbook. Whether real people can rely on this app, and what happens to th
 
 4. **Dependencies are pinned and locked.**
 
-   ```bash
-   git ls-files | grep -E "package-lock|pnpm-lock|yarn.lock|go.sum|poetry.lock|uv.lock|Gemfile.lock"
-   grep -E '"[\^~]' package.json 2>/dev/null
-   ```
+   Use the per-manifest lockfile applicability table in
+   `references/dependency-vetting.md`. Check each package directory and its
+   actual package manager, including Cargo.lock and composer.lock. An unrelated
+   lockfile cannot satisfy another manifest. Inspect direct version pinning too.
 
-   Good: lockfile committed; no floating ranges for direct dependencies. Bad: no committed lockfile is IMPORTANT.
+   Good: matching lockfile committed and applicable direct dependencies pinned.
+   Bad: absent applicable committed lockfile or floating direct versions is IMPORTANT.
 
 5. **Exposure review.** What ports listen, what is meant to be public, and is HTTPS in front of anything on the internet?
 

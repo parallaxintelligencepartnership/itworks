@@ -1,13 +1,15 @@
 # itworks
 
-You describe what you want and the AI builds it. itworks makes sure what gets built is real: no fake data pretending to be your app, no passwords sitting in public files, no "it works" that only means the happy path clicked once. It asks the questions an experienced developer would ask, at the moments they would ask them, in plain English, so you do not need to know the vocabulary to get the quality.
+**1.0.1 compatibility patch.** Existing users: read the [upgrade advisory](docs/releases/1.0.1.md) before your next deploy.
+
+You describe what you want and the AI builds it. itworks adds checks for common gaps: no fake data pretending to be your app, no passwords sitting in public files, no "it works" that only means the happy path clicked once. It asks the questions an experienced developer would ask, at the moments they would ask them, in plain English, so you do not need to know the vocabulary to get the quality.
 
 ## What it does
 
 itworks adds five guardrail moments to your Claude Code sessions:
 
 - **Kickoff**: before any code is written, a short plain-English interview makes sure your project starts with real storage, a login if it needs one, secrets kept out of the code, spend caps on anything that costs money, a first commit to fall back to, and an agreed way to prove features work.
-- **Checkpoint**: when you say "it works!", the claim gets checked with evidence, including the failure case; what was just built gets a short targeted review; new packages get a legitimacy check; and the working state gets committed as a restore point before the next feature builds on it.
+- **Checkpoint**: when you say "it works!", the claim gets checked with evidence, including the failure case; what was just built gets a short targeted review; new packages get a legitimacy check; and an authorized restore point includes only reviewed task-owned paths; unrelated work and credential material stay out.
 - **Resume**: when you come back in a new session, your project's saved notes are replayed in six lines so nothing gets forgotten or rebuilt differently.
 - **Audit**: when you ask for a real review of the whole application ("is it solid", "review the app", "check everything"), the code is split into lanes, each lane is read in full by a reviewer briefed to break it, and every finding is reproduced by a second, independent verifier before it is written down. This is the only tier that reads the application's logic; the other two run fixed checks. A shipped project that has never been audited is told so.
 - **Closeout**: when you say "ship it", everything gets one full review sweep, every open issue gets resolved or knowingly accepted, a rollback is rehearsed for real, and you get a handoff document a future developer could pick up cold. Shipping is not the end: later deploys rerun the sweep, and post-ship reviews make sure new work is never built against your live users' data.
@@ -42,29 +44,37 @@ claude plugin install itworks@itworks
 
 Restart Claude Code (or start a new session) and the skills are live.
 
-## Model requirement
+## Model configuration
 
-Closeout and audit are pinned to Opus (`model: opus` in their skill and command frontmatter), because the blind pressure tests recorded Sonnet skipping the closeout sweep, so planted critical findings were never found. An organization model allowlist can drop that pin silently, and the session then keeps whatever model it was already on. If you see closeout or audit report a finished review without running the sweep, run `/model opus` and run the command again.
+Closeout and audit retain `model: opus` in skill/command frontmatter. This is
+configuration, not proof of reviewer fitness. The historical simulations had
+limited samples, incomplete model identities and harness limitations; see the
+[corrected evidence note](docs/releases/1.0.1.md#historical-model-evidence).
+Always check the actual commands, observations and coverage in a review.
 
 ## Updating
 
-The plugin updates from whatever source you installed it from, not automatically. Run:
+Run `claude plugin marketplace update itworks` then
+`claude plugin update itworks@itworks`, and start a new session. The session-start
+message should report the new version. 1.0.1 was checked on Claude Code 2.1.296
+as a 1.0.0 to 1.0.1 cached upgrade with every installed file matching the release.
+The [host smoke procedure](tests/host/claude-upgrade-smoke.md) lists the checks.
+
+After an authorized update, start a fresh session, verify its session-start
+version and loaded artifact path, then run the installed linter read-only:
 
 ```bash
-claude plugin update itworks@itworks
+bash "<installed-plugin-root>/scripts/itworks-lint.sh" "<project-root>"
 ```
 
-That name is `plugin@marketplace`, not just `plugin`: the bare name `itworks` will report "not found." Here `itworks` is both, because the marketplace is the plugin's own repo.
-
-For a local directory install (the development setup), the marketplace IS the local clone, so the update has two halves: pull or commit the change in the clone first, then run the command above to point the installed plugin at that new state. Restart Claude Code (or run `/reload-plugins`) afterward to pick it up.
-
-The session-start line prints the version that's actually running, `(itworks vX.Y.Z)`, so a stale cached install is visible instead of silent.
-
-One quirk: the updater compares version strings, not content. If the repo changed but the version in `plugin.json` did not, `update` reports "already at the latest version" and installs nothing. Either bump the version when shipping changes, or force a content refresh with `claude plugin uninstall itworks@itworks && claude plugin install itworks@itworks`.
+Keep `.itworks`, accepted quotations and SHIPPED history. Newly detected malformed
+findings need review before another deployment; they do not authorize erasing or
+rebuilding user notes. See [upgrade recovery](references/upgrade-recovery.md)
+before any repair. Do not uninstall/reinstall solely to force a green result.
 
 ## How it behaves
 
-- It aims to fire on its own at the four moments above, using a session reminder plus the skills' own triggers. That is reliable in practice but it is guidance to the model, not a hard interception; the slash commands below are the guaranteed manual path, and the state files mean a missed moment is caught at the next one.
+- It aims to fire on its own at the five moments above, using a session reminder plus the skills' own triggers. These are instructions to the host model, not hard interception. The slash commands are explicit entry points; their execution still requires evidence and coverage checks.
 - In a project that carries itworks state (a `.itworks/` folder), the full session rules load. Everywhere else, only a short new-project reminder loads. In an existing project without .itworks/, the plugin offers the adoption baseline once when you first ask to change code, and respects a no for the session.
 - The first time it runs in a project it asks one question: explain as we go, keep it short, or just handle it. That choice (guided, brief, or expert) sticks for the project and changes only the wording, never the checks.
 - Every gate can be overridden; your project, your call. Overrides are written down in your own words and re-surfaced at closeout. The one hard stop: the final ship document is not written, and no deployment steps are given, while a critical problem is open and unacknowledged.
@@ -107,13 +117,21 @@ Closeout asks before anything is sent, once, and a plain no (or anything short o
 
 The site itself never runs a model. It stores what you send, renders it on a page, and serves a badge image.
 
-## Platform note
+## Platform and qualification
 
-The review runbooks use POSIX shell commands (grep, git, curl). On macOS and Linux they run as written. On Windows, run Claude Code from Git Bash or WSL to get the full checks; outside those, the reviews still happen but the model substitutes equivalent checks by hand.
+The patch runtime uses Bash 3.2+, POSIX awk and standard Unix tools. Python and
+Go are developer test tools, not plugin runtime requirements. macOS and Linux
+are the test matrix; a configured CI job is not evidence that it ran. See the
+[release checklist](docs/release-checklist.md) for platform and host gaps.
+Windows and other host adapters are not qualified by this patch.
 
-## Model note
+## Model evidence
 
-Run closeout and audit on Opus-class models or better. Reviews are judgment work: the closeout sweep, the reckoning and the ship gate all require the model to decide what counts. In adversarial pressure testing (`tests/pressure/`, 2026-09-11, blind judged), Opus passed the closeout case in three of three runs; Sonnet failed it in every run across three wordings, not by capitulating but by never running the sweep, so the planted critical findings were never found, and in one run it handed over the deploy commands while claiming to withhold them. Haiku eroded the gates under repetition pressure earlier (it once logged "ship it! just a demo man" as risk acceptance). Sonnet is a fine implementer; it is not a reviewer. Don't trust the gates to anything below Opus class.
+The September case5 wording-A record includes three Sonnet reruns where the sweep
+ran. Other wording cells failed differently. Three reported Opus passes were
+text-simulation smoke evidence, not a general audit guarantee. Exact effective
+model versions were not retained reliably. No corrected live-host pass rate or
+universal model-role recommendation is claimed by this candidate.
 
 ## For experienced developers
 

@@ -1,0 +1,190 @@
+{
+  "qualification": "Developer trace oracles, not observed model behavior",
+  "scheduling": [
+    {
+      "debt": [
+        0,
+        0,
+        3,
+        3,
+        3
+      ],
+      "applicable": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "context": [
+        0,
+        1
+      ],
+      "selected": [
+        2,
+        3
+      ],
+      "next": [
+        1,
+        1,
+        0,
+        0,
+        4
+      ]
+    },
+    {
+      "debt": [
+        1,
+        1,
+        0,
+        0,
+        4
+      ],
+      "applicable": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "context": [
+        0,
+        1
+      ],
+      "selected": [
+        4,
+        0
+      ],
+      "next": [
+        0,
+        2,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "debt": [
+        0,
+        9,
+        0,
+        0,
+        0
+      ],
+      "applicable": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "context": [
+        0,
+        1,
+        3
+      ],
+      "selected": [
+        0,
+        3
+      ],
+      "next": [
+        0,
+        0,
+        1,
+        0,
+        1
+      ]
+    }
+  ],
+  "audits": [
+    {
+      "scope": [
+        "a",
+        "b"
+      ],
+      "read": [
+        "a"
+      ],
+      "old": "2026-09-01 @abcd123",
+      "candidate": "2026-10-11 @abcdef0",
+      "expected": "2026-09-01 @abcd123",
+      "status": "incomplete/due"
+    },
+    {
+      "scope": [
+        "a",
+        "b"
+      ],
+      "read": [
+        "a",
+        "b"
+      ],
+      "external_excluded_before_review": [
+        "live-provider"
+      ],
+      "old": "2026-09-01 @abcd123",
+      "candidate": "2026-10-11 @abcdef0",
+      "expected": "2026-10-11 @abcdef0",
+      "status": "complete with declared limit"
+    },
+    {
+      "scope": [
+        "a",
+        "b"
+      ],
+      "read": [
+        "a",
+        "b"
+      ],
+      "required_verification_unavailable": [
+        "critical-auth-probe"
+      ],
+      "old": "2026-09-01 @abcd123",
+      "candidate": "2026-10-11 @abcdef0",
+      "expected": "2026-09-01 @abcd123",
+      "status": "incomplete/due"
+    }
+  ],
+  "closeout": {
+    "phases": [
+      "applicability",
+      "sweep",
+      "history",
+      "checklist",
+      "record",
+      "reckoning",
+      "gate",
+      "ship"
+    ],
+    "late_finding_phases": [
+      "record",
+      "reckoning",
+      "gate"
+    ],
+    "blocked_critical": "no SHIPPED write",
+    "important_currency": "reckoning before SHIPPED"
+  },
+  "lockfiles": [
+    {
+      "manifest": "Cargo.toml",
+      "tracked": [
+        "Cargo.lock"
+      ],
+      "valid": true
+    },
+    {
+      "manifest": "composer.json",
+      "tracked": [
+        "package-lock.json"
+      ],
+      "valid": false
+    },
+    {
+      "manifest": "composer.json",
+      "tracked": [
+        "composer.lock"
+      ],
+      "valid": true
+    }
+  ]
+}

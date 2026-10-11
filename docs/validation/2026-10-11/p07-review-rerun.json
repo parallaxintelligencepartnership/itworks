@@ -1,0 +1,15 @@
+[
+  {
+    "case": "failed-hasher",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "candidate copy failed: unsupported input or identity changed\n"
+  },
+  {
+    "case": "leading-dash-parent",
+    "exit": 0,
+    "stdout": "/var/folders/jl/0qz_rxp92j7dq2wkfx9dgfsc0000gn/T//itworks-copy.nrurbKi3/candidate\n",
+    "stderr": "",
+    "inventory": "-odd/source.txt\t644\t02aa487a1c6c83a0c7a81c558c9f1ad14ec71786c0b4b141a57168ace99adadf\n"
+  }
+]

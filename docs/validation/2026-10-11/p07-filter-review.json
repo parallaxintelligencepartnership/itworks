@@ -1,0 +1,16 @@
+[
+  {
+    "case": "clean",
+    "exit": 1,
+    "source_unchanged": false,
+    "successful_path": false,
+    "stderr": "candidate copy failed: unsupported input or identity changed\n"
+  },
+  {
+    "case": "process",
+    "exit": 1,
+    "source_unchanged": false,
+    "successful_path": false,
+    "stderr": "fatal: the remote end hung up unexpectedly\ncandidate copy failed: unsupported input or identity changed\n"
+  }
+]

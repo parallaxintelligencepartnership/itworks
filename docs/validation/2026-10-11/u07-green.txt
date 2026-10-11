@@ -1,0 +1,10 @@
+test_missing_duplicate_wrong_candidate (test_release_matrix.ReleaseMatrix) ... ok
+test_modified_or_escaping_evidence (test_release_matrix.ReleaseMatrix) ... ok
+test_required_not_run_never_passes (test_release_matrix.ReleaseMatrix) ... ok
+test_skipped_or_failed_checks_cannot_hide_under_pass (test_release_matrix.ReleaseMatrix) ... ok
+test_valid_synthetic_matrix (test_release_matrix.ReleaseMatrix) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.034s
+
+OK

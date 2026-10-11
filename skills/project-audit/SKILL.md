@@ -10,7 +10,7 @@ model: opus
 
 The whole-application adversarial review. Checkpoints look at a diff through at most two lenses. Closeout re-runs five fixed runbooks (secret scan, restart test, dependency pins, forced-failure UX, and so on) over the whole tree. Neither reads the application's logic, so neither can find a pay calculation that under-counts, a login that trusts a stale row, or a restore that reverts itself. Those live in the code's reasoning, and only a reviewer who reads the code in full, with a brief to break it, finds them.
 
-An audit splits the application into lanes, gives each lane to a read-only reviewer who reads everything in scope, then gives every finding to an independent verifier who must reproduce it before it is written down. What the verifier cannot reproduce is recorded as refuted, with the evidence, so the same suspicion is not re-raised next time.
+An audit splits the application into lanes, gives each lane to a read-only reviewer who reads everything in scope, then gives every finding to an independent verifier who must reproduce it before it is written down. A suspicion is refuted only by evidence that shows it is wrong. An unavailable reproduction remains unresolved or partial with its coverage gap; it cannot be turned into a refutation merely because the probe did not run.
 
 <HARD-GATE>
 A finding enters REVIEWS.md only after a verifier has reproduced it (a failing test, a probe transcript, or a traced code path with the exact inputs). A reviewer's word is a suspicion, never a finding. An audit report that lists lanes it did not read, or findings nobody reproduced, is not an audit; say what was skipped instead. A CRITICAL confirmed by the audit blocks new feature work and the next ship exactly as a checkpoint CRITICAL does.
@@ -81,7 +81,7 @@ Append to `REVIEWS.md` under `## Audit - <YYYY-MM-DD> - <context>`:
 - a `### Refuted` list, one line each with the evidence, so the suspicion is not re-raised;
 - a `### Coverage gaps` list: every skipped file, every lane not run, every probe that could not run here.
 
-Set `last_audit: <YYYY-MM-DD> @<sha>` in PROFILE.md. Retain the lane reports and verifications under `docs/` (or the project's evidence directory) so the next audit can start from what was read last time.
+Advance `last_audit: <YYYY-MM-DD> @<sha>` only after every declared in-scope file/lane has been read and every suspicion has a recorded verification disposition. An unread lane or required verification still unavailable makes the attempt **INCOMPLETE**: append its scope, remaining work and retained reports, but leave last_audit byte-for-byte unchanged. A declared external exclusion agreed before review can limit a completed audit; do not retroactively exclude unread work to obtain completion. An unsupported critical verification stays unresolved, never confirmed evidence. Resume must replay incomplete/remaining work rather than call the attempt current. Retain the lane reports and verifications under `docs/` (or the project's evidence directory) so the next audit can start from what was read last time.
 
 ## Step 6: Fix path
 

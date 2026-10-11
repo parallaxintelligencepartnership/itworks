@@ -1,0 +1,14 @@
+[
+  {
+    "kind": "clean",
+    "returncode": 1,
+    "preserved": false,
+    "stdout_empty": true
+  },
+  {
+    "kind": "process",
+    "returncode": 1,
+    "preserved": false,
+    "stdout_empty": true
+  }
+]

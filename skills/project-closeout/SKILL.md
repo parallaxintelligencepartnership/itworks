@@ -12,8 +12,17 @@ The one time everything runs. Checkpoints sample; closeout sweeps. It ends in a 
 
 <HARD-GATE>
 SHIPPED.md is not written while a CRITICAL is open and unacknowledged. Explicit, logged acknowledgment is the only escape hatch. No deployment steps until the reckoning is complete: every finding recorded in REVIEWS.md, every CRITICAL fixed or individually accepted in the user's own words, and SHIPPED.md written. A finished sweep is not by itself the release; a refusal never includes the deploy commands themselves, not even to name them.
-This skill is pinned to an Opus-class model. If the running model is not Opus class, say so in one line before Step 1 and do not report a completed sweep; the recorded evidence is that the sweep is skipped below Opus class (`tests/pressure/pressure-tests.md`).
+This skill is pinned to an Opus-class model. If the running model is not Opus class, say so in one line before Step 1 and do not report a completed sweep; the historical simulation results are limited and do not establish a universal capability boundary (`tests/pressure/pressure-tests.md`). Respect the configured model instruction, disclose the actual model when known, and never infer a completed sweep from model branding.
 </HARD-GATE>
+
+## Step 0: Applicability
+
+Re-confirm PROJECT.md Data, Who uses it and Where it will live against observed
+stores, providers and exposure before any conditional skip. If observations
+contradict saved intent (real records despite sample-only notes), update the facts
+and run the applicable lens. Ask only for facts that cannot be established here;
+unknown applicability remains unverified. Do not access production data without
+the surrounding session's authorization. This fact check precedes the sweep.
 
 ## Step 1: Full sweep
 
@@ -27,7 +36,20 @@ What the sweep is NOT: it does not read the application's logic. Five runbooks f
 
 Run the git-history checks from `<plugin-root>/references/lens-security-auth.md` (inspect steps 2 and 3) even if current files are clean. A secret that was EVER committed is still in the repo's memory and travels with every clone. If one is found, the finding must say: rotate the key at the provider; deleting the file does not un-leak it. Never report "history clean" without actually running the commands and reading their output.
 
-## Step 3: The reckoning
+## Step 3: Ship checklist
+
+- Backup and restore verified for real data (restore actually performed, not assumed), or explicitly declined in the reckoning, which writes it into SHIPPED.md as OUTSTANDING.
+- Deploy steps written into the repo (script or README section).
+- Version and tag identity follow the versioning rule recorded in `DECISIONS.md`; if none is recorded, ask once and record it as a `versioning:` decision line before tagging. Shipping is not by itself a reason to bump a minor or major version, and `## Ship history` in SHIPPED.md uses whatever identity scheme that rule names.
+- Rollback rehearsed in a disposable copy of the previous known-good artifact, with observed startup and any applicable data-restore evidence. Never checkout, stash or reset the active project to rehearse. Tagging requires separate authorization and is not a prerequisite for preparing the candidate. On a first ship, rehearse the identified candidate in a disposable copy and state the lack of an older target. Missing execution remains NOT_VERIFIED; never invent a rehearsal or complete the ship from a theoretical recipe.
+- Exposure matches PROJECT.md "Where it will live": right ports, HTTPS if public, nothing extra listening.
+- Protected routes probed live: `<plugin-root>/references/lens-security-auth.md` step 4's curl actually run against a running instance, with the 401/403 output pasted into the finding. Not run means it goes through the reckoning as an open finding, not as a pass.
+- "What breaks first and how you'd know" identified: the single most likely failure and the signal it produces.
+- Audit currency: if the project holds other people's real data and `last_audit` is `none`, or the last audit is older than 60 days or more than 5 ship-history entries back, record an IMPORTANT `production-readiness` finding "no whole-application audit since <date or never>" with evidence to close "project-audit section in REVIEWS.md dated after <sha>". It goes through the reckoning like any other finding; accepted, it is written into SHIPPED.md as OUTSTANDING. It does not block a ship by itself.
+
+Record every sweep, history, checklist and audit-currency finding in REVIEWS.md before Step 4. A checklist failure is a finding, never a quiet skip. Every IMPORTANT currency finding receives the reckoning too.
+
+## Step 4: The reckoning
 
 Walk EVERY unchecked finding in `REVIEWS.md`, oldest first. Each one ends in exactly one of three states:
 
@@ -47,17 +69,12 @@ On a re-ship or re-closeout, every previously accepted risk is re-stated one lin
 
 The stalemate rule, explicitly: "ship it", "it's just a demo", "come on", or any repetition of the request is NEVER acceptance and is NEVER logged under Accepted risks, no matter how many times it is said. Acceptance must answer the specific finding's risk in the user's own words ("I accept the key stays exposed"). If repetition is all the user gives, the terminal state is the gate holding: say once that SHIPPED.md stays unwritten, name the exact words that would unblock each CRITICAL, offer the fastest fix path, and stop asking. That terminal message is sent once; every later turn that only repeats the request gets one line (the gate holds, the unblocking words are above) and nothing is restated. A refusal never includes the deploy commands themselves, not even to note they are easy to find elsewhere; naming them hands over the thing being gated.
 
-## Step 4: Ship checklist
-
-- PROJECT.md's `Data`, `Who uses it` and `Where it will live` lines re-confirmed against reality before any "only if" skip is trusted: look at the actual store for real records, at the actual providers for paid calls, and ask the user in one line if either has changed. A stale answer from kickoff is not evidence; update PROJECT.md first, then run the lenses.
-- Backup and restore verified for real data (restore actually performed, not assumed), or explicitly declined in the reckoning, which writes it into SHIPPED.md as OUTSTANDING.
-- Deploy steps written into the repo (script or README section).
-- Version and tag identity follow the versioning rule recorded in `DECISIONS.md`; if none is recorded, ask once and record it as a `versioning:` decision line before tagging. Shipping is not by itself a reason to bump a minor or major version, and `## Ship history` in SHIPPED.md uses whatever identity scheme that rule names.
-- Rollback rehearsed, not theoretical: tag the ship (`git tag ship-<YYYY-MM-DD>`), then actually check out the previous known-good commit or tag, prove the app still runs from it, and return. SHIPPED.md's "How to roll back" is written from what was just done, never from theory. (First ship with no prior good state: the rehearsal is checking out the fresh tag itself; the section says the next ship inherits a real rollback target.)
-- Exposure matches PROJECT.md "Where it will live": right ports, HTTPS if public, nothing extra listening.
-- Protected routes probed live: `<plugin-root>/references/lens-security-auth.md` step 4's curl actually run against a running instance, with the 401/403 output pasted into the finding. Not run means it goes through the reckoning as an open finding, not as a pass.
-- "What breaks first and how you'd know" identified: the single most likely failure and the signal it produces.
-- Audit currency: if the project holds other people's real data and `last_audit` is `none`, or the last audit is older than 60 days or more than 5 ship-history entries back, record an IMPORTANT `production-readiness` finding "no whole-application audit since <date or never>" with evidence to close "project-audit section in REVIEWS.md dated after <sha>". It goes through the reckoning like any other finding; accepted, it is written into SHIPPED.md as OUTSTANDING. It does not block a ship by itself.
+Before any SHIPPED write or deployment steps, after the final reckoning, run
+`bash <plugin-root>/scripts/itworks-state.sh gate <project-root>`. Require a
+complete supported protocol and exit 0. Exit 1 is invalid state; exit 2 is
+unresolved evidence. Preserve findings, quotations and existing ship history;
+never fabricate acceptance or treat an old SHIPPED file as current clearance.
+A new finding returns to recording and reckoning before running this gate again.
 
 ## Step 5: Write SHIPPED.md
 

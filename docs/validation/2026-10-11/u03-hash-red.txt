@@ -1,0 +1,21 @@
+test_failed_or_empty_hash_cannot_verify_backup (test_state_recovery.RecoveryReview) ... 
+======================================================================
+FAIL: test_failed_or_empty_hash_cannot_verify_backup (test_state_recovery.RecoveryReview) (output='exit 0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_state_recovery.py", line 227, in test_failed_or_empty_hash_cannot_verify_backup
+    self.assertNotEqual(result.returncode,0,'Hash failure cannot establish verified backup')
+AssertionError: 0 == 0 : Hash failure cannot establish verified backup
+
+======================================================================
+FAIL: test_failed_or_empty_hash_cannot_verify_backup (test_state_recovery.RecoveryReview) (output='echo not-a-digest')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_state_recovery.py", line 227, in test_failed_or_empty_hash_cannot_verify_backup
+    self.assertNotEqual(result.returncode,0,'Hash failure cannot establish verified backup')
+AssertionError: 0 == 0 : Hash failure cannot establish verified backup
+
+----------------------------------------------------------------------
+Ran 1 test in 0.928s
+
+FAILED (failures=2)

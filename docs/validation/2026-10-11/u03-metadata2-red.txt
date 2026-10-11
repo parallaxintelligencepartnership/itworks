@@ -1,0 +1,23 @@
+test_failed_identity_hash_cannot_match_empty_metadata (test_state_recovery.RecoveryReview) ... FAIL
+test_failed_mode_probe_cannot_verify_backup (test_state_recovery.RecoveryReview) ... FAIL
+
+======================================================================
+FAIL: test_failed_identity_hash_cannot_match_empty_metadata (test_state_recovery.RecoveryReview)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_state_recovery.py", line 239, in test_failed_identity_hash_cannot_match_empty_metadata
+    self.assertNotEqual(result.returncode,0,'Failed metadata hash cannot equal an empty stored hash')
+AssertionError: 0 == 0 : Failed metadata hash cannot equal an empty stored hash
+
+======================================================================
+FAIL: test_failed_mode_probe_cannot_verify_backup (test_state_recovery.RecoveryReview)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_state_recovery.py", line 245, in test_failed_mode_probe_cannot_verify_backup
+    self.assertNotEqual(result.returncode,0,'Failed stat cannot prove preserved modes')
+AssertionError: 0 == 0 : Failed stat cannot prove preserved modes
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.864s
+
+FAILED (failures=2)

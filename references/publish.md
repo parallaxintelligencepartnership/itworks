@@ -26,7 +26,12 @@ One entry is one file: `entries/<id>.json`.
 The id is the file name stem. It must match `^[a-z2-7]{12}$`: twelve characters of the lowercase base32 alphabet. Generate it once, with this command, which works on macOS and Linux:
 
 ```
-LC_ALL=C tr -dc 'a-z2-7' </dev/urandom | head -c 12
+# Bounded input avoids SIGPIPE under set -o pipefail.
+id=$(dd if=/dev/urandom bs=12 count=1 2>/dev/null | od -An -tu1 |
+  awk 'BEGIN { a="abcdefghijklmnopqrstuvwxyz234567" }
+       { for(i=1;i<=NF;i++) printf "%s",substr(a,($i%32)+1,1) }
+       END { print "" }')
+[ "${#id}" -eq 12 ] || exit 1
 ```
 
 The file holds one JSON object and nothing after it. It has exactly these eleven keys. Every one is required. An extra key, a missing key, a wrong type, or a second JSON value is an error, and that includes an `id` key: the file name is the id, so an `id` key inside the file is rejected.
@@ -148,26 +153,32 @@ The finding grammar the counts read is the five field grammar in `references/sta
 
 Severity is exactly `CRITICAL`, `IMPORTANT` or `ADVISORY`. `Verified <date>:` appears in older files as a synonym for `Closed <date>:`, so the fixed count reads both.
 
-Run each command from the project root. `grep -r` reads the file and the archive directory together, and says nothing when there is no archive directory:
+Use the shared parser, never independent greps or suppressed errors. This
+read-only preflight returns the five numeric values only after a successful,
+complete version-1 protocol. Any invalid/blocked state stops publication.
+`plugin_root` and `project_root` must be the reviewed absolute paths.
 
+<!-- executable: publish-counts -->
+```bash
+counts_output=$(bash "$plugin_root/scripts/itworks-state.sh" counts "$project_root") || exit 1
+counts=$(printf '%s\n' "$counts_output" | awk -F '\t' '
+BEGIN { n=split("found fixed accepted critical_open critical_accepted",keys," "); for(i=1;i<=n;i++) allowed[keys[i]]=1 }
+NR==1 { if($0!="FORMAT\t1") bad=1; next }
+$1=="COUNT" { if(NF!=3 || !allowed[$2] || seen[$2]++ || $3!~/^[0-9]+$/ || summary) bad=1; value[$2]=$3; next }
+$1=="WARN" { if(NF!=5 || summary) bad=1; next }
+$1=="SUMMARY" { if(NF!=4 || $2!="0" || $3!~/^[0-9]+$/ || $4!="0" || summary++) bad=1; next }
+{ bad=1 }
+END { for(i=1;i<=n;i++) if(!seen[keys[i]]) bad=1
+      if(!summary || bad) exit 1
+      for(i=1;i<=n;i++) printf "%s%s",value[keys[i]],(i==n ? "\n" : " ") }') || exit 1
+read -r found fixed accepted critical_open critical_accepted <<< "$counts"
 ```
-# found: every finding line, checked or not
-grep -rhE '^- \[[ x]\] (CRITICAL|IMPORTANT|ADVISORY) \|' .itworks/REVIEWS.md .itworks/archive 2>/dev/null | wc -l
+<!-- /executable: publish-counts -->
 
-# fixed: checked lines closed with evidence
-grep -rhE '^- \[x\] (CRITICAL|IMPORTANT|ADVISORY) \|.*\| (Closed|Verified) [0-9]{4}-[0-9]{2}-[0-9]{2}' .itworks/REVIEWS.md .itworks/archive 2>/dev/null | wc -l
-
-# accepted: checked lines the user accepted
-grep -rhE '^- \[x\] (CRITICAL|IMPORTANT|ADVISORY) \|.*\| Accepted [0-9]{4}-[0-9]{2}-[0-9]{2}' .itworks/REVIEWS.md .itworks/archive 2>/dev/null | wc -l
-
-# critical_open: unchecked CRITICAL lines
-grep -rhE '^- \[ \] CRITICAL \|' .itworks/REVIEWS.md .itworks/archive 2>/dev/null | wc -l
-
-# critical_accepted: checked CRITICAL lines the user accepted
-grep -rhE '^- \[x\] CRITICAL \|.*\| Accepted [0-9]{4}-[0-9]{2}-[0-9]{2}' .itworks/REVIEWS.md .itworks/archive 2>/dev/null | wc -l
-```
-
-`wc -l` prints leading spaces on macOS. Strip them (`| tr -d ' '`) before putting the number in JSON.
+`counts` includes optional archive files and recognizes legacy `Verified`
+closures. It emits no numbers for invalid state or unresolved critical
+acceptance linkage. Open critical counts alone can be represented accurately;
+count success is not release authorization or publication consent.
 
 An accepted CRITICAL is counted in both `accepted` and `critical_accepted`, and never in `critical_open`. The site adds `critical_open + critical_accepted` for the badge, so a critical that was accepted and shipped anyway keeps the badge red. That is the point of the field.
 
@@ -202,16 +213,31 @@ gh repo fork parallaxintelligencepartnership/itworks-site --clone=false
 **Step 4. Clone the fork, shallow, into a temp directory.**
 
 ```
-gh repo clone <your-login>/itworks-site "$TMPDIR/itworks-site-<id>" -- --depth 1
+transport_dir=$(mktemp -d "${TMPDIR:-/tmp}/itworks-site.XXXXXXXX") || exit 1
+gh repo clone <your-login>/itworks-site "$transport_dir/checkout" -- --depth 1
 ```
 
-**Step 5. Branch, add, commit.** In that clone:
+**Step 5. Branch, add, commit.** Write the exact title/commit message
+(`entry: ` followed by name) and field-list body as UTF-8 data files using a
+structured file-writing tool, outside the clone. Do not interpolate name,
+summary, or field values into shell source, heredocs, `eval`, or command strings:
+valid text may contain quotes, backticks or `$()`. `message_file` and `body_file`
+are safely supplied paths; read the title as data:
+
+<!-- executable: publish-message -->
+```bash
+IFS= read -r entry_title < "$message_file" || exit 1
+git commit -F "$message_file"
+```
+<!-- /executable: publish-message -->
+
+Run that commit only after the explicit branch/add operations below, in the clone:
 
 ```
 git switch -c entry-<id>
-cp <project-root>/.itworks/publish/<id>.json entries/<id>.json
+cp "<project-root>/.itworks/publish/<id>.json" "entries/<id>.json"
 git add entries/<id>.json
-git commit -m "entry: <name>"
+# Now execute publish-message above once, in this clone.
 ```
 
 A submission adds exactly one file under `entries/` and touches nothing else. The pull request check fails otherwise.
@@ -224,11 +250,13 @@ git push -u origin entry-<id>
 
 **Step 7. Open the pull request.** The body lists the fields being sent and nothing else.
 
-```
+<!-- executable: publish-pr -->
+```bash
 gh pr create --repo parallaxintelligencepartnership/itworks-site \
-  --title "entry: <name>" \
-  --body "<the field list>"
+  --title "$entry_title" \
+  --body-file "$body_file"
 ```
+<!-- /executable: publish-pr -->
 
 Body shape, one field per line, values exactly as they appear in the JSON:
 

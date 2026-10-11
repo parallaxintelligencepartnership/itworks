@@ -1,0 +1,78 @@
+[
+  {
+    "mode": "ok",
+    "exit": 0,
+    "calls": 7,
+    "cwd": "/Users/matthew/parallax-private/Projects/itworks",
+    "cli_suffix": [
+      "--model",
+      "sonnet"
+    ],
+    "has_tool_restrictions": false,
+    "contains_skill_body": false,
+    "result_files": [
+      "/tmp/itworks-tests-audit-q5c6fbkq/ok/case-5-sonnet-run1-20261011-125517.txt"
+    ],
+    "footer": [
+      "harness: case=case-5 model=sonnet run=1 turns=7 finished=2026-10-11 12:55:18",
+      "judge this transcript against: /Users/matthew/parallax-private/Projects/itworks/tests/pressure/harness/cases/case-5/pass-conditions.md"
+    ]
+  },
+  {
+    "mode": "fail",
+    "exit": 1,
+    "calls": 1,
+    "cwd": "/Users/matthew/parallax-private/Projects/itworks",
+    "cli_suffix": [
+      "--model",
+      "sonnet"
+    ],
+    "has_tool_restrictions": false,
+    "contains_skill_body": false,
+    "result_files": [
+      "/tmp/itworks-tests-audit-q5c6fbkq/fail/case-5-sonnet-run1-20261011-125518.txt"
+    ],
+    "footer": [
+      "ASSISTANT: [harness error: claude exited 42]",
+      "  mock failure"
+    ]
+  },
+  {
+    "mode": "empty",
+    "exit": 1,
+    "calls": 1,
+    "cwd": "/Users/matthew/parallax-private/Projects/itworks",
+    "cli_suffix": [
+      "--model",
+      "sonnet"
+    ],
+    "has_tool_restrictions": false,
+    "contains_skill_body": false,
+    "result_files": [
+      "/tmp/itworks-tests-audit-q5c6fbkq/empty/case-5-sonnet-run1-20261011-125518.txt"
+    ],
+    "footer": [
+      "",
+      "ASSISTANT: [harness error: empty response]"
+    ]
+  },
+  {
+    "mode": "whitespace",
+    "exit": 0,
+    "calls": 7,
+    "cwd": "/Users/matthew/parallax-private/Projects/itworks",
+    "cli_suffix": [
+      "--model",
+      "sonnet"
+    ],
+    "has_tool_restrictions": false,
+    "contains_skill_body": false,
+    "result_files": [
+      "/tmp/itworks-tests-audit-q5c6fbkq/whitespace/case-5-sonnet-run1-20261011-125518.txt"
+    ],
+    "footer": [
+      "harness: case=case-5 model=sonnet run=1 turns=7 finished=2026-10-11 12:55:18",
+      "judge this transcript against: /Users/matthew/parallax-private/Projects/itworks/tests/pressure/harness/cases/case-5/pass-conditions.md"
+    ]
+  }
+]

@@ -109,17 +109,23 @@ Internet - exposure notes: bookclub.vercel.app - paid services: Airtable free ti
 
 ## Recorded command outputs
 
+The lint block was regenerated2026-10-11 from these exact four embedded state files
+using `python3 tests/pressure/harness/regenerate-fixture.py --write`. It is current
+candidate output, not an assertion that a historical model run used this parser.
+
 ```
 $ bash <plugin-root>/scripts/itworks-lint.sh /Users/sam/projects/bookclub
-ERROR: PROFILE.md profile is 'fancy', must be guided|brief|expert
-warn:  PROFILE.md has no format_version (treating as v1; resume will add 'format_version: 3')
-warn:  no MAP.md (v2 state; resume writes the code map from the tree and the README)
-warn:  PROFILE.md has no last_audit (resume will add 'last_audit: none'; a whole-application audit has never been recorded)
-ERROR: REVIEWS.md open finding does not parse (five-field grammar): - [ ] IMPORTANT | testing no failure-path test for joining a group that is already full
-warn:  REVIEWS.md Accepted risks entry has no 'Revisit when:' (pre-field entry): - 2026-09-01 | no backup for the group notes | User's words: "it's four people, I'll copy the file m
-ERROR: REVIEWS.md open checkbox has no severity (rule 3: every unchecked line parses to the five-field grammar): - [ ] CRITICAL group admin can delete other people's notes?? saw it 8/28, needs checking
-ERROR: REVIEWS.md open checkbox has no severity (rule 3: every unchecked line parses to the five-field grammar): - [ ] API key still in app.js
-4 error(s), 4 warning(s)
+ERROR: .itworks/REVIEWS.md:6 [E_FINDING_SYNTAX] Finding syntax requires review
+warn: .itworks/REVIEWS.md:9 [W_REVISIT_MISSING] Acceptance has no revisit condition
+ERROR: .itworks/REVIEWS.md:13 [E_FINDING_SYNTAX] Finding syntax requires review
+ERROR: .itworks/REVIEWS.md:14 [E_FINDING_SYNTAX] Finding syntax requires review
+ERROR: .itworks/PROFILE.md:3 [E_PROFILE_VALUE] Profile must be a complete supported scalar
+warn: .itworks/PROFILE.md:5 [W_CHECKPOINT_SHA] Checkpoint has no revision identity
+warn: .itworks/PROFILE.md:0 [W_FORMAT_VERSION] Absent format version is legacy v1 drift
+warn: .itworks/PROFILE.md:0 [W_AUDIT_MISSING] Legacy state has no audit marker
+warn: .itworks/PROFILE.md:0 [W_DEBT_MISSING] Legacy state has no LLM debt key
+warn: .itworks/MAP.md:0 [W_MAP_MISSING] Legacy state has no code map
+4 error(s), 6 warning(s)
 $ echo $?
 1
 ```

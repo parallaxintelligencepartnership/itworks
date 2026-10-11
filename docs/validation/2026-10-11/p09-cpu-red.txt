@@ -1,0 +1,15 @@
+test_actual_child_cpu_is_measured_and_summarized (test_benchmark_workloads.BenchmarkWorkloads) ... FAIL
+test_known_mixed_workload_counts (test_benchmark_workloads.BenchmarkWorkloads) ... ok
+
+======================================================================
+FAIL: test_actual_child_cpu_is_measured_and_summarized (test_benchmark_workloads.BenchmarkWorkloads)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_benchmark_workloads.py", line 30, in test_actual_child_cpu_is_measured_and_summarized
+    self.assertTrue(hasattr(result,'child_cpu'),'benchmark omits available child CPU measurements')
+AssertionError: False is not true : benchmark omits available child CPU measurements
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.178s
+
+FAILED (failures=1)

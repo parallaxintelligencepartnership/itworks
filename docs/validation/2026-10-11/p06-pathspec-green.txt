@@ -1,0 +1,7 @@
+test_actual_path_limited_commit_preserves_unrelated_index (test_checkpoint_staging.CheckpointStaging) ... ok
+test_literal_task_filename_does_not_expand_pathspec (test_checkpoint_staging.CheckpointStaging) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.291s
+
+OK

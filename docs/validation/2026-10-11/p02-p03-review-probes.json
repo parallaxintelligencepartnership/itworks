@@ -1,0 +1,32 @@
+[
+  {
+    "case": "empty-shipped",
+    "operation": "check",
+    "exit": 1,
+    "stdout": "FORMAT\t1\nERROR\tE_SHIPPED_CRITICAL\t.itworks/REVIEWS.md\t0\tShip history coexists with open critical findings\nWARN\tW_SHIPPED_OPEN\tSHIPPED.md\t0\tShip history omits outstanding gate findings\nSUMMARY\t1\t1\t0\n"
+  },
+  {
+    "case": "embedded-closure",
+    "operation": "counts",
+    "exit": 0,
+    "stdout": "FORMAT\t1\nWARN\tW_CLOSURE_MISSING\t.itworks/REVIEWS.md\t2\tFinding evidence field is empty or malformed\nCOUNT\tfound\t1\nCOUNT\tfixed\t0\nCOUNT\taccepted\t0\nCOUNT\tcritical_open\t0\nCOUNT\tcritical_accepted\t0\nSUMMARY\t0\t1\t0\n"
+  },
+  {
+    "case": "empty-critical-closure",
+    "operation": "gate",
+    "exit": 2,
+    "stdout": "FORMAT\t1\nWARN\tW_CLOSURE_MISSING\t.itworks/REVIEWS.md\t2\tFinding evidence field is empty or malformed\nBLOCKED\tB_CLOSURE_MISSING\t.itworks/REVIEWS.md\t2\tCritical closure evidence requires review\nSUMMARY\t0\t1\t1\n"
+  },
+  {
+    "case": "malformed-checked-critical",
+    "operation": "gate",
+    "exit": 0,
+    "stdout": "FORMAT\t1\nWARN\tW_CLOSURE_MISSING\t.itworks/REVIEWS.md\t2\tFinding syntax requires review\nSUMMARY\t0\t1\t0\n"
+  },
+  {
+    "case": "malformed-archive-checked",
+    "operation": "counts",
+    "exit": 0,
+    "stdout": "FORMAT\t1\nWARN\tW_CLOSURE_MISSING\t.itworks/archive/old.md\t1\tFinding syntax requires review\nCOUNT\tfound\t0\nCOUNT\tfixed\t0\nCOUNT\taccepted\t0\nCOUNT\tcritical_open\t0\nCOUNT\tcritical_accepted\t0\nSUMMARY\t0\t1\t0\n"
+  }
+]

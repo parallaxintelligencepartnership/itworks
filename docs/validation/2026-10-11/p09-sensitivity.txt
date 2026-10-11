@@ -1,0 +1,198 @@
+ACTUAL AUDITED ARTIFACT: 5 intended assertions fail, 3 controls pass
+test_alternate_bullet_critical_must_not_disappear (test_state_contract.StateContract) ... FAIL
+test_canonical_critical_control (test_state_contract.StateContract) ... ok
+test_empty_acceptance_is_not_a_waiver (test_state_contract.StateContract) ... FAIL
+test_heading_prefix_is_not_required_heading (test_state_contract.StateContract) ... FAIL
+test_indented_critical_must_not_disappear (test_state_contract.StateContract) ... FAIL
+test_profile_requires_complete_enum (test_state_contract.StateContract) ... FAIL
+test_unterminated_bad_finding_control (test_state_contract.StateContract) ... ok
+test_valid_state_control (test_state_contract.StateContract) ... ok
+
+======================================================================
+FAIL: test_alternate_bullet_critical_must_not_disappear (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 26, in test_alternate_bullet_critical_must_not_disappear
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+======================================================================
+FAIL: test_empty_acceptance_is_not_a_waiver (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 30, in test_empty_acceptance_is_not_a_waiver
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+======================================================================
+FAIL: test_heading_prefix_is_not_required_heading (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 40, in test_heading_prefix_is_not_required_heading
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+======================================================================
+FAIL: test_indented_critical_must_not_disappear (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 22, in test_indented_critical_must_not_disappear
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+======================================================================
+FAIL: test_profile_requires_complete_enum (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 35, in test_profile_requires_complete_enum
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.996s
+
+FAILED (failures=5)
+
+DISPOSABLE MUTATION ship critical condition
+Replace 'if(live_critical)' with 'if(0)'
+test_canonical_critical_control (test_state_contract.StateContract) ... FAIL
+
+======================================================================
+FAIL: test_canonical_critical_control (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 18, in test_canonical_critical_control
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : warn: SHIPPED.md:0 [W_SHIPPED_OPEN] Ship history omits outstanding gate findings
+0 error(s), 1 warning(s)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.037s
+
+FAILED (failures=1)
+
+DISPOSABLE MUTATION complete profile scalar
+Replace '/^(guided|brief|expert)$/' with '/^(guided|brief|expert)/'
+test_profile_requires_complete_enum (test_state_contract.StateContract) ... FAIL
+
+======================================================================
+FAIL: test_profile_requires_complete_enum (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 35, in test_profile_requires_complete_enum
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.040s
+
+FAILED (failures=1)
+
+DISPOSABLE MUTATION empty acceptance section
+Replace 'if (accept_n && !entries)' with 'if (0)'
+test_empty_acceptance_is_not_a_waiver (test_state_contract.StateContract) ... FAIL
+
+======================================================================
+FAIL: test_empty_acceptance_is_not_a_waiver (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 30, in test_empty_acceptance_is_not_a_waiver
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : warn: .itworks/REVIEWS.md:1 [W_ACCEPTANCE_LINK] Accepted finding has no unique exact acceptance entry
+0 error(s), 1 warning(s)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.040s
+
+FAILED (failures=1)
+
+DISPOSABLE MUTATION broad candidate discovery
+Replace 'if ($0 ~ /^[ \\t]*[-*+][ \\t]+\\[[ xX]\\]/)' with 'if ($0 ~ /^- \\[[ xX]\\]/)'
+test_indented_critical_must_not_disappear (test_state_contract.StateContract) ... FAIL
+test_alternate_bullet_critical_must_not_disappear (test_state_contract.StateContract) ... FAIL
+
+======================================================================
+FAIL: test_indented_critical_must_not_disappear (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 22, in test_indented_critical_must_not_disappear
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+======================================================================
+FAIL: test_alternate_bullet_critical_must_not_disappear (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 26, in test_alternate_bullet_critical_must_not_disappear
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.070s
+
+FAILED (failures=2)
+
+DISPOSABLE MUTATION exact project heading
+Replace 'heads[file SUBSEP heading($0)]=1' with 'heads[file SUBSEP heading($0)]=1; if(file==".itworks/PROJECT.md" && $0=="## Database") heads[file SUBSEP "## Data"]=1'
+test_heading_prefix_is_not_required_heading (test_state_contract.StateContract) ... FAIL
+
+======================================================================
+FAIL: test_heading_prefix_is_not_required_heading (test_state_contract.StateContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 40, in test_heading_prefix_is_not_required_heading
+    self.must_reject()
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_contract.py", line 8, in must_reject
+    self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+AssertionError: 0 != 1 : 0 error(s), 0 warning(s)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.037s
+
+FAILED (failures=1)
+
+RESTORED DISPOSABLE CANDIDATE: all8 GREEN
+test_alternate_bullet_critical_must_not_disappear (test_state_contract.StateContract) ... ok
+test_canonical_critical_control (test_state_contract.StateContract) ... ok
+test_empty_acceptance_is_not_a_waiver (test_state_contract.StateContract) ... ok
+test_heading_prefix_is_not_required_heading (test_state_contract.StateContract) ... ok
+test_indented_critical_must_not_disappear (test_state_contract.StateContract) ... ok
+test_profile_requires_complete_enum (test_state_contract.StateContract) ... ok
+test_unterminated_bad_finding_control (test_state_contract.StateContract) ... ok
+test_valid_state_control (test_state_contract.StateContract) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.376s
+
+OK

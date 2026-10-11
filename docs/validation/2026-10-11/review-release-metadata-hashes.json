@@ -1,0 +1,22 @@
+{
+  "base_release": "0b972ac8232825d82f16023f54d3ccbeda443813",
+  "historical_head": "7df722830da8fe3a3872459e06308d2d53f4153b",
+  "scope": "working-tree metadata/U06 + historical release delta; NOT immutable final candidate review",
+  "files": {
+    "README.md": "2a956435d624735bcde81bf0a092612be90d9115e91166bc0cd2de689b4a9699",
+    "CHANGELOG.md": "e6b0182a076536193537e0093baf9cfdf1ffff646ebfa6f193199c2d911e2df9",
+    ".claude-plugin/plugin.json": "397540b2f7992e80f87d48a38f623f102642049d592e721e8273808cd0adbf60",
+    ".claude-plugin/marketplace.json": "fa42943a90c85e55758d944470fb215e351f187f300da883ec2dd8ebd786fcad",
+    ".gitignore": "5e6fb9c1ca046c3a4c1f7cb10356f7f2a6499634def474591172e58e5d5f7fb5",
+    "docs/releases/1.0.1.md": "5cf998ea1a6e8df37b4522dee4472e995b189c16eff1b3906ee2113d6060d2fb",
+    "docs/release-checklist.md": "fbb28fdbaba54cca110f8ef4b67f74f7fb728ef1fd94968ffd715a52aa51c413",
+    "scripts/itworks-lint.sh": "70faf89d15e326fe864f6b35bc26d878c0b98cc8b0b362367938e4d42fec9549",
+    "scripts/itworks-state.sh": "cd5a13a242a83121883642004a28c12c44e92e61b75b969347f00851ee8cb9dc",
+    "scripts/itworks-state.awk": "20552c3f9880eb3758bf03e085c9218cbb765df59054e7ebfbc76bc761c0d4c5",
+    "docs/audit/2026-09-16/AUDIT.md": "5a81b984374796eb53b9b721f9247bd0529215b40e812697be0b4af0b771913d",
+    "docs/audit/2026-09-16/lane-P-report.md": "317113532d1693d761e431a6ef08cb8fbc9c0ce9f1a9af04e0d2a737e0ee200d",
+    "docs/audit/2026-09-16/lane-P-verify.md": "5c806da1d7ade698d04af1990ec8110a951575025538647a30963c94ef4869d4",
+    "docs/audit/2026-09-16/lane-Q-report.md": "1bf26ea3f99efc96fd92222f53b04fce67db9d9fc65d0c3f074455fc421094e7",
+    "docs/audit/2026-09-16/lane-Q-verify.md": "5c0c3543f775789bc73aa57734ae83df94b7c51953ed4e1b2bf310f0ecc0c4c1"
+  }
+}

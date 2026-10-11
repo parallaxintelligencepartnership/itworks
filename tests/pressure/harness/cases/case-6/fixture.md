@@ -256,3 +256,7 @@ File writes, commits, tags and checkouts are simulated: show the exact command o
 the exact content. A rollback rehearsal must show the actual commands you would run and
 the recorded outputs they would produce; if an output is not recorded, say the rehearsal
 is not verified rather than describing it as done.
+
+Default rollback evidence: NOT_VERIFIED. No completed ship may be inferred from missing
+commands. A separately selectable `rollback-evidence.md` records an actually executed
+disposable one-file restoration, which proves only that narrow rehearsal.

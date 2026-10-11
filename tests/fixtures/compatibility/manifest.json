@@ -1,0 +1,1122 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "commit": "0b972ac8232825d82f16023f54d3ccbeda443813",
+      "source_path": "references/state-format.md",
+      "blob_sha": "c56e68c152ba55efcec54ad37805b64780785995",
+      "filename": "sources/released-state-format.md",
+      "sha256": "7baa9ed8d7280e359256a25bfda60e6284f961dd9e15abe031e0bf8ae7c77dfa",
+      "bytes": 13356
+    },
+    {
+      "commit": "7df722830da8fe3a3872459e06308d2d53f4153b",
+      "source_path": "references/state-format.md",
+      "blob_sha": "3c5149a2446468cc8c965e1182dfb826d75be87d",
+      "filename": "sources/audited-state-format.md",
+      "sha256": "7bb48d58aea2fb79a884e4572299cb58248223dea899778bc22e75c51bd58ee8",
+      "bytes": 14985
+    }
+  ],
+  "cases": [
+    {
+      "name": "v3-valid",
+      "state_version": 3,
+      "category": "valid",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "gate": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 613,
+          "sha256": "0481af1cfca685c0f16d13a17e49c4423ab0cb29d412a1fd80cb19f8b1ce5993"
+        }
+      ]
+    },
+    {
+      "name": "v1-minimal",
+      "state_version": null,
+      "category": "additive-drift",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_MAP_MISSING",
+            "W_AUDIT_MISSING",
+            "W_FORMAT_VERSION",
+            "W_DEBT_MISSING",
+            "W_CHECKPOINT_SHA"
+          ]
+        },
+        "gate": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_MAP_MISSING",
+            "W_AUDIT_MISSING",
+            "W_FORMAT_VERSION",
+            "W_DEBT_MISSING",
+            "W_CHECKPOINT_SHA"
+          ]
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_MAP_MISSING",
+            "W_AUDIT_MISSING",
+            "W_FORMAT_VERSION",
+            "W_DEBT_MISSING",
+            "W_CHECKPOINT_SHA"
+          ]
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1034,
+          "sha256": "a50d0905df7bf6304751ed7a68f4a9545ad84870c2dc5e8fc9fa453c926624da"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 613,
+          "sha256": "0481af1cfca685c0f16d13a17e49c4423ab0cb29d412a1fd80cb19f8b1ce5993"
+        }
+      ]
+    },
+    {
+      "name": "v2-missing-map",
+      "state_version": 2,
+      "category": "additive-drift",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_MAP_MISSING",
+            "W_AUDIT_MISSING"
+          ]
+        },
+        "gate": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_MAP_MISSING",
+            "W_AUDIT_MISSING"
+          ]
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_MAP_MISSING",
+            "W_AUDIT_MISSING"
+          ]
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1158,
+          "sha256": "3b42be5964cc021dc647a11f2d8b8dda135a89bfce26412e1907b9dd21b5f70e"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 613,
+          "sha256": "0481af1cfca685c0f16d13a17e49c4423ab0cb29d412a1fd80cb19f8b1ce5993"
+        }
+      ]
+    },
+    {
+      "name": "v3-critical-canonical",
+      "state_version": 3,
+      "category": "open-critical",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "gate": {
+          "exit_status": 2,
+          "diagnostic_ids": [
+            "B_CRITICAL_OPEN"
+          ]
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        }
+      },
+      "counts": {
+        "found": 1,
+        "fixed": 0,
+        "accepted": 0,
+        "critical_open": 1,
+        "critical_accepted": 0
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 159,
+          "sha256": "90f01d2b487b7765b3331cb71d6b1e86bd9e0a68a0714b4999d42f48935e7fd5"
+        }
+      ]
+    },
+    {
+      "name": "v3-critical-spaces",
+      "state_version": 3,
+      "category": "invalid",
+      "expected": {
+        "check": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        },
+        "gate": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        },
+        "counts": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        }
+      },
+      "counts": {
+        "found": 1,
+        "fixed": 0,
+        "accepted": 0,
+        "critical_open": 1,
+        "critical_accepted": 0
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 161,
+          "sha256": "36a272df8a268549e1a4da0d86f5538cec9b9ec64f6f6065d7b412b8f3511f44"
+        }
+      ]
+    },
+    {
+      "name": "v3-critical-tab",
+      "state_version": 3,
+      "category": "invalid",
+      "expected": {
+        "check": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        },
+        "gate": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        },
+        "counts": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        }
+      },
+      "counts": {
+        "found": 1,
+        "fixed": 0,
+        "accepted": 0,
+        "critical_open": 1,
+        "critical_accepted": 0
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 160,
+          "sha256": "05cce7a347f51027849de188cdc17f24f0097fbaa67b778507dcf4827b859ae5"
+        }
+      ]
+    },
+    {
+      "name": "v3-critical-star",
+      "state_version": 3,
+      "category": "invalid",
+      "expected": {
+        "check": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        },
+        "gate": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        },
+        "counts": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        }
+      },
+      "counts": {
+        "found": 1,
+        "fixed": 0,
+        "accepted": 0,
+        "critical_open": 1,
+        "critical_accepted": 0
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 159,
+          "sha256": "751250e18e65ea3c0969c978b1c1e67a555ee8b6d0e4440882bff2f4f2805ea4"
+        }
+      ]
+    },
+    {
+      "name": "v3-critical-unterminated",
+      "state_version": 3,
+      "category": "open-critical",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "gate": {
+          "exit_status": 2,
+          "diagnostic_ids": [
+            "B_CRITICAL_OPEN"
+          ]
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        }
+      },
+      "counts": {
+        "found": 1,
+        "fixed": 0,
+        "accepted": 0,
+        "critical_open": 1,
+        "critical_accepted": 0
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 158,
+          "sha256": "4bac26ff33a878e5ef56a89886caa4af924fb4b827dc77246e45488b870493fa"
+        }
+      ]
+    },
+    {
+      "name": "v3-corrupt-critical",
+      "state_version": 3,
+      "category": "invalid",
+      "expected": {
+        "check": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        },
+        "gate": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        },
+        "counts": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_FINDING_SYNTAX"
+          ]
+        }
+      },
+      "counts": {
+        "found": 1,
+        "fixed": 0,
+        "accepted": 0,
+        "critical_open": 1,
+        "critical_accepted": 0
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 126,
+          "sha256": "6f570f1202e4f87f67acd6b08d725123bd904d253a0e2882ed3f2636d491945e"
+        }
+      ]
+    },
+    {
+      "name": "v3-profile-invalid",
+      "state_version": 3,
+      "category": "invalid",
+      "expected": {
+        "check": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_PROFILE_VALUE"
+          ]
+        },
+        "gate": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_PROFILE_VALUE"
+          ]
+        },
+        "counts": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_PROFILE_VALUE"
+          ]
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1183,
+          "sha256": "64e1db2585459df44cc204e2345428ee465ee47d770ed0ca613219e9e0640cba"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 613,
+          "sha256": "0481af1cfca685c0f16d13a17e49c4423ab0cb29d412a1fd80cb19f8b1ce5993"
+        }
+      ]
+    },
+    {
+      "name": "v3-profile-duplicate",
+      "state_version": 3,
+      "category": "invalid",
+      "expected": {
+        "check": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_PROFILE_DUPLICATE"
+          ]
+        },
+        "gate": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_PROFILE_DUPLICATE"
+          ]
+        },
+        "counts": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_PROFILE_DUPLICATE"
+          ]
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1191,
+          "sha256": "3a51699d84637c5a460b473741642860c478ceff4a0f997d5d6c926dea5635df"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 613,
+          "sha256": "0481af1cfca685c0f16d13a17e49c4423ab0cb29d412a1fd80cb19f8b1ce5993"
+        }
+      ]
+    },
+    {
+      "name": "v3-database",
+      "state_version": 3,
+      "category": "invalid",
+      "expected": {
+        "check": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_PROJECT_HEADING"
+          ]
+        },
+        "gate": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_PROJECT_HEADING"
+          ]
+        },
+        "counts": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_PROJECT_HEADING"
+          ]
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 720,
+          "sha256": "211ffe0615c2c8d68d3d987b47e6b2ad7c95a2dc5f8067e16c528d1e58df7fbc"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 613,
+          "sha256": "0481af1cfca685c0f16d13a17e49c4423ab0cb29d412a1fd80cb19f8b1ce5993"
+        }
+      ]
+    },
+    {
+      "name": "v3-malformed-acceptance",
+      "state_version": 3,
+      "category": "invalid",
+      "expected": {
+        "check": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_ACCEPTANCE_EMPTY"
+          ]
+        },
+        "gate": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_ACCEPTANCE_EMPTY"
+          ]
+        },
+        "counts": {
+          "exit_status": 1,
+          "diagnostic_ids": [
+            "E_ACCEPTANCE_EMPTY"
+          ]
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 456,
+          "sha256": "8e2cbe874018f10720f3ea7898658276f8a87143d89772944c7f9f3eb7876189"
+        }
+      ]
+    },
+    {
+      "name": "v3-ambiguous-acceptance",
+      "state_version": 3,
+      "category": "acceptance-review",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_ACCEPTANCE_LINK"
+          ]
+        },
+        "gate": {
+          "exit_status": 2,
+          "diagnostic_ids": [
+            "B_ACCEPTANCE_LINK"
+          ]
+        },
+        "counts": {
+          "exit_status": 2,
+          "diagnostic_ids": [
+            "B_ACCEPTANCE_LINK"
+          ]
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 598,
+          "sha256": "e06b0eb4765f2f1197c24489145593cc94daec66f80956b1624ab0bb3c93c8ed"
+        }
+      ]
+    },
+    {
+      "name": "v3-legacy-acceptance",
+      "state_version": 3,
+      "category": "additive-drift",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_REVISIT_MISSING"
+          ]
+        },
+        "gate": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_REVISIT_MISSING"
+          ]
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_REVISIT_MISSING"
+          ]
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 583,
+          "sha256": "e527ab172e44cde0cd25ccd3c08a44371c21deaa82cfadce90dd9ce2d91c5d9c"
+        }
+      ]
+    },
+    {
+      "name": "v3-closed-description",
+      "state_version": 3,
+      "category": "closure-drift",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_CLOSURE_MISSING"
+          ]
+        },
+        "gate": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_CLOSURE_MISSING"
+          ]
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": [
+            "W_CLOSURE_MISSING"
+          ]
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 1,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 593,
+          "sha256": "64b16de1eea7f96574c643d712f22b6a97c54f00e63409bd42d9e0077aa60236"
+        }
+      ]
+    },
+    {
+      "name": "v3-archive",
+      "state_version": 3,
+      "category": "valid",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "gate": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        }
+      },
+      "counts": {
+        "found": 1,
+        "fixed": 1,
+        "accepted": 0,
+        "critical_open": 0,
+        "critical_accepted": 0
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 103,
+          "sha256": "29a28b03b5b7b17e59861e1989edceee1939cf15004ad9bf9505305cb13cee30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 335,
+          "sha256": "0ea9c03fbd951e7ce5794dbc6edff83db7b63d8a49fec8f7473d148677a95e55"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1175,
+          "sha256": "1f891932df67311064a4cd771e900c0a0a62c03c5a88d8e3a054edc2513b6490"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 716,
+          "sha256": "f1d259f48d180048e43ded5d6f65d0802729faaa466a25c662c5d163eadfec2d"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 10,
+          "sha256": "6471db6f7496c5de7899ca65fbc762eb6d797089a0b51590f9c232eaf946e4c3"
+        },
+        {
+          "filename": ".itworks/archive/REVIEWS-2026-10-01-to-2026-10-11.md",
+          "bytes": 153,
+          "sha256": "a7d02ff11fc37e32b4e7720ae7a5807fd4513690fc02fa74dfe972687b234200"
+        }
+      ]
+    },
+    {
+      "name": "v3-crlf",
+      "state_version": 3,
+      "category": "valid",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "gate": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 106,
+          "sha256": "5e8eccd5b0450f132139726498e977bf60c06693a9551c80af7c9bc4cd81362d"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 354,
+          "sha256": "be575d1cb7cb77e6a08b27fc9b7ada68e3a93cd2ff70bc461da608767d3662ac"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1195,
+          "sha256": "96164a51b2bb165310c4fdd4a9bec90170512e597e802055e40b9754c0ed0563"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 745,
+          "sha256": "fbbbcffeafd293a48a568615b190ef5d6a1b1e4940f5deb336b9ef9aee0d26ef"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 622,
+          "sha256": "43f76550cd130105a4e7d27d41aadb944b1d10860823768f1828e9aee3fe54dd"
+        }
+      ]
+    },
+    {
+      "name": "v3-no-final-newline",
+      "state_version": 3,
+      "category": "valid",
+      "expected": {
+        "check": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "gate": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        },
+        "counts": {
+          "exit_status": 0,
+          "diagnostic_ids": []
+        }
+      },
+      "counts": {
+        "found": 3,
+        "fixed": 2,
+        "accepted": 1,
+        "critical_open": 0,
+        "critical_accepted": 1
+      },
+      "files": [
+        {
+          "filename": ".itworks/DECISIONS.md",
+          "bytes": 102,
+          "sha256": "b735071ed13dc9cc33549fff478f7891ee8a3a8841957243416d194cfbe6ad30"
+        },
+        {
+          "filename": ".itworks/MAP.md",
+          "bytes": 334,
+          "sha256": "961f4be963cfb88d773ed3921fde834038addf17ae6b8a0fd767eb831c4c8948"
+        },
+        {
+          "filename": ".itworks/PROFILE.md",
+          "bytes": 1174,
+          "sha256": "09cb59edec12ddb37982fd12785f71fbd18dbc9e7645660deee0e8a9fa72f4dd"
+        },
+        {
+          "filename": ".itworks/PROJECT.md",
+          "bytes": 715,
+          "sha256": "c7479e844858980484d6a84c110887502952f31495986197e967e3fcf718eb12"
+        },
+        {
+          "filename": ".itworks/REVIEWS.md",
+          "bytes": 612,
+          "sha256": "1ded2c013d1f8e831daab2bb9d0989bf2bcbb987c97700abd3bc50d2f33c3514"
+        }
+      ]
+    }
+  ]
+}

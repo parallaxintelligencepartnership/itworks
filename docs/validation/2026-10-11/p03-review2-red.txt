@@ -1,0 +1,46 @@
+test_closure_word_in_description_is_not_fixed (test_state_parser.CheckedSyntaxReview) ... ok
+test_crlf_and_unusual_root (test_state_parser.CheckedSyntaxReview) ... ok
+test_empty_counts_and_usage (test_state_parser.CheckedSyntaxReview) ... ok
+test_indented_checked_critical_blocks_gate (test_state_parser.CheckedSyntaxReview) ... FAIL
+test_malformed_archive_checked_line_blocks_counts (test_state_parser.CheckedSyntaxReview) ... FAIL
+test_open_critical_gate_without_ship (test_state_parser.CheckedSyntaxReview) ... ok
+test_pipe_description_and_no_final_newline (test_state_parser.CheckedSyntaxReview) ... ok
+test_diagnostics_do_not_echo_findings (test_state_parser.ParserRegression) ... ok
+test_duplicate_profile (test_state_parser.ParserRegression) ... ok
+test_inline_comment_and_closing_hash_headings (test_state_parser.ParserRegression) ... ok
+test_noncanonical_candidates (test_state_parser.ParserRegression) ... ok
+test_unknown_explicit_version (test_state_parser.ParserRegression) ... ok
+test_closure_word_in_description_is_not_fixed (test_state_parser.ReviewRegressions) ... ok
+test_crlf_and_unusual_root (test_state_parser.ReviewRegressions) ... ok
+test_embedded_closure_cannot_count_as_fix (test_state_parser.ReviewRegressions) ... ok
+test_empty_counts_and_usage (test_state_parser.ReviewRegressions) ... ok
+test_empty_critical_closure_blocks_strict_gate (test_state_parser.ReviewRegressions) ... ok
+test_empty_ship_still_blocks_open_critical (test_state_parser.ReviewRegressions) ... ok
+test_open_critical_gate_without_ship (test_state_parser.ReviewRegressions) ... ok
+test_pipe_description_and_no_final_newline (test_state_parser.ReviewRegressions) ... ok
+test_closure_word_in_description_is_not_fixed (test_state_parser.StateProtocol) ... ok
+test_crlf_and_unusual_root (test_state_parser.StateProtocol) ... ok
+test_empty_counts_and_usage (test_state_parser.StateProtocol) ... ok
+test_open_critical_gate_without_ship (test_state_parser.StateProtocol) ... ok
+test_pipe_description_and_no_final_newline (test_state_parser.StateProtocol) ... ok
+
+======================================================================
+FAIL: test_indented_checked_critical_blocks_gate (test_state_parser.CheckedSyntaxReview)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 106, in test_indented_checked_critical_blocks_gate
+    self.assertEqual(self.state_op('gate').returncode, 2)
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_malformed_archive_checked_line_blocks_counts (test_state_parser.CheckedSyntaxReview)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_state_parser.py", line 112, in test_malformed_archive_checked_line_blocks_counts
+    self.assertEqual(result.returncode,1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.404s
+
+FAILED (failures=2)

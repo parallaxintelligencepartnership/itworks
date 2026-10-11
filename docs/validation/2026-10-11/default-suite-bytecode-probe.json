@@ -1,0 +1,25 @@
+{
+  "note": "Portable default in-tree caching selected only in disposable subprocess; Apple pycache_prefix removed. Both actual unittest6 suites pass. First run violates checkout preservation invariant; inherited environment correction preserves it. This is a command/configuration correction, not a behavioral unittest RED.",
+  "results": [
+    {
+      "bytecode_disabled": false,
+      "suite_exit": 0,
+      "source_tree_unchanged": false,
+      "added_paths": [
+        "tests/support/__pycache__",
+        "tests/support/__pycache__/validate_release_matrix.cpython-39.pyc",
+        "tests/unit/__pycache__",
+        "tests/unit/__pycache__/support.cpython-39.pyc",
+        "tests/unit/__pycache__/test_release_matrix.cpython-39.pyc"
+      ],
+      "test_output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.027s\n\nOK\n"
+    },
+    {
+      "bytecode_disabled": true,
+      "suite_exit": 0,
+      "source_tree_unchanged": true,
+      "added_paths": [],
+      "test_output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.031s\n\nOK\n"
+    }
+  ]
+}

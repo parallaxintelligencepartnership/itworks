@@ -1,0 +1,2 @@
+Observed exit: 0 unwanted command executed: True
+EXPECTED ASSERTION RED: Publication field must be data, never shell code

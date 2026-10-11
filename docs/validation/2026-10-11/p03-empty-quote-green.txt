@@ -1,0 +1,22 @@
+test_archive_counts_and_malformed_rejection (test_acceptance.Acceptance) ... ok
+test_closure_word_in_description_is_not_fixed (test_acceptance.Acceptance) ... ok
+test_crlf_and_unusual_root (test_acceptance.Acceptance) ... ok
+test_duplicate_findings_or_entries_are_ambiguous (test_acceptance.Acceptance) ... ok
+test_empty_counts_and_usage (test_acceptance.Acceptance) ... ok
+test_empty_quote_invalid_date_is_still_structural (test_acceptance.Acceptance) ... ok
+test_empty_quote_is_structural (test_acceptance.Acceptance) ... ok
+test_exact_unique_legacy_quote_without_revisit (test_acceptance.Acceptance) ... ok
+test_mismatch_warns_check_blocks_gate_and_counts (test_acceptance.Acceptance) ... ok
+test_open_critical_gate_without_ship (test_acceptance.Acceptance) ... ok
+test_pipe_description_and_no_final_newline (test_acceptance.Acceptance) ... ok
+test_pipe_inside_description_and_quote (test_acceptance.Acceptance) ... ok
+test_closure_word_in_description_is_not_fixed (test_state_parser.StateProtocol) ... ok
+test_crlf_and_unusual_root (test_state_parser.StateProtocol) ... ok
+test_empty_counts_and_usage (test_state_parser.StateProtocol) ... ok
+test_open_critical_gate_without_ship (test_state_parser.StateProtocol) ... ok
+test_pipe_description_and_no_final_newline (test_state_parser.StateProtocol) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.268s
+
+OK

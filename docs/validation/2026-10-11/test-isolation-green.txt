@@ -1,0 +1,6 @@
+test_inherited_git_hooks_cannot_run_in_fixture_tests (test_test_isolation.TestIsolation) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.294s
+
+OK

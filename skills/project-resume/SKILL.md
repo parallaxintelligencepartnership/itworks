@@ -18,7 +18,9 @@ Run the deterministic linter first: `bash <plugin-root>/scripts/itworks-lint.sh 
 3. Every unchecked finding line parses to the five-field grammar.
 4. PROJECT.md has all eight section headings.
 
-Linter ERRORS (or a hand-checked rule violation) → Rebuild section below. Linter WARNINGS are drift, not corruption: fix the mechanical ones silently in passing (add `format_version: 3`, add a missing `llm-security` lens_debt key at 0, add a missing sha to `last_checkpoint` at the next checkpoint) and continue to Step 2. A missing `MAP.md` is fixed in passing too: write it from the tree and the README per `<plugin-root>/references/state-format.md` (run and test commands, the layout table, environment facts, an empty Gotchas list), at most about 60 lines, reading for layout only and never for findings, and say so in half a line of the replay.
+Linter ERRORS (or a hand-checked rule violation) → inspect the specific diagnostic and follow the backed-up repair procedure in Rebuild below. An unsupported explicit state version is incompatible: preserve it and stop interpretation; never rebuild it as an older version. Linter WARNINGS are drift, not corruption: fix the mechanical ones silently in passing (add `format_version: 3`, add a missing `llm-security` lens_debt key at 0, add a missing sha to `last_checkpoint` at the next checkpoint) and continue to Step 2. A missing `MAP.md` is fixed in passing too: write it from the tree and the README per `<plugin-root>/references/state-format.md` (run and test commands, the layout table, environment facts, an empty Gotchas list), at most about 60 lines, reading for layout only and never for findings, and say so in half a line of the replay.
+
+Acceptance-link warnings preserve genuine historical quotes and never trigger a whole-state rebuild or invented consent. Replay the uncertainty; unresolved critical linkage blocks a future gate until ordinary user review resolves it.
 
 Then read `MAP.md` whole before anything else. Its Gotchas section is the list of mistakes this project has already paid for once; a session that repeats one of them has not resumed, it has restarted.
 
@@ -37,6 +39,8 @@ Next was: <the next thing per DECISIONS.md/REVIEWS.md>
 Continue there, or something new?
 ```
 
+Read the newest audit section as well as its completion marker. A later INCOMPLETE attempt is replayed as `incomplete/due` with remaining scope; it does not advance last_audit or become current just because the old date is recent.
+
 `Last audit` is due when the project holds other people's real data and no audit has run, or when SHIPPED.md exists and the audit is older than 60 days or more than 5 ship-history entries back; the line says "due" and nothing more (the audit skill decides what to do about it).
 
 If a CRITICAL is open, append its one-sentence blocker status: what it is and why it blocks building on top. Do not bury it in the counts.
@@ -52,6 +56,8 @@ If the user's opening message already names new work ("add a search feature"), t
 ## Rebuild (invalid or hand-edited state)
 
 Say plainly and calmly that the project notes do not match the expected format, with no scolding: the notes belong to the user and they are allowed to touch them.
+
+Before any repair, follow `<plugin-root>/references/upgrade-recovery.md`: take and verify an external independent backup, test restoration to an empty directory, pause writers and stage a candidate. Do not follow an escaping state symlink. Preserve original words/severity and compare source preimages before replacement. Read-only warnings alone never authorize an interpretive rewrite. The one existing confirmation below applies to interpretation; routine supported additive drift does not create a second approval loop.
 
 1. Scan the code: stack, entry points, routes, storage. Re-derive the PROJECT.md facts the code can prove, and write the scan into MAP.md (carrying over any legible Gotchas from the old file verbatim).
 2. Carry over every legible finding and accepted risk from the old files VERBATIM, including lines that do not parse. Rebuild the line's STRUCTURE (checkbox, severity, lens id) around the user's unchanged words; never invent content that was not there, and never fabricate a file:line (it is optional, so omit it unless your own code scan verified one). A line whose severity token is still legible keeps that severity: an unreadable line that still contains the token `CRITICAL` is written as `CRITICAL` with "pending re-review" appended inside the description text. Only a line with no legible severity token at all is guessed, and that guess is written as the bare token `ADVISORY` with "severity best-guess, pending re-review" appended inside the description text. Never downgrade a severity the line still states; downgrading silently opens the gate.

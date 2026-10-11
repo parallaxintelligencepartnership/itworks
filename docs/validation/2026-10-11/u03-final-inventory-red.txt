@@ -1,0 +1,14 @@
+test_two_failed_final_inventories_do_not_report_applied (test_recovery_final_verification.RecoveryFinalVerification) ... FAIL
+
+======================================================================
+FAIL: test_two_failed_final_inventories_do_not_report_applied (test_recovery_final_verification.RecoveryFinalVerification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_recovery_final_verification.py", line 24, in test_two_failed_final_inventories_do_not_report_applied
+    self.assertNotEqual(result.returncode,0,'Failed final inventories cannot prove application success')
+AssertionError: 0 == 0 : Failed final inventories cannot prove application success
+
+----------------------------------------------------------------------
+Ran 1 test in 5.489s
+
+FAILED (failures=1)

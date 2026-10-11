@@ -1,0 +1,14 @@
+test_inherited_git_hooks_cannot_run_in_fixture_tests (test_test_isolation.TestIsolation) ... FAIL
+
+======================================================================
+FAIL: test_inherited_git_hooks_cannot_run_in_fixture_tests (test_test_isolation.TestIsolation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_test_isolation.py", line 24, in test_inherited_git_hooks_cannot_run_in_fixture_tests
+    self.assertFalse(sentinel.exists(),'Offline fixture tests executed caller Git hooks')
+AssertionError: True is not false : Offline fixture tests executed caller Git hooks
+
+----------------------------------------------------------------------
+Ran 1 test in 0.507s
+
+FAILED (failures=1)

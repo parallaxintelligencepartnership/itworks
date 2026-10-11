@@ -312,7 +312,7 @@ Compromising an app by compromising something it depends on: a package, a build 
 ## restore point
 A commit that captures the last known-working state of the project, made before new work starts on top of it.
 **Why you care:** when a change (yours or the AI's) wrecks something that used to work, the restore point is the difference between "git checkout" and rebuilding from memory.
-**Comes up when:** every checkpoint ends by committing one; rollback rehearsal at closeout returns to one.
+**Comes up when:** checkpoints create one from reviewed task-owned paths when authorized; unsafe or unauthorized commits remain pending. Rollback rehearsal at closeout returns to one.
 
 ## rollback
 Putting the previously working version back after a bad deploy: the practiced path from "the new version is broken" to "users see the old one again".

@@ -1,0 +1,29 @@
+test_changelog_missing_command_and_wrong_hook_rejected (test_release_identity.ReleaseIdentity) ... ok
+test_consistent_identity (test_release_identity.ReleaseIdentity) ... ok
+test_escaping_link_rejected (test_release_identity.ReleaseIdentity) ... ok
+test_exact_commit_builder_and_dirty_freeze_rejection (test_release_identity.ReleaseIdentity) ... ok
+test_malformed_marketplace_rejected (test_release_identity.ReleaseIdentity) ... ok
+test_mismatch_and_malformed_manifest (test_release_identity.ReleaseIdentity) ... ok
+test_missing_entry_point_wrapper_rejected (test_release_identity.ReleaseIdentity) ... ok
+test_required_support_helpers_cannot_be_missing (test_release_identity.ReleaseIdentity) ... test_unchanged_version_rejected (test_release_identity.ReleaseIdentity) ... ok
+
+======================================================================
+FAIL: test_required_support_helpers_cannot_be_missing (test_release_identity.ReleaseIdentity) (name='itworks-recovery.sh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_release_identity.py", line 87, in test_required_support_helpers_cannot_be_missing
+    validate_artifact(self.root,'1.0.1')
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_required_support_helpers_cannot_be_missing (test_release_identity.ReleaseIdentity) (name='itworks-test-copy.sh')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_release_identity.py", line 87, in test_required_support_helpers_cannot_be_missing
+    validate_artifact(self.root,'1.0.1')
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.017s
+
+FAILED (failures=2)

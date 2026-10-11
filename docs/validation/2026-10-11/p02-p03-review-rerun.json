@@ -1,0 +1,22 @@
+[
+  {
+    "case": "malformed-checked-critical",
+    "exit": 2,
+    "stdout": "FORMAT\t1\nWARN\tW_CLOSURE_MISSING\t.itworks/REVIEWS.md\t1\tFinding syntax requires review\nBLOCKED\tB_CLOSURE_MISSING\t.itworks/REVIEWS.md\t1\tCritical closure evidence requires review\nSUMMARY\t0\t1\t1\n"
+  },
+  {
+    "case": "malformed-archive-checked",
+    "exit": 1,
+    "stdout": "FORMAT\t1\nWARN\tW_CLOSURE_MISSING\t.itworks/archive/old.md\t1\tFinding syntax requires review\nERROR\tE_FINDING_SYNTAX\t.itworks/archive/old.md\t1\tArchived finding is malformed\nSUMMARY\t1\t1\t0\n"
+  },
+  {
+    "case": "uppercase-checked-critical",
+    "exit": 2,
+    "stdout": "FORMAT\t1\nWARN\tW_CLOSURE_MISSING\t.itworks/REVIEWS.md\t1\tFinding syntax requires review\nBLOCKED\tB_CLOSURE_MISSING\t.itworks/REVIEWS.md\t1\tCritical closure evidence requires review\nSUMMARY\t0\t1\t1\n"
+  },
+  {
+    "case": "dangling-archive-link",
+    "exit": 0,
+    "stdout": "FORMAT\t1\nCOUNT\tfound\t0\nCOUNT\tfixed\t0\nCOUNT\taccepted\t0\nCOUNT\tcritical_open\t0\nCOUNT\tcritical_accepted\t0\nSUMMARY\t0\t0\t0\n"
+  }
+]

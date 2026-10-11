@@ -1,0 +1,22 @@
+{
+  "iso": {
+    "negative_control": {
+      "2026-W36": {
+        "Regular": 40,
+        "Overtime": 8
+      }
+    },
+    "sunday_boundary": {
+      "2026-W35": {
+        "Regular": 8,
+        "Overtime": 0
+      },
+      "2026-W36": {
+        "Regular": 40,
+        "Overtime": 0
+      }
+    }
+  },
+  "zone_available": true,
+  "local": "Sat 2026-09-05 20:00 CDT"
+}

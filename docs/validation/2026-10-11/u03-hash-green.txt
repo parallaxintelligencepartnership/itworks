@@ -1,0 +1,6 @@
+test_failed_or_empty_hash_cannot_verify_backup (test_state_recovery.RecoveryReview) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.188s
+
+OK

@@ -3,6 +3,22 @@
 Ideas agreed on but not yet built. One section per lane; move an item to the
 changelog when it ships.
 
+## Released-product hardening and optional development workflow
+
+The [implementation backlog](docs/plans/2026-10-11-itworks-hardening/README.md)
+contains 26 fully specified, pending tasks based on the October audit:
+
+- P01–P09: compatibility patch, deterministic tests, corrected validation and
+  evaluation, and protection of user work.
+- U01–U07: historical-state compatibility, tested recovery, installed-plugin
+  upgrade qualification, release identity and existing-user guidance.
+- F01–F10: separately enabled planning/TDD, evidence runner, bounded orchestration,
+  independent verification and qualified Claude/Codex/Antigravity adapters.
+
+Execute the patch and upgrade gates first. No implementation or release is
+complete merely because the tasks are planned. Existing UI-consistency ideas
+below remain separate scope.
+
 ## UI consistency (staged, agreed 2026-08-08)
 
 The problem: AI-assisted apps drift into mismatched styling - every page its
@@ -27,6 +43,8 @@ because nothing establishes a single source of styling truth at the start.
 
 ## Pressure testing
 
-- Run the split-role harness (tests/pressure/harness/) as the standard matrix:
-  all 6 cases x sonnet x 3 runs after any skill wording change, and before any
-  version announce. Haiku is out of scope per the README model note.
+- Replace the old six-case matrix with the corrected executable oracles and
+  isolated harness in P04/P05, then qualify exact host/model configurations under
+  U07 and F09/F10. The current tree has eight pressure cases; new positive controls
+  and workflow cases are specified in the task plans. Keep historical results
+  distinct from new qualified runs and retain every failed/incomplete attempt.

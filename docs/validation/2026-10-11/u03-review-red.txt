@@ -1,0 +1,52 @@
+test_concurrent_change_aborts_without_overwriting (test_state_recovery.Recovery) ... ok
+test_copy_capacity_failure_prevents_project_writes (test_state_recovery.Recovery) ... ok
+test_crlf_no_newline_and_critical_roundtrip (test_state_recovery.Recovery) ... ok
+test_malformed_acceptance_staging_remains_unresolved (test_state_recovery.Recovery) ... ok
+test_partial_replacement_rolls_back_and_keeps_failed_candidate (test_state_recovery.Recovery) ... ok
+test_post_write_lint_failure_restores_original (test_state_recovery.Recovery) ... ok
+test_reject_internal_existing_and_symlink_destinations (test_state_recovery.Recovery) ... ok
+test_restore_failure_retains_independent_evidence (test_state_recovery.Recovery) ... ok
+test_runbook_snapshot_stage_verify_restore_preserve_bytes (test_state_recovery.Recovery) ... ok
+test_staging_failure_and_restore_rehearsal_prevent_writes (test_state_recovery.Recovery) ... ok
+test_staging_inside_project_and_state_symlink_rejected (test_state_recovery.Recovery) ... ok
+test_tampered_backup_never_restores (test_state_recovery.Recovery) ... ok
+test_unsafe_overwrite_counterexample_is_detected (test_state_recovery.Recovery) ... ok
+test_concurrent_change_aborts_without_overwriting (test_state_recovery.RecoveryReview) ... ok
+test_copy_capacity_failure_prevents_project_writes (test_state_recovery.RecoveryReview) ... ok
+test_crlf_no_newline_and_critical_roundtrip (test_state_recovery.RecoveryReview) ... ok
+test_malformed_acceptance_staging_remains_unresolved (test_state_recovery.RecoveryReview) ... ok
+test_partial_replacement_rolls_back_and_keeps_failed_candidate (test_state_recovery.RecoveryReview) ... ok
+test_post_write_lint_failure_restores_original (test_state_recovery.RecoveryReview) ... ok
+test_reject_internal_existing_and_symlink_destinations (test_state_recovery.RecoveryReview) ... ok
+test_restore_failure_retains_independent_evidence (test_state_recovery.RecoveryReview) ... ok
+test_runbook_snapshot_stage_verify_restore_preserve_bytes (test_state_recovery.RecoveryReview) ... ok
+test_snapshot_does_not_refresh_source_index (test_state_recovery.RecoveryReview) ... FAIL
+test_staging_failure_and_restore_rehearsal_prevent_writes (test_state_recovery.RecoveryReview) ... ok
+test_staging_inside_project_and_state_symlink_rejected (test_state_recovery.RecoveryReview) ... ok
+test_tampered_backup_never_restores (test_state_recovery.RecoveryReview) ... ok
+test_truncated_identity_cannot_bypass_external_destination (test_state_recovery.RecoveryReview) ... FAIL
+test_unsafe_overwrite_counterexample_is_detected (test_state_recovery.RecoveryReview) ... ok
+
+======================================================================
+FAIL: test_snapshot_does_not_refresh_source_index (test_state_recovery.RecoveryReview)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_state_recovery.py", line 179, in test_snapshot_does_not_refresh_source_index
+    self.assertEqual(index.read_bytes(),before)
+AssertionError: b"DIR[523 chars]xcdM\x0c\xe2\xf7Lj\xcb\xcb\x1a6\xdf\x88\x02\x0[647 chars]\x88" != b"DIR[523 chars]xcdM\t\x0c\xee\xb6j\xcb\xcb\x156\xdf\x87\xcf\x[641 chars]\xe7"
+
+======================================================================
+FAIL: test_truncated_identity_cannot_bypass_external_destination (test_state_recovery.RecoveryReview)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_state_recovery.py", line 185, in test_truncated_identity_cannot_bypass_external_destination
+    self.block('staging-copy',1)
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/integration/test_state_recovery.py", line 28, in block
+    self.assertEqual(result.returncode,expected,result.stdout+result.stderr)
+AssertionError: 0 != 1 : /private/var/folders/jl/0qz_rxp92j7dq2wkfx9dgfsc0000gn/T/itworks-recovery-i1k9zi5m/project with spaces/unsafe-stage
+
+
+----------------------------------------------------------------------
+Ran 28 tests in 23.535s
+
+FAILED (failures=2)

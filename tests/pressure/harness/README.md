@@ -1,139 +1,116 @@
-# Pressure-test harness (split-role)
+# Text-simulation harness
 
-A driver for the eight adversarial cases in `../pressure-tests.md`.
+This developer harness captures fixed-script conversations. It does not activate an
+installed plugin, qualify a model, or assign a behavioral PASS. Python standard library
+is a developer dependency only; consumers still use the shell runtime.
 
-The point of this harness is one rule: **the model under test plays only the assistant.**
-Every user turn is a fixed script written in advance and read from disk. The model cannot
-talk the user into being reasonable, cannot invent a capitulation, and cannot decide the
-conversation is over. Previous runs of this suite had a single agent authoring both sides
-of the transcript, which is how a gate "holds" against a user who was written to fold.
+The previous runner's unrestricted live invocation has been removed. The positional
+interface remains `bash run-case.sh <case-dir> <model> [runs]`, but live mode exits 69
+before any CLI call: **BLOCKED: no approved live adapter**. A task-specific config
+folder or temporary cwd alone is not an OS sandbox.
 
-## Layout
+## Offline mechanics
 
-```
-harness/
-  run-case.sh              the driver (bash + claude CLI only)
-  README.md                this file
-  cases/
-    case-1 .. case-8/
-      fixture.md           the project state inlined into the preamble
-      user-turns.txt       the fixed adversarial user script (--- separates turns)
-      pass-conditions.md   concrete judgeable checks for a human or judging model
-      target.txt           absolute path(s) of the SKILL.md the preamble points at
-  (no results/ directory: transcripts land outside the repo, see below)
-```
+Ordinary unit/integration tests invoke only `tests/fixtures/harness/mock-cli.py`, through
+an absolute Python path; mock mode never resolves a `claude` executable from PATH.
+`ITWORKS_HARNESS_MODE=mock` and `ITWORKS_MOCK_CONFIG=/absolute/config.json` select it.
+The config object requires a `record` path and optionally `reply`, `stderr`, `exit`,
+and `delay`. These values are synthetic test controls, not credentials. No real API
+client or model is used. Run from repository root:
 
-## Running one case
-
-```bash
-cd tests/pressure/harness
-./run-case.sh case-5 sonnet          # one run
-./run-case.sh case-5 sonnet 3        # three independent runs
-./run-case.sh cases/case-5 haiku 3   # a path works too
+```sh
+python3 -m unittest discover -s tests/unit -p 'test_harness.py'
+python3 -m unittest discover -s tests/integration -p 'test_simulation*.py'
+bash -n tests/pressure/harness/run-case.sh tests/pressure/harness/host-preflight.sh
 ```
 
-Arguments: `run-case.sh <case-dir> <model> [runs]`. The model string is passed straight
-through to `claude --model`, so use whatever your CLI accepts (`sonnet`, `haiku`, `opus`,
-or a full model id).
+`ITWORKS_MAX_REQUESTS` defaults to 20 (maximum 100), runs are 1..10, and each script
+has at most 20 turns. `ITWORKS_TIMEOUT_SECONDS` defaults to 30 (maximum 300) per request.
+The process group is killed on timeout. These limits are offline mechanics; no paid
+budget or token accounting is claimed. An eventual live adapter must enforce the
+explicitly authorized total cost and wall-clock bounds as well.
 
-## Running the full matrix
+Each run uses a new private temporary cwd and config directory. HOME is never changed.
+The child receives a minimal environment without API credentials or copied settings.
+Only the exact target skill and explicit `reference-manifest.txt` entries are inlined,
+followed by fixture facts and scripted user turns. The rubric/golden answers are never
+included. Target paths must be repository-relative skills/*/SKILL.md; references must
+remain inside references/. The reviewed manifest lists every current reference,
+including pattern files; update it deliberately when transitive references change.
 
-Eight cases, one model, three runs each:
+## Evidence and judging
 
-```bash
-cd tests/pressure/harness
-for c in case-1 case-2 case-3 case-4 case-5 case-6 case-7 case-8; do
-  ./run-case.sh "$c" sonnet 3
-done
+Artifacts default outside the checkout to the system temporary directory; set
+`ITWORKS_RESULTS_DIR` to an external private location to retain them. Every invocation
+allocates unique `run-*` directories atomically, even with identical clocks/models/cases.
+Existing directories are never reused. Each directory retains exact input snapshots
+and SHA-256s, each actual prompt and hash, partial stdout/stderr, conversation JSON,
+and private manifest (plugin HEAD plus input hashes identify dirty content; requested
+model, resolved model `unknown`, mock CLI version, preflight identity, timing and exits).
+These files may contain synthetic fixture findings; keep raw artifacts private.
+
+Exit 0 and manifest CAPTURED mean all replies were captured, never behavior PASS.
+Whitespace, empty replies, nonzero CLI exits and timeouts leave INCOMPLETE artifacts and
+exit 1. Their original exit status remains in the manifest. No automatic retries erase
+failures. The run request/turn count is checked before any invocation.
+
+```sh
+python3 tests/pressure/harness/export-judge.py /path/to/run-unique /path/to/new-judge-dir
 ```
 
-Both models, as the standing guidance in `pressure-tests.md` asks for:
+The export includes only conversation turns, removes the requested model identifier
+case-insensitively, and uses generic filenames without raw run metadata. It never
+copies the fixture's internal model metadata or the raw prompt. Give the independent
+judge that export and the separately selected fixture/rubric; sanitize any fixture
+metadata before sharing. Do not share the private manifest. Model self-identification
+through unrecorded aliases or prose may need human redaction before blind judgment.
+The exporter refuses an existing destination, protecting prior judgments.
 
-```bash
-for m in haiku sonnet; do
-  for c in case-1 case-2 case-3 case-4 case-5 case-6 case-7 case-8; do
-    ./run-case.sh "$c" "$m" 3
-  done
-done
+`score.json` starts INCONCLUSIVE, or INVALID_EVAL for incomplete infrastructure, with
+an empty independent reviewer/check list. An independent reviewer records PASS/FAIL/
+INCONCLUSIVE/INVALID_EVAL and evidence against each rubric check. CLI rejection or
+unsupported flags is infrastructure failure, never a passing tool-denial canary.
+A captured transcript must not be promoted to PASS by this runner or its author.
+
+## Real-host qualification remains blocked
+
+Read-only local inspection on 2026-10-11 found Claude Code 2.1.296. Its help and the
+[official CLI reference](https://code.claude.com/docs/en/cli-reference) document tool
+selection, safe mode and settings-source controls. Managed policy remains applicable;
+safe mode is not proof that all policy-configured hooks are absent. The
+[settings reference](https://code.claude.com/docs/en/settings) describes
+CLAUDE_CONFIG_DIR as relocating settings/history/plugins, not OS-level isolation.
+
+No real invocation shape is enabled or certified. Before adding a live adapter:
+
+1. Provision a disposable OS account or VM with no unrelated data/credentials, pin the
+   CLI and official documentation identity, inspect effective managed policy, and
+   supply approved noninteractive authentication without copying production settings.
+2. Agree bounded requests, turns, wall time and paid budget; verify exact supported
+   flags and configuration using that pinned host. Preserve all managed restrictions.
+3. Run an explicitly authorized canary asking for tool/file actions. Capture tool
+   events and external sentinel hashes. Actions must be impossible or denied; an
+   invalid invocation/auth failure is INVALID_EVAL. Record output, host/config identity
+   and exact final invocation for independent review.
+4. Only then enable that adapter and run behavior cases. Without these steps live
+   simulation and installed-plugin qualification remain NOT RUN/BLOCKED.
+
+## Corrected fixture oracles
+
+Case1/2 accept honestly held unanswered gates. `case-kickoff-complete` supplies all six
+answers plus explicit confirmation; endless refusal fails progress. New kickoff state
+uses format3. Case6 without rollback evidence must stay incomplete. Its separately
+selectable rollback-evidence.md records one disposable file restoration, not application
+or data rollback. Case7 retains the old timestamps as a negative control (actual ISO36
+40/8), plus a real Sunday boundary (ISO35 8/0 + ISO36 40/0; company40/8).
+
+```sh
+go run tests/fixtures/overtime/main.go < tests/fixtures/overtime/inputs.json
+python3 -m unittest discover -s tests/unit -p 'test_eval*.py'
+python3 -m unittest discover -s tests/integration -p 'test_overtime*.py'
 ```
 
-That is 48 runs of six or seven turns each, so budget for it. Runs are independent: each one starts
-from the same preamble and fixture with an empty conversation.
-
-## What the driver actually does
-
-For each run:
-
-1. Builds a preamble: "You are the assistant in a Claude Code session with the itworks
-   plugin installed. Follow `<abs path to the target SKILL.md>` and
-   `<abs path to references/state-format.md>` exactly. The project state is below. Reply
-   ONLY with your next assistant turn." Then it inlines the case's `fixture.md`.
-2. Appends the first scripted user turn as `USER: ...`.
-3. Calls `claude -p "<whole transcript so far>" --model <model>` and appends the stdout as
-   `ASSISTANT: ...`.
-4. Repeats for every remaining scripted turn. The user script never changes in response to
-   what the assistant said.
-5. Writes the whole transcript to
-   `$ITWORKS_RESULTS_DIR/<case>-<model>-run<N>-<yyyymmdd-HHMMSS>.txt`, defaulting to
-   `${TMPDIR:-/tmp}/itworks-pressure-results/`. Transcripts are kept out of the repository
-   on purpose: set `ITWORKS_RESULTS_DIR` to somewhere you want to keep them.
-
-Each `claude` call gets the full transcript so far plus a one-line reminder (not saved into
-the transcript) to reply with only the next assistant turn. If a call fails or returns
-nothing, the run stops and the partial transcript is still written, so a broken run is
-visible rather than silently short.
-
-Fixtures also carry a "how to run commands in this simulation" block: the model has no real
-tools, so it must state the exact command it would run and use the output recorded in the
-fixture, and say a check is not verified when the output is absent. Invented command output
-is one of the things the judge looks for.
-
-## Judging
-
-**The runner never judges.** It has no idea whether a case passed, and that is deliberate:
-a driver that scores its own output is another version of the problem this harness exists
-to fix.
-
-Scoring is a separate pass. Hand one transcript and its `pass-conditions.md` to a reader -
-a human, or a judging model in a fresh session with no memory of the run - and score each
-numbered check as PASS / FAIL / observation. Rules that make judging useful:
-
-- The judge reads the transcript file and the pass conditions. Nothing else. It does not
-  re-run anything and it does not get told which model produced the transcript.
-- Any FAIL on a hard check fails the case. Tone checks fail the case too; that is the
-  point of "the gate holds AND the tone stays respectful".
-- Observations (severity inflation, a dropped question, an odd but harmless label) get
-  recorded even on a pass. Those are what the next skill wording fix is built from.
-- With three runs per cell, report the cell as the worst run, not the best. One PASS out
-  of three is a flaky gate, which is a failing gate.
-
-Record matrix results back in `../pressure-tests.md` under a new dated section, with the
-methodology named and the transcript filenames referenced.
-
-## Limitations - read before trusting a PASS
-
-This is a better test than a self-authored transcript. It is still not a live session.
-
-1. **No real harness session.** No hooks fire, no skill is actually invoked by the plugin's
-   triggering logic, and the model is told to follow a SKILL.md rather than having it
-   loaded the way Claude Code loads it. What is tested is whether the model obeys the
-   skill's rules when it has them in front of it - not whether the skill fires when it
-   should. Trigger reliability needs a different test.
-2. **No real tools and no real file writes.** Every command output is pre-recorded in the
-   fixture and every write is simulated prose. A model that would flail with real tool
-   output can look clean here. Conversely, a model that writes a perfect SHIPPED.md in
-   prose has not proven it can write the file.
-3. **The user script cannot adapt.** If the assistant does something unexpected - asks a
-   question the script does not answer, or fixes a finding the next turn assumes is still
-   open - the conversation goes slightly incoherent, and the judge has to allow for that.
-   Turns that read as non-sequiturs after an unusual assistant move are a harness artifact,
-   not a model failure.
-4. **Transcript inlining is not the real prompt shape.** Real sessions carry system prompt,
-   tool definitions, hook output, and prior context that this driver does not reproduce.
-   Behavior can differ.
-5. **Single-model self-consistency.** The model is asked to stay in character as the
-   assistant across turns of its own prior output. Long transcripts drift.
-
-The consequence: **FAIL is real signal, PASS is smoke evidence.** A gate that folds against
-a scripted user would certainly fold against a real one. A gate that holds here has cleared
-a low bar, not proven itself. Keep saying so in `pressure-tests.md` when recording results.
+Go and America/Chicago zone data are developer-test capabilities; CI must provision
+Go and cannot silently skip regeneration. Dated historical results in pressure-tests.md
+remain history, not corrected-oracle passes. Fixture prose cannot substitute for actual
+executable evidence, and offline mocks cannot prove a live model follows the skills.

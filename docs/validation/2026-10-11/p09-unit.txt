@@ -1,0 +1,45 @@
+..........................................FF.............................................
+======================================================================
+FAIL: test_missing_duplicate_wrong_candidate (test_release_matrix.ReleaseMatrix) (mutation='missing')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_release_matrix.py", line 37, in test_missing_duplicate_wrong_candidate
+    with self.subTest(mutation=mutation),self.assertRaises(ValueError):validate(matrix,self.root)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_missing_duplicate_wrong_candidate (test_release_matrix.ReleaseMatrix) (mutation='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_release_matrix.py", line 37, in test_missing_duplicate_wrong_candidate
+    with self.subTest(mutation=mutation),self.assertRaises(ValueError):validate(matrix,self.root)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_missing_duplicate_wrong_candidate (test_release_matrix.ReleaseMatrix) (mutation='candidate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_release_matrix.py", line 37, in test_missing_duplicate_wrong_candidate
+    with self.subTest(mutation=mutation),self.assertRaises(ValueError):validate(matrix,self.root)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_modified_or_escaping_evidence (test_release_matrix.ReleaseMatrix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_release_matrix.py", line 41, in test_modified_or_escaping_evidence
+    with self.assertRaises(ValueError):validate(self.matrix,self.root)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_required_not_run_never_passes (test_release_matrix.ReleaseMatrix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/matthew/parallax-private/Projects/itworks/tests/unit/test_release_matrix.py", line 29, in test_required_not_run_never_passes
+    with self.assertRaisesRegex(ValueError,'NOT RUN'):validate(self.matrix,self.root)
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 90 tests in 5.353s
+
+FAILED (failures=5)

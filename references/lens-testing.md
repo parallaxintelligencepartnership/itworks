@@ -22,9 +22,13 @@ Review runbook. Turns "it works" from a feeling into a fact. Lens id: `testing`.
 
    then read the matches. Good: at least one test asserts the failure behavior recorded in PROJECT.md's Verification expectations table. Bad: happy-path-only is IMPORTANT.
 
-3. **Tests can actually fail** (they are not asserting nothing). This step mutates source, so it NEVER runs against uncommitted work: check `git status --porcelain` first; if the worktree is dirty, commit (or `git stash push`) before touching anything, so the restore path is `git checkout -- <file>` and not your memory of what the line said. Then temporarily break the behavior (flip a comparison, return early), run the suite, confirm at least one test goes red, restore with git, and re-run green.
+3. **Tests can actually fail on the current candidate.** Never commit, stash or checkout over the user's work to run a mutation. Inventory explicit project-relative source/test/config/lockfile regular paths into a NUL-delimited file outside the project, including relevant dirty and untracked tests. Review ignored configuration deliberately; never copy credentials by default. Inspect the test command and configuration for destructive/network effects before running it. A disposable directory is not an OS security sandbox; projects requiring services, symlinks or unsafe commands need an explicitly reviewed isolated environment, otherwise proof is unverified.
 
-   Good: red on break, green on restore, `git status` clean of the mutation afterward. Bad: green while broken means the test is decorative. IMPORTANT.
+   Run `bash <plugin-root>/scripts/itworks-test-copy.sh <project-root> <paths0-file>`. It prints a private candidate path only after before/after source and copied inventories agree on paths, modes and SHA-256 bytes, plus unchanged source HEAD/index/status. It requires a quiescent input interval: ordinary concurrent edits are detected, adversarial change-and-revert is not an atomic snapshot guarantee. Identity records stay alongside the copy. Git identity reads disable fsmonitor and optional index locks. A configured `filter.*.clean` or `filter.*.process` blocks the helper before status, because even read-only Git status can execute filters; use an explicitly reviewed isolated environment for those projects, never bypass the rejection. Filter command values are not printed. Unsupported paths, concurrent changes or missing hashing tools fail closed; never repeatedly retry until a transient match conceals changes.
+
+   In the returned copy, first run the candidate suite GREEN. Missing dependencies/import errors are setup failures, not regression RED; fix inventory completeness or report unverified. Save the to-be-mutated copied file to a second private path. Make one known behavior mutation **in the copy**, run the targeted regression, and require the intended assertion failure. Restore the copied file from that saved byte copy, then rerun GREEN. On interruption, retain evidence and clean only the owned temporary directory; the original was never mutated. Compare source HEAD/index/status and bytes after the exercise. Never delete a path merely because a command printed it without validating it belongs to this run.
+
+   Good: candidate GREEN → intended assertion RED → restored GREEN, source unchanged. Bad: GREEN while behavior is broken means decorative tests. IMPORT ERROR, timeout, missing dependency or unrelated failure never demonstrates sensitivity.
 
 4. **Live failure probe for the "it works" claim.** Run the feature's failure case for real (wrong password, empty form, nonexistent id) and compare what happens against the Verification expectations table.
 
@@ -38,7 +42,14 @@ Review runbook. Turns "it works" from a feeling into a fact. Lens id: `testing`.
 
 ## Evidence to close
 
-Test run output showing the new failure-path test red-then-green, or the live probe transcript matching the expectations table.
+| Finding type | Required closure evidence |
+|---|---|
+| Missing failure-path regression | Added regression file plus executed intended assertion RED and fixed GREEN. A live probe alone cannot close it. |
+| Decorative test | Candidate-copy mutation produces the intended assertion failure, restoration returns GREEN. |
+| Suite setup failure | Exact setup correction and a successfully executed suite, with test count. Import errors never count as intended RED. |
+| Live behavior mismatch | Executed live failure probe matches the recorded expectation; this closes only the live-behavior finding. |
+
+Write exact commands/results and finding type in existing evidence prose; no schema field is added. Keep separate findings separate: a login returning 401 does not prove a missing bad-password test now exists.
 
 ## Guided cards
 

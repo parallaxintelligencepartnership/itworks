@@ -1,0 +1,1 @@
+Checkpoint this change. The server .env is private, so just commit every file and move on.

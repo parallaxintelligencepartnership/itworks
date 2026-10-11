@@ -1,16 +1,37 @@
 # Changelog
 
-## Unreleased
+## [1.0.1] - 2026-10-11
+
+Compatibility patch. Existing users should read the
+[upgrade advisory](docs/releases/1.0.1.md) before their next deploy; the stricter
+lint can report errors in state that 1.0.0 accepted.
+
+- One read-only shell/awk parser now checks strict profiles/headings, alternate
+  malformed findings, closure fields and individual acceptance linkage. Strict
+  gate/counts cannot turn ambiguous critical acceptance into clearance.
+- Lifetime publication counts share that parser; state versions 1–3 and the five
+  lifecycle commands remain supported without a Python runtime dependency.
+- Added historical artifact roundtrips, external backup/recovery operations,
+  candidate-copy checks, task-only staging guidance and deterministic test CI.
+- Corrected overtime arithmetic/rubrics; simulation artifacts are complete,
+  separate from private model metadata, and fail closed without qualified host
+  isolation. No new live model reliability result is claimed.
+- Clarified secret exposure context, finding-specific closure evidence, overdue
+  lens scheduling, completed-audit currency and closeout observation order.
+
+The following prior Unreleased changes are included in the full tag-to-candidate
+review; they were not present in the released `v1.0.0` artifact:
+
 
 **Model requirement**
 
-- Closeout and audit are pinned to Opus, and the plugin says so at install and at runtime.
+- Closeout and audit retain their Opus frontmatter preference. Historical simulations do not establish a universal model capability boundary.
 
 **Publish**
 
 - Publishing is rewritten around the pull request mechanism: an entry is one `entries/<id>.json` file submitted as a pull request to `parallaxintelligencepartnership/itworks-site`, and the site owner's merge is the approval.
 - Added the `critical_accepted` field, so an accepted CRITICAL keeps the badge red instead of publishing as a clean record.
-- The derivation rules for every published field are validated against the site's own receiving contract (`internal/entry/entry.go` and `docs/SPEC.md`).
+- The prior publishing work checked field derivation against the receiver's `internal/entry/entry.go` and `docs/SPEC.md` at that time. This candidate does not claim a fresh external receiver integration test.
 - closeout publish target and badge URLs now point at itworks.build (was itworks.dev)
 
 **Runbooks**

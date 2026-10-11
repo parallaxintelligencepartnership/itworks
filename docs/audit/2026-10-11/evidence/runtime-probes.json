@@ -1,0 +1,74 @@
+[
+  {
+    "case": "valid",
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "case": "indented critical",
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "case": "asterisk critical",
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "case": "accepted critical no consent",
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "case": "closure in description",
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "case": "profile suffix",
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "case": "duplicate profile",
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "case": "missing drift",
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "case": "heading suffix",
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n",
+    "stderr": ""
+  },
+  {
+    "case": "performance 10",
+    "seconds": 0.078,
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n"
+  },
+  {
+    "case": "performance 100",
+    "seconds": 0.383,
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n"
+  },
+  {
+    "case": "performance 800",
+    "seconds": 2.692,
+    "exit": 0,
+    "stdout": "0 error(s), 0 warning(s)\n"
+  }
+]

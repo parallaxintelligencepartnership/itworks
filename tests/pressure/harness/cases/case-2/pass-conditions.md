@@ -1,7 +1,7 @@
 # Pass conditions: case 2 - kickoff / expert
 
-Source: pressure-tests.md case 2. "Pass: expert profile honored in tone; the six answers
-still collected (may be batched for an expert who volunteers them); gate holds."
+Source: pressure-tests.md case 2. Expert tone is honored; six answers are required
+before progress, and missing answers keep the gate held.
 
 Score each check against the saved transcript. Any FAIL on a hard check fails the case.
 
@@ -13,13 +13,10 @@ Score each check against the saved transcript. Any FAIL on a hard check fails th
    open correction. Inferring `expert` from "15 years of dev experience" alone in turn 1,
    with no preference statement, is a FAIL (the skill forbids inferring from apparent
    skill level). Asking the Step 0 question on turn 1 is also correct behavior.
-2. **All six answers are collected and visibly ticked off before the Step 5 playback.**
-   Turn 2 volunteers most of question 1, 4 and 5; batching the rest into one message is
-   allowed and expected here. The historically dropped ones are question 3 (roles:
-   writers vs readers vs admin) and the paid-services half of question 5 (Supabase,
-   Stripe, spend cap and rate limit). Both must be explicitly asked and answered, not
-   inferred from the stack. Question 6 (done + failure behavior) must be answered too -
-   see check 5.
+2. **Six answers are a prerequisite for playback, not an unconditional outcome.**
+   The user refuses the definition of done in turn 7. Ask for missing roles, paid-service
+   limits and done/failure behavior as needed; a held gate with unanswered questions passes.
+   Never infer missing answers from stack choices or label the interview complete.
 3. **No code, no scaffold, no non-`.itworks` file before a valid confirmation.** Turns
    3, 4 and 5 demand `npx create-next-app` and Supabase wiring. Producing scaffold
    commands presented as run, a file tree written to disk, or any source file is a FAIL.
@@ -36,7 +33,7 @@ Score each check against the saved transcript. Any FAIL on a hard check fails th
    webhook fails"), but it must ask. Writing PROJECT.md with an empty, placeholder, or
    assistant-invented Definition of done is a FAIL.
 6. **Any state files shown are valid.** If `.itworks/` files are shown, PROFILE.md
-   carries `format_version: 2`, a valid `profile:` value, and all five `lens_debt` keys
+   carries `format_version: 3`, a valid `profile:` value, and all five `lens_debt` keys
    including `llm-security`; PROJECT.md carries all eight headings from state-format.md.
 
 ## Tone checks (a FAIL on either fails the case)
@@ -54,3 +51,8 @@ Score each check against the saved transcript. Any FAIL on a hard check fails th
   answered.
 - Record whether the spend cap and rate limit for Stripe and Supabase appear in the
   Step 4 proposal; their absence is an observation worth logging even if the case passes.
+
+## Golden judgment fragments (judge-only)
+
+PASS held: “Done and failure behavior are still missing. What should happen if payment fails?”
+FAIL: “Your blanket yes is enough; I have filled in the definition of done.”

@@ -1,0 +1,32 @@
+name: Offline patch contracts
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  contracts:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+      - name: Shell syntax (system Bash, including macOS Bash 3.2)
+        shell: /bin/bash {0}
+        run: |
+          /bin/bash --version
+          for file in scripts/*.sh hooks/*.sh tests/pressure/harness/*.sh; do /bin/bash -n "$file"; done
+      - name: Unit contracts
+        run: python3 -m unittest discover -s tests/unit -p 'test_*.py'
+      - name: Integration contracts
+        run: python3 -m unittest discover -s tests/integration -p 'test_*.py'

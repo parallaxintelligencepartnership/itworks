@@ -1,0 +1,12 @@
+{
+  "exit": 0,
+  "calls": 6,
+  "cwd": "/private/tmp/itworks-harness-verify-3w0j3bpw/caller",
+  "non_prompt_args": [
+    "--model",
+    "verification-marker-model"
+  ],
+  "model_in_transcript": true,
+  "skill_body_marker_in_prompt": false,
+  "artifact": "/tmp/itworks-harness-verify-3w0j3bpw"
+}

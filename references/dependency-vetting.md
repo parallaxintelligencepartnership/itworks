@@ -18,7 +18,7 @@ Why this exists: AI assistants sometimes suggest package names that do not exist
 
    ```bash
    grep -E '"[\^~]' package.json 2>/dev/null   # floating ranges (npm)
-   git ls-files | grep -E "package-lock|pnpm-lock|yarn.lock|go.sum|poetry.lock|uv.lock|Gemfile.lock|Cargo.lock|composer.lock"
+   git ls-files -- package-lock.json pnpm-lock.yaml yarn.lock go.sum poetry.lock uv.lock Gemfile.lock Cargo.lock composer.lock
    git status --porcelain | grep -iE "lock"    # lockfile changed but not staged?
    ```
 
@@ -43,3 +43,39 @@ The registry lookup output showing the exact intended package; the grep showing 
 Terms this runbook touches: dependency, package registry, typosquatting, lockfile, version pinning, supply chain attack.
 
 In guided profile, show each term's two-line card from `glossary.md` the first time it appears in a finding.
+
+## Lockfile applicability (shared by production-readiness)
+
+Check each actual manifest at its package directory, not whether any unrelated
+lockfile exists somewhere in the repository. Confirm the matching lockfile is
+tracked with `git ls-files -- <path>`; inspect direct-version pinning separately.
+
+| Manifest/ecosystem | Matching lock evidence |
+|---|---|
+| package.json/npm | package-lock.json |
+| package.json/pnpm | pnpm-lock.yaml |
+| package.json/Yarn | yarn.lock |
+| go.mod with external dependencies | go.sum; no external modules means sum not applicable |
+| pyproject.toml with Poetry | poetry.lock |
+| pyproject.toml with uv | uv.lock |
+| requirements.txt/pip | exact pinned requirements and the project's declared hash/lock strategy; do not demand a Poetry file |
+| Gemfile | Gemfile.lock |
+| Cargo.toml | Cargo.lock (application); explicitly document library policy if different |
+| composer.json | composer.lock |
+
+A Cargo.lock passes Cargo applicability; a package-lock.json cannot satisfy a
+composer.json project. An absent applicable tracked lock is IMPORTANT. Unknown
+package-manager applicability is unresolved evidence, never a clean result.
+
+For each matching application lockfile, execute the same tracked-and-committed
+check at the project root (`lock_path` is the reviewed project-relative path):
+
+<!-- executable: committed-lock -->
+```bash
+git ls-files --error-unmatch -- "$lock_path" >/dev/null &&
+  git cat-file -e "HEAD:$lock_path"
+```
+<!-- /executable: committed-lock -->
+
+A staged-only new file is not a committed restore point. Inspect any changed
+lockfile content with the dependency change before the authorized task commit.

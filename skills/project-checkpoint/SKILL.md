@@ -33,7 +33,19 @@ Decide from what was just built:
 - Any works/done/tested claim → `testing`
 - Asked about hosting, users, or going live → `production-readiness`
 
-**Cap at 2 lenses.** (Two sanctioned exceptions run all lenses: the adoption-mode baseline in `project-kickoff`, and the closeout sweep.) Force-include any lens whose `lens_debt` is 3 or more. If forced inclusion would exceed the cap, the forced lens wins over the lower-priority contextual one. Priority order: `security-auth` > `llm-security` > `real-data` > `testing` > `production-readiness`.
+**Cap at 2 lenses.** Determine applicability first. Among applicable lenses,
+choose overdue debt >=3 first, ordered by highest debt, then the existing tie
+order: `security-auth`, `llm-security`, `real-data`, `testing`,
+`production-readiness`. Fill remaining slots with contextual lenses in that same
+tie order. Overdue means prioritized, not that every overdue lens fits this
+checkpoint. Unselected applicable debt increments; selected debt resets to zero;
+nonapplicable debt stays zero. Three tied overdue lenses therefore select the
+first two; the third reaches debt4 and wins the next checkpoint ahead of fresh
+contextual work. Adoption baseline and closeout remain the two all-lens exceptions.
+
+The cap never excuses skipping the current feature's required failure-path test
+or calling untested work successful. Those evidence obligations apply regardless
+of whether the testing lens fits the two selected review lenses.
 
 **Outside the cap:** if the diff since `last_checkpoint` adds or changes dependencies (package.json, go.mod, requirements.txt, Cargo.toml, Gemfile, composer.json), also run `<plugin-root>/references/dependency-vetting.md`. The plugin root is the directory above `skills/`; the loader reports the skill's base directory as `<plugin-root>/skills/<name>`. It is a small fixed runbook, not a lens; it never counts against the cap and never gets skipped for cap reasons.
 
@@ -42,7 +54,7 @@ Decide from what was just built:
 Read ONLY the selected lens files from `<plugin-root>/references/` (`lens-security-auth.md`, `lens-llm-security.md`, `lens-real-data.md`, `lens-testing.md`, `lens-production-readiness.md`). Execute their inspect steps with the real commands. Capture command output as evidence. Do not improvise checks the runbook does not call for; do not skip ones it does.
 
 Two edge rules:
-- A live probe that cannot run right now (no server up, no route built yet) is not skipped and not guessed green: assign severity from what the code shows, and put "not verified live:" plus the exact command into the evidence-to-close field. The finding closes only when that command has actually run clean.
+- A live probe that cannot run right now (no server up, no route built yet) is not skipped and not guessed green: assign severity from what the code shows, and put "not verified live:" plus the exact command into the evidence-to-close field. The live-behavior finding closes only when that command has actually run clean. A missing-test or decorative-test finding instead requires the executed regression or candidate-copy mutation evidence specified by lens-testing; a live response cannot close a test-coverage finding.
 - Runbook steps gated by their own "only if" are skipped when the condition is absent. But if PROJECT.md REQUIRES the missing thing (auth needed: yes and no auth code exists), the absence itself is a finding, not a skip. And when the code shows the thing PROJECT.md says is absent (real user records in a store PROJECT.md calls sample-only, a paid API client where PROJECT.md says no paid services), the PROJECT.md line is what is wrong: fix it in the same turn and run the gated step.
 
 ## Step 4: Report at profile depth
@@ -60,13 +72,26 @@ When findings are numerous, brevity comes from line length, never from dropping 
 
 ## Step 5: Update state
 
-Append the checkpoint section to `REVIEWS.md`. Still-open findings from earlier checkpoints are not restated; leave them where they are (the report may say "plus N still open from Checkpoint n"). New findings only in the new section. In `PROFILE.md`: reset `lens_debt` to 0 for lenses that ran, increment the others by 1.
+Append the checkpoint section to `REVIEWS.md`. Still-open findings from earlier checkpoints are not restated; leave them where they are (the report may say "plus N still open from Checkpoint n"). New findings only in the new section. In `PROFILE.md`: reset `lens_debt` to 0 for selected lenses, increment unselected applicable lenses by 1, and keep nonapplicable lenses at 0.
 
 Patch `MAP.md`: any entry point, route registration, storage location, env var name, or run/test command the diff added or moved gets its row updated, and a row the diff made false is removed. Any correction the user made this stretch about the project or its environment that is not yet under Gotchas goes there, dated, in their sense if not their words. If MAP.md does not exist (a project from before it did), write it now from the tree and the README, at most about 60 lines, and set `format_version: 3`; this is the one time a checkpoint reads outside the diff, and it reads for layout only, never for findings.
 
 ## Step 6: Restore point
 
-Commit everything (code plus `.itworks/`) with a plain message naming the feature. This is the restore point the next feature builds from: when a later AI rewrite goes wrong, this commit is the way back, and a beginner with no committed base has no way back. Open findings never block this commit; REVIEWS.md records them, and a documented-but-committed state beats an uncommitted one every time. Then set `last_checkpoint` in PROFILE.md to today's date plus that commit's short sha (`<YYYY-MM-DD> @<sha>`) and commit that bookkeeping line separately.
+Create a restore point only from explicit task-owned paths after reviewing their staged diff and scanning for credential material. Preserve unrelated staged and unstaged work. Never use blanket `git add`, plain `git commit` with unrelated staged changes, index reset, stash, or checkout over user files. Acceptance of a risk does not authorize committing known credentials. Commit authorization comes from the surrounding session/host policy.
+
+When each owned path belongs wholly to this task and has no unrelated staged hunks, the following path-limited operation commits those paths while retaining unrelated index entries. Before running it, record `git diff --cached --binary`, status, and each unrelated file's bytes; inspect both the owned working diff and prospective staged diff. Use explicit paths (including intended review notes), never `.` or a directory that could contain unrelated files:
+
+```bash
+# checkpoint-owned-commit (owned_paths is a reviewed Bash array)
+git --literal-pathspecs add -- "${owned_paths[@]}"
+git --literal-pathspecs diff --cached -- "${owned_paths[@]}"
+git --literal-pathspecs commit --only -m "$checkpoint_message" -- "${owned_paths[@]}"
+```
+
+Verify the resulting commit's changed paths and confirm unrelated index entries and worktree bytes are unchanged. If an owned file contains unrelated staged hunks, ownership is unclear, credentials would be included, commit authorization is absent, or safe partial staging cannot be achieved: record restore point **pending**, preserve the index, and continue only as existing finding gates permit. Do not fabricate a clean checkpoint SHA. Open findings do not themselves prevent an authorized safe restore point.
+
+Only after a verified task commit, update `last_checkpoint` to today's date plus that commit's short SHA. Commit the owned bookkeeping change with the same isolation checks; if PROFILE contains unrelated edits, leave bookkeeping pending rather than mixing them.
 
 ## Version and release identity
 
