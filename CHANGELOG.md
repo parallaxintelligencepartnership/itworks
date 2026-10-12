@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- CI runs the Go oracle fixture on Go 1.26 (1.23 is past end of life).
+- CI runs the Go oracle fixture on Go 1.27, the current stable release (was 1.23, past end of life).
 
 ## [1.0.1] - 2026-10-11
 
