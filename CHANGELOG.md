@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- CI runs the Go oracle fixture on Go 1.26 (1.23 is past end of life).
+
 ## [1.0.1] - 2026-10-11
 
 Compatibility patch. Existing users should read the
