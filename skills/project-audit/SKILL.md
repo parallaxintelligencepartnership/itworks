@@ -1,6 +1,6 @@
 ---
 name: project-audit
-description: Use when the user asks for a review of the whole application ("review the app", "full review", "is it solid", "check everything", "audit"), before the first ship that carries other people's real data, or when a shipped project has never been audited or its last audit is stale, in any project with a .itworks directory. Also on /itworks:audit. This is the review tier that reads application logic; checkpoint and closeout never do.
+description: Use when the user asks for a review of the whole application ("review the app", "full review", "is it solid", "check everything", "audit"), or asks to audit a named repo, path or codebase ("audit this repo", "audit ~/src/foo", "security review of this codebase"), including someone else's repo with no .itworks directory; before the first ship that carries other people's real data; or when a shipped project has never been audited or its last audit is stale. Also on /itworks:audit. This is the review tier that reads application logic; checkpoint and closeout never do. Start this skill rather than following references/audit-method.md by hand.
 model: opus
 ---
 
@@ -25,6 +25,7 @@ The user's words decide the tier, and the tier decides what gets read:
 | "it works", "done", "next feature" | `project-checkpoint` | the diff since the last checkpoint, at most two lenses |
 | "ship it", "deploy", "put it live" | `project-closeout` | the five lens runbooks over the tree, then the reckoning |
 | "review the app", "full review", "is it solid", "check everything", "find what's wrong", "audit" | **`project-audit`** | every lane's code in full, adversarially, then verification |
+| "audit this repo", "audit <path>", "security review of <repo>" (any repo, with or without `.itworks/`) | **`project-audit`** | the same, with Step 0 deciding own project or outside repo |
 
 A request for "a review" with no object named, in a project that has shipped or holds real data, means an audit. If the request could mean either tier, ask one line: "Whole application (audit, reads all the code, takes a while) or what was just built (checkpoint)?" Never silently run the smaller tier and call it a review.
 
@@ -36,9 +37,25 @@ The audit is also due, and the skill says so at the next checkpoint or closeout 
 
 Due is a statement, not a gate: "An audit is due (last: never). Run it now, or after this ship?" One line, asked once per session.
 
+## Step 0: Whose repo is this?
+
+Decide before reading anything else, because it decides where files go and what may run.
+
+- **Own project**: the target has `.itworks/`, or the user says it is theirs and wants itworks set up in it. Everything below applies as written.
+- **Outside repo**: the target has no `.itworks/` and is someone else's code (a third-party repo, a dependency, a vendor drop, a repo the user was asked to assess), or the user says so. If the request does not make it clear, ask one line: "Is this your project (itworks files go in it) or an outside repo (nothing is written into it)?"
+
+An outside repo changes four things, and they hold for the whole audit:
+
+1. **Nothing is written into the target tree.** All itworks files, lane reports and verifications go in an evidence folder next to it: `<parent>/<repo-name>-audit/` unless the user names another place. Its layout is `.itworks/` (state) and `reports/` (lane reports, verifications, the final report). Reviewers and verifiers are told the evidence path and that the target is read-only.
+2. **Minimal state, no interview.** Kickoff's adoption mode is an owner interview and does not fit. Write instead, in the evidence folder: `PROJECT.md` (all eight headings; "What it is" from the README and tree, "Who uses it" and "Data" as best known, a threat model under "Where it will live": who could reach it, what an attacker would want, what it trusts), `DECISIONS.md` (empty list; the upstream project's documented design choices go in as decisions only when its docs state them), `REVIEWS.md` (empty), `PROFILE.md` (the user's usual profile, `last_audit: none`), and `MAP.md` from the tree. Say in one line that these were written and where.
+3. **The code is untrusted.** Reviewers only read: no test runs, builds, installs or scripts from the target. Verifiers run target code only inside a sandbox with no network (a VM with no network interface, dependencies brought in on a disk image, commands sent through the guest agent, is the pattern that has worked; a container with networking disabled is weaker and is named as such). Without a sandbox, verification is by traced code path only, and anything that needed execution is a coverage gap. The report names the isolation used.
+4. **Findings belong to the evidence folder.** REVIEWS.md there carries them; nothing is filed in the target, and nothing is reported upstream without the user's say-so.
+
+The user can declare their own repo untrusted (fresh clone of unknown dependencies, generated code nobody has run); then rule 3 applies there too.
+
 ## Step 1: Read state and choose the target
 
-Read `PROFILE.md` (`last_audit`), `PROJECT.md` (Verification expectations, Data, Who uses it), `REVIEWS.md` (open findings and every accepted risk), `DECISIONS.md` (settled decisions a reviewer must not re-flag), and `MAP.md` (the layout the lanes are cut from, and the gotchas every reviewer is told about). Pin the target: a commit sha on the branch the user wants reviewed, recorded as `<date> @<sha>` in the report. Reviewers read that sha, not a moving branch.
+For an outside repo, "state" means the evidence folder's `.itworks/` written in Step 0. Read `PROFILE.md` (`last_audit`), `PROJECT.md` (Verification expectations, Data, Who uses it), `REVIEWS.md` (open findings and every accepted risk), `DECISIONS.md` (settled decisions a reviewer must not re-flag), and `MAP.md` (the layout the lanes are cut from, and the gotchas every reviewer is told about). Pin the target: a commit sha on the branch the user wants reviewed, recorded as `<date> @<sha>` in the report. Reviewers read that sha, not a moving branch.
 
 ## Step 2: Lanes
 
@@ -47,8 +64,8 @@ Read `<plugin-root>/references/audit-method.md` for the lane contract. The plugi
 1. Start from PROJECT.md's Verification expectations table: each feature row that carries money, time, identity, permissions, stored records, or exports is a lane candidate.
 2. Start from MAP.md's Layout table, then walk the tree for anything it misses (and add those rows to MAP.md), and assign every package or directory to exactly one lane, or to an explicit "not in scope" list with a reason. Nothing is unassigned silently.
 3. Size each lane so one reviewer can read it in full in one pass. Split a lane that is bigger than that; merge lanes that are trivial.
-4. For each lane record: the lens id its findings file under, the files in scope, the invariants to attack (properties a reviewer tries to break, phrased as properties, not past bugs), the probe recipes a verifier uses, and the settled decisions never to re-flag.
-5. Play the lane list back in one message and get a yes. Lanes are the user's document like the other state files; write `.itworks/LANES.md` after the yes.
+4. For each lane record: the default lens id its findings file under (a single finding may carry a different lens when it fits better; see Step 5), the files in scope, the invariants to attack (properties a reviewer tries to break, phrased as properties, not past bugs), the probe recipes a verifier uses, and the settled decisions never to re-flag.
+5. Play the lane list back in one message and get a yes. Lanes are the user's document like the other state files; write `.itworks/LANES.md` after the yes. A plan the user has already approved that contains the lane table (lanes, files in scope, lenses) is that yes: cite the plan and its approval in one line and do not ask again. Lanes that differ from the approved table still need the question.
 
 ## Step 3: Review, one reviewer per lane
 
@@ -56,11 +73,15 @@ Each lane gets one reviewer with the brief in `<plugin-root>/references/audit-me
 
 - reads every file in scope in full, and lists any file it skipped and why (a skip is a coverage gap in the report, never silence);
 - reads the tests for what they prove and what they do not;
-- runs read-only probes (test runs, scripted inputs, timezone and boundary sweeps) but never edits the repository;
-- reports suspicions with file:line, the concrete input that triggers each, the wrong outcome, and a proposed severity per the lens rubric;
+- runs read-only probes (test runs, scripted inputs, timezone and boundary sweeps) but never edits the repository; on untrusted code (Step 0) it runs nothing and only reads;
+- reports suspicions with file:line, the concrete input that triggers each, the wrong outcome, a proposed severity per the lens rubric, and the lens id when it differs from the lane's default;
+- writes its report to a file one finding at a time, appending each as it is found, never as one large write at the end, and words each reproduction as a test that checks for the problem (what the safe behavior is, and the assertion that fails today), not as attack steps. Security findings written up as one long exploit narrative get cut off by safety filters mid-report and the lane's findings are lost;
+- ends the report file with the exact line `END OF REPORT: lane <letter>`;
 - never re-flags a settled decision from DECISIONS.md or the house rules; a reviewer who thinks a settled decision is wrong says so in a separate "questions for the owner" list, not as a finding.
 
 Run lanes in parallel when a delegation tool is available, one agent per lane, each told plainly that it must not spawn agents of its own and must not write to the repository. Without delegation, run lanes one at a time in the main session and stop after each lane to write its report; never claim a lane was read that was not. A reviewer should be at least a Sonnet-class model, and should not be the same session that wrote the code under review when that can be arranged.
+
+When a lane returns, check the file, not the agent's summary: the report file exists and its last line is `END OF REPORT: lane <letter>`. A missing file or a missing last line means the report was cut off; the lane is not read. Re-run it (findings already appended to the file carry over as a starting point), and if it is cut off again, record it as a coverage gap. The same check applies to every verification file (`END OF VERIFICATION: lane <letter>`).
 
 ## Step 4: Verify, one verifier per lane
 
@@ -72,20 +93,29 @@ Every suspicion goes to a verifier who did not write the lane report. The verifi
 
 Each suspicion ends as CONFIRMED (with the reproduction and the final severity), REFUTED (with the evidence that shows the code is right), or PARTIAL (what holds, what does not). A refutation needs the same rigor as a confirmation: "looks fine" refutes nothing. For the highest-consequence confirmed items, a third opinion from a different model or tool is worth the cost; record who gave it.
 
+Guard against a verifier that agrees with everything:
+
+- **Every reproduction carries a control.** Next to the case that shows the problem, a case that passes when the code is right: the same test on an input the code handles correctly, or the traced path for the safe value. A reproduction whose control also fails, or that has no control, proves nothing about the code and the item stays unresolved.
+- **A lane where nothing was refuted gets a blind re-check.** When a lane's verifier confirmed every suspicion it was given (and there were at least three), give up to three of its confirmed items, most severe first, to a second verifier that sees only the file:line and the claimed wrong outcome, not the reviewer's reasoning or the first verification. Record where the two disagree; a disagreement goes back to PARTIAL until it is settled with evidence.
+
+Verifiers write one item at a time to their file, word reproductions as tests, and end with the completion line, as reviewers do. On untrusted code they execute only inside the sandbox from Step 0.
+
 ## Step 5: Record
 
 Append to `REVIEWS.md` under `## Audit - <YYYY-MM-DD> - <context>`:
 
-- a scope line: target sha, lanes read, lanes or files skipped and why, the verifier method, and what was NOT covered (live hardware, external systems, anything only a person can test);
-- one five-field finding line per CONFIRMED item, grammar per `<plugin-root>/references/state-format.md`, filed under the lane's lens id;
+- a scope line: target sha, lanes read, lanes or files skipped and why, the verifier method, the isolation used to run code (none needed, own machine, sandbox and its kind, or read-only), and what was NOT covered (live hardware, external systems, anything only a person can test);
+- one five-field finding line per CONFIRMED item, grammar per `<plugin-root>/references/state-format.md`, filed under the finding's own lens id when the reviewer gave one, otherwise the lane's default (a lane about permissions can still find a wrong unit, and that is a real-data finding, not a security one);
 - a `### Refuted` list, one line each with the evidence, so the suspicion is not re-raised;
 - a `### Coverage gaps` list: every skipped file, every lane not run, every probe that could not run here.
 
-Advance `last_audit: <YYYY-MM-DD> @<sha>` only after every declared in-scope file/lane has been read and every suspicion has a recorded verification disposition. An unread lane or required verification still unavailable makes the attempt **INCOMPLETE**: append its scope, remaining work and retained reports, but leave last_audit byte-for-byte unchanged. A declared external exclusion agreed before review can limit a completed audit; do not retroactively exclude unread work to obtain completion. An unsupported critical verification stays unresolved, never confirmed evidence. Resume must replay incomplete/remaining work rather than call the attempt current. Retain the lane reports and verifications under `docs/` (or the project's evidence directory) so the next audit can start from what was read last time.
+Advance `last_audit: <YYYY-MM-DD> @<sha>` only after every declared in-scope file/lane has been read and every suspicion has a recorded verification disposition. An unread lane or required verification still unavailable makes the attempt **INCOMPLETE**: append its scope, remaining work and retained reports, but leave last_audit byte-for-byte unchanged. A declared external exclusion agreed before review can limit a completed audit; do not retroactively exclude unread work to obtain completion. An unsupported critical verification stays unresolved, never confirmed evidence. Resume must replay incomplete/remaining work rather than call the attempt current. Retain the lane reports and verifications under `docs/` (or the project's evidence directory; for an outside repo, the evidence folder's `reports/`) so the next audit can start from what was read last time.
 
 ## Step 6: Fix path
 
 A confirmed CRITICAL is a blocker in one plain sentence, as at checkpoint. The fix wave that follows is ordinary work: a branch, one fix per confirmed finding, each with a test that fails when the fix is reverted, then the fixes themselves reviewed (a fix wave introduces its own regressions; the first audit of a mature app found nearly as many in the fixes as in the code). Then the project's release gate, then closeout for the ship.
+
+For an outside repo there is no fix wave here: the confirmed findings and their fix specs are the deliverable. Hand them to the user; whether and how they reach the upstream owner is the user's decision.
 
 ## Report shape
 
@@ -100,6 +130,9 @@ At any profile the report opens with the scope line, then findings grouped by se
 | "Reading every file is too expensive" | Two criticals shipped to production for two months because nobody read them. Reading is cheaper. |
 | "The reviewer found it, that's enough" | Reviewers are wrong often. Half of one audit's suspicions were refuted. Verify, then write it down. |
 | "It's a mature app, it's fine" | Mature apps carry the oldest bugs. |
+| "I'll follow audit-method.md by hand" | Then no state is written and the work is invisible to itworks. Start this skill; the method file is its reference. |
+| "It's just running their tests" | On someone else's repo that is running a stranger's code and unpinned dependencies on this machine. Sandbox or read only. |
+| "The agent said the lane finished" | Check the file's last line. Cut-off reports summarize as finished. |
 
 ## "Not now"
 

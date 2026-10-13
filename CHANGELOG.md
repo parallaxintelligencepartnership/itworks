@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+## [1.0.2] - 2026-10-13
+
+Audit patch, from the first audit of an outside repo. See the
+[release note](docs/releases/1.0.2.md). No state format change.
+
+- The audit skill triggers on "audit this repo" or "audit <path>", including a
+  repo with no `.itworks/`; the method file says to start the skill, not run it
+  by hand.
+- Outside-repo mode: state and reports live in an evidence folder next to the
+  target, minimal state is written without an owner interview, and nothing is
+  written into the target tree.
+- Untrusted code is read, not run: reviewers only read, verifiers execute only in
+  a sandbox with no network, and the report names the isolation used.
+- Reviewers and verifiers append one finding at a time, word reproductions as
+  tests rather than attack steps, and end each file with a completion line the
+  orchestrator checks, so safety-filter cut-offs no longer lose a lane silently.
+- An approved plan that holds the lane table counts as lane approval.
+- A finding can carry its own lens; the lane's lens is the default.
+- Every verification carries a passing control case, and a lane whose verifier
+  refuted nothing gets a blind re-check of up to three confirmed items.
 - CI runs the Go oracle fixture on Go 1.27, the current stable release (was 1.23, past end of life).
 
 ## [1.0.1] - 2026-10-11

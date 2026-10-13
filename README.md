@@ -1,6 +1,6 @@
 # itworks
 
-**1.0.1 compatibility patch.** Existing users: read the [upgrade advisory](docs/releases/1.0.1.md) before your next deploy.
+**1.0.2 audit patch.** Audits now handle outside repos and untrusted code; see the [release note](docs/releases/1.0.2.md). Upgrading from 1.0.0: read the [1.0.1 upgrade advisory](docs/releases/1.0.1.md) before your next deploy.
 
 You describe what you want and the AI builds it. itworks adds checks for common gaps: no fake data pretending to be your app, no passwords sitting in public files, no "it works" that only means the happy path clicked once. It asks the questions an experienced developer would ask, at the moments they would ask them, in plain English, so you do not need to know the vocabulary to get the quality.
 

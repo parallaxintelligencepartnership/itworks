@@ -1,6 +1,6 @@
 # Audit method: lanes, reviewers, verifiers
 
-The contract behind `project-audit`. Read it before deriving lanes or writing a reviewer brief.
+The contract behind `project-audit`. Read it before deriving lanes or writing a reviewer brief. This file is the skill's reference, not a substitute for it: to audit anything, including an outside repo with no `.itworks/`, start the `project-audit` skill (or `/itworks:audit`) and let it call for this file. Following the method by hand skips the state, the outside-repo rules and the completion checks.
 
 ## Why three tiers
 
@@ -22,7 +22,7 @@ Optional fifth state file, `.itworks/LANES.md`, written the first time an audit 
 <one paragraph: what a lane is, when lanes are re-derived>
 
 ## Lane <letter>: <name>
-Lens id: <security-auth | real-data | testing | production-readiness | llm-security>
+Default lens id: <security-auth | real-data | testing | production-readiness | llm-security>
 Files in scope:
 - <path> (<what it holds>)
 Invariants to attack:
@@ -45,7 +45,7 @@ Rules for lane design:
 - A lane is one reviewer's full read. If the reviewer would have to skim, split the lane.
 - Lanes follow the application's money, time, identity, permission, stored-record, and export boundaries, not the directory tree. The directory tree tells you where the files are; the boundaries tell you what to break.
 - Invariants are properties ("an edited end time re-validates every break inside the shift"), never past bugs ("the retime bug from July"). A past bug becomes the invariant it violated.
-- Each lane declares the lens id its findings file under, so the five-field grammar and the lint stay unchanged.
+- Each lane declares a default lens id for its findings, so the five-field grammar and the lint stay unchanged. A finding that fits another lens better carries its own lens id; the default is only the fallback. Older LANES.md files that say `Lens id:` mean the same thing.
 
 ## Reviewer brief (template)
 
@@ -58,8 +58,11 @@ Settled decisions you must not re-flag: <list from DECISIONS.md / house rules>.
 Invariants to attack: <list>. For each, try to construct an input, sequence, or timing that breaks it.
 Also look for: arithmetic at boundaries (rounding, zero, negative, midnight, timezone and DST transitions, period edges), state read before it is committed or after it can change, anything that writes without the check that guards the equivalent read, error paths that continue, anything that trusts the client.
 Read the tests for each file and say what they do NOT prove.
-You may run read-only probes: <commands>. You must not edit, create, or delete any file in the repository, and you must not spawn agents of your own.
-Report: for each suspicion, file:line, the concrete input, the wrong outcome, the proposed severity per the lens rubric for <lens id>, and how a verifier could reproduce it. Then a "questions for the owner" list for anything that looks like a design choice rather than a defect. Then a coverage list: what you read, what you skipped.
+You may run read-only probes: <commands, or "none: this code is untrusted, read only">. You must not edit, create, or delete any file in the repository, and you must not spawn agents of your own.
+Write your report to <report path>, one finding at a time: append each finding to the file as soon as you have it, never one large write at the end.
+For each suspicion: file:line, the concrete input, the wrong outcome, the proposed severity per the lens rubric, the lens id if it is not <default lens id>, and a reproduction worded as a test that checks for the problem (the safe behavior, and the assertion that fails today), not as attack steps.
+Then a "questions for the owner" list for anything that looks like a design choice rather than a defect. Then a coverage list: what you read, what you skipped.
+The last line of the file must be exactly: END OF REPORT: lane <letter>
 ```
 
 ## Verifier brief (template)
@@ -67,10 +70,31 @@ Report: for each suspicion, file:line, the concrete input, the wrong outcome, th
 ```
 You are verifying lane <letter> of <project> at commit <sha>. You did not write the lane report.
 For each suspicion in <report path>: reproduce it. Acceptable reproductions: a test that fails on the current code and names the input; a probe transcript against a running instance; a traced code path with the exact values at each step when execution is not possible here.
-Mark each CONFIRMED (reproduction attached, final severity), REFUTED (evidence that the code is right; "looks fine" is not evidence), or PARTIAL (what holds, what does not).
+Every reproduction includes a control: a case that passes when the code is right (the same test on an input the code handles correctly, or the traced path for a safe value). No control, or a control that also fails, means the item is unresolved, not confirmed.
+Mark each CONFIRMED (reproduction and control attached, final severity), REFUTED (evidence that the code is right; "looks fine" is not evidence), or PARTIAL (what holds, what does not).
+<untrusted code only:> Run target code only inside <sandbox description>, which has no network. If an item needs execution and the sandbox cannot do it, trace the path instead and say so.
 For each CONFIRMED item write the fix spec: what must change, what test must fail before and pass after, and what must not change.
 You must not edit the repository except in a throwaway overlay or scratch directory, and you must not spawn agents of your own.
+Write to <verification path> one item at a time, word reproductions as tests rather than attack steps, and make the last line exactly: END OF VERIFICATION: lane <letter>
 ```
+
+## Blind re-check (template)
+
+Used when a lane's verifier confirmed every suspicion (three or more). Give up to three confirmed items, most severe first, to a fresh verifier:
+
+```
+You are checking <n> claims about <project> at commit <sha>. For each: <file:line> is claimed to produce <wrong outcome> on <input>.
+You have not seen anyone else's reasoning about these. Decide for each, with a reproduction and a control case, whether the claim holds, holds in part, or is wrong.
+Same write, wording and sandbox rules as the verifier brief. Last line: END OF RECHECK: lane <letter>
+```
+
+A disagreement with the first verifier sends the item back to PARTIAL until evidence settles it. Record the re-check result in the scope line either way: a sample that agrees is evidence the verifier is accurate, not just agreeable.
+
+## Outside repos and untrusted code
+
+When the target is not the user's own project (the skill's Step 0 decides), the audit writes nothing into it. State and reports live in an evidence folder beside it, `<parent>/<repo-name>-audit/{.itworks,reports}/`, and the minimal state is written without an owner interview.
+
+Untrusted code is read, not run. Reviewers get no probe commands. Verifiers execute only inside a sandbox with no network; the arrangement that has worked is a VM with no network interface, its dependencies brought in on a disk image and commands sent through the guest agent. A container with networking turned off is weaker (shared kernel) and is named as such in the report. Without either, verification is by traced code path and execution-only items become coverage gaps. The scope line names the isolation.
 
 ## Severity
 
@@ -82,7 +106,7 @@ Fixes for confirmed findings are a normal branch. Each fix carries a test that f
 
 ## Retention
 
-Keep the lane reports and verifications in the repository's documentation area, named by date and lane. The next audit starts by reading the previous one's coverage list, and a reviewer who can see what was read last time reads the rest first.
+Keep the lane reports and verifications in the repository's documentation area, named by date and lane. For an outside repo they live in the evidence folder's `reports/`, never in the target tree. The next audit starts by reading the previous one's coverage list, and a reviewer who can see what was read last time reads the rest first.
 
 ## Completion and currency
 
