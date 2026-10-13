@@ -41,4 +41,4 @@ None.
 
 ## Where it stands
 
-2026-10-13: done. Built in a9c07bf; one review found 0 critical, 6 important, 10 advisory, all fixed in 2e524f7. Unit 97/97 and integration 92/92 pass. Tagged v1.0.2 and pushed to Gitea. Matt's install reads this folder directly and reports 1.0.2. GitHub push is Matt's one-line command.
+2026-10-13: done. Built in a9c07bf; one review found 0 critical, 6 important, 10 advisory, all fixed in 2e524f7. Unit 97/97 and integration 92/92 pass. Tagged v1.0.2 and pushed to Gitea and GitHub (Matt pushed GitHub); GitHub CI green on main and the tag. Matt's install reads this folder directly and reports 1.0.2.
