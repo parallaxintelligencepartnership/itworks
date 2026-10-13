@@ -1,5 +1,5 @@
 LT: 196c3d82-9a39-4de3-b659-769f4d048750, 46b37df2-f86a-470d-8ec1-d5b9302fda74, 79b32e0a-4dbe-4591-80b6-80815732ec4c, f513c12a-79b2-4654-bf16-9c7444ffb456, 001d7f74-9b45-4520-ab97-1c7aa44ce1e8, 049f96d9-f326-4974-ac9c-63a59d8e7d43, cf3ad951-c8cd-494a-b28b-b4c266d3d12e, 4c473c27-f4fc-4b01-92f2-a323eab3e359
-Status: In progress
+Status: Done 2026-10-13
 Approved by Matt: 2026-10-13, "implement and deploy the outstanding tasks in this project" (covers the 1.0.2 version bump, tag, Gitea push and refreshing his local install; GitHub push is handed to Matt as a one-line command)
 
 # Audit: outside repos and lane-report hardening (itworks 1.0.2)
@@ -41,4 +41,4 @@ None.
 
 ## Where it stands
 
-2026-10-13: steps 1-7 done in a9c07bf (skill, method, 1.0.2 bump, release note). Unit suite green. Next: act on the review, run the integration suite once, then tag v1.0.2, push Gitea, refresh Matt's install.
+2026-10-13: done. Built in a9c07bf; one review found 0 critical, 6 important, 10 advisory, all fixed in 2e524f7. Unit 97/97 and integration 92/92 pass. Tagged v1.0.2 and pushed to Gitea. Matt's install reads this folder directly and reports 1.0.2. GitHub push is Matt's one-line command.
