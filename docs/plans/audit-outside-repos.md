@@ -41,4 +41,4 @@ None.
 
 ## Where it stands
 
-2026-10-13: plan written; editing the skill and method next.
+2026-10-13: steps 1-7 done in a9c07bf (skill, method, 1.0.2 bump, release note). Unit suite green. Next: act on the review, run the integration suite once, then tag v1.0.2, push Gitea, refresh Matt's install.
