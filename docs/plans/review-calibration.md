@@ -138,6 +138,11 @@ installed on Matt's Mac.
 
 ## Where it stands
 
-2026-10-14: research note and this plan written and committed. Nothing in
-`skills/`, `references/` or `tests/` has been changed. Next step: Matt answers
-the four questions, sets Status to Ready, and steps 1 to 7 run as one batch.
+2026-10-14: steps 1 to 5 and 7's docs are done and committed (72221e3): the
+calibration reference, audit/checkpoint/closeout/lens edits, the recurrence
+loop, pressure cases 9 to 11, the clean fixture (54 tests), release note,
+CHANGELOG, version 1.1.0. Unit (97), integration (92) and shell syntax are green.
+In flight: the case 9 negative-control run (lane reviewer on the clean fixture)
+and the one package review at 72221e3. Next: record the case 9 result in the
+pressure file and scenario, fix any CRITICAL or IMPORTANT from the review, tag
+v1.1.0, push to Gitea, refresh Matt's install, hand Matt the GitHub push line.
