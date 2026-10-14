@@ -1,6 +1,6 @@
 LT: b7b6359d-832f-416c-b712-e5d38e3f0380
-Status: Draft (needs Matt's approval before any edit to the skills)
-Approved by Matt: not yet. Research and gap analysis only were asked for on 2026-10-14 ("present a plan of action").
+Status: In progress
+Approved by Matt: 2026-10-14, all four open questions ("1 yes. 2. yes 3. 1.1 4. keep"): PLAUSIBLE disposition, ADVISORY as a count, version 1.1.0, recurrence loop kept. Covers the 1.1.0 tag, Gitea push and refreshing his local install; GitHub push is handed to Matt as a one-line command.
 
 # Review calibration: make every itworks tier say what counts as a finding
 

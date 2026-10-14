@@ -36,6 +36,8 @@ Review runbook. Turns "it works" from a feeling into a fact. Lens id: `testing`.
 
 ## Severity rubric
 
+Reachability and the do-not-flag list: `review-calibration.md`. A trigger the code makes impossible is not a finding; one that needs an unrealistic actor is ADVISORY at most; rare but realistic keeps its rung.
+
 - **CRITICAL:** no runnable suite at closeout, or a decorative test guarding money, auth, or data-loss paths.
 - **IMPORTANT:** missing failure-path tests, decorative tests elsewhere, suite that does not run.
 - **ADVISORY:** coverage gaps in cosmetic code.

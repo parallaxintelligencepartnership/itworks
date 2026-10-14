@@ -64,6 +64,8 @@ Steps 1 and 2 share ONE canonical pattern set: `references/secret-patterns.grep`
 
 ## Severity rubric
 
+Reachability and the do-not-flag list: `review-calibration.md`. A trigger the code makes impossible is not a finding; one that needs an unrealistic actor is ADVISORY at most; rare but realistic keeps its rung.
+
 - **CRITICAL:** a stranger can read secrets, act as another user, or run commands (findings from steps 1-5 and 8).
 - **IMPORTANT:** exploitable with effort or only by authenticated users (steps 6-7, typically).
 - **ADVISORY:** hygiene: missing rate limiting, verbose error pages leaking stack traces, no CSRF token on cookie-session forms that only change low-stakes data.

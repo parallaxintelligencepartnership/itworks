@@ -40,6 +40,8 @@ Review runbook for apps that themselves call an LLM or AI API (chatbots, generat
 
 ## Severity rubric
 
+Reachability and the do-not-flag list: `review-calibration.md`. A trigger the code makes impossible is not a finding; one that needs an unrealistic actor is ADVISORY at most; rare but realistic keeps its rung.
+
 - **CRITICAL:** secrets or other users' data in prompts; untrusted content driving tool calls or other consequential actions; model output executed as code or queries; unlimited public spend routes.
 - **IMPORTANT:** politeness-guarded sensitive prompts, unsanitized HTML rendering of output, unbounded history, over-sharing with the provider.
 - **ADVISORY:** missing output-schema validation on low-stakes structured calls; no logging of model errors.

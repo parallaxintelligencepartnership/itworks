@@ -10,7 +10,9 @@ model: opus
 
 The whole-application adversarial review. Checkpoints look at a diff through at most two lenses. Closeout re-runs five fixed runbooks (secret scan, restart test, dependency pins, forced-failure UX, and so on) over the whole tree. Neither reads the application's logic, so neither can find a pay calculation that under-counts, a login that trusts a stale row, or a restore that reverts itself. Those live in the code's reasoning, and only a reviewer who reads the code in full, with a brief to break it, finds them.
 
-An audit splits the application into lanes, gives each lane to a read-only reviewer who reads everything in scope, then gives every finding to an independent verifier who must reproduce it before it is written down. A suspicion is refuted only by evidence that shows it is wrong. An unavailable reproduction remains unresolved or partial with its coverage gap; it cannot be turned into a refutation merely because the probe did not run.
+An audit splits the application into lanes, gives each lane to a read-only reviewer who reads everything in scope, then gives every finding to an independent verifier who must reproduce it before it is written down. A suspicion is refuted only by evidence that shows it is wrong. An unavailable reproduction remains unresolved, partial or plausible with its coverage gap; it cannot be turned into a refutation merely because the probe did not run.
+
+The calibration rules in `<plugin-root>/references/review-calibration.md` apply to every brief this skill writes: lane reviewers run in recall mode and verifiers in precision mode, an empty lane report with a full coverage list is a complete report, every suspicion names its trigger and who can reach it, the do-not-flag list is checked before anything is emitted, and nobody is asked for more findings after an empty result.
 
 <HARD-GATE>
 A finding enters REVIEWS.md only after a verifier has reproduced it (a failing test, a probe transcript, or a traced code path with the exact inputs). A reviewer's word is a suspicion, never a finding. An audit report that lists lanes it did not read, or findings nobody reproduced, is not an audit; say what was skipped instead. A CRITICAL confirmed by the audit blocks new feature work and the next ship exactly as a checkpoint CRITICAL does.
@@ -74,42 +76,51 @@ Each lane gets one reviewer with the brief in `<plugin-root>/references/audit-me
 - reads every file in scope in full, and lists any file it skipped and why (a skip is a coverage gap in the report, never silence);
 - reads the tests for what they prove and what they do not;
 - runs read-only probes (test runs, scripted inputs, timezone and boundary sweeps) but never edits the repository, and writes nothing except its own report file; on untrusted code (Step 0) it runs nothing and only reads;
-- reports suspicions with file:line, the concrete input that triggers each, the wrong outcome, a proposed severity per the lens rubric, and the lens id when it differs from the lane's default (one of `security-auth`, `real-data`, `testing`, `production-readiness`, `llm-security`; no other id exists);
+- is told its mode (recall: pass on every suspicion that has a concrete trigger, a verifier filters; never pad, never self-censor) and the do-not-flag list from `review-calibration.md`;
+- reports suspicions with file:line, the concrete input that triggers each, the wrong outcome, who or what can produce that input in this deployment ("reachable by"), a proposed severity per the lens rubric, and the lens id when it differs from the lane's default (one of `security-auth`, `real-data`, `testing`, `production-readiness`, `llm-security`; no other id exists);
 - writes its report to a file one finding at a time, appending each as it is found, never as one large write at the end, and words each reproduction as a test that checks for the problem (what the safe behavior is, and the assertion that fails today), not as attack steps. Security findings written up as one long exploit narrative get cut off by safety filters mid-report and the lane's findings are lost;
-- ends the report file with the exact line `END OF REPORT: lane <letter>`;
+- ends the report file with the exact line `END OF REPORT: lane <letter>`; a report whose only content is the coverage list and that line is complete, not suspect;
 - never re-flags a settled decision from DECISIONS.md or the house rules; a reviewer who thinks a settled decision is wrong says so in a separate "questions for the owner" list, not as a finding.
 
 Run lanes in parallel when a delegation tool is available, one agent per lane, each told plainly that it must not spawn agents of its own and must not write anything except its report file. Put report files outside the code under review while the audit runs (a scratch or evidence directory) and copy them into the retention location in Step 5. Without delegation, run lanes one at a time in the main session and stop after each lane to write its report; never claim a lane was read that was not. A reviewer should be at least a Sonnet-class model, and should not be the same session that wrote the code under review when that can be arranged.
 
 When a lane returns, check the file, not the agent's summary: the report file exists and its last line is `END OF REPORT: lane <letter>`. A missing file or a missing last line means the report was cut off; the lane is not read. Re-run it (findings already appended to the file carry over as a starting point), and if it is cut off again, record it as a coverage gap. The same check applies to every verification and re-check file (`END OF VERIFICATION: lane <letter>`, `END OF RECHECK: lane <letter>`). A report with the completion line but no coverage list is also incomplete: ask for the list before counting the lane as read.
 
+## Step 3b: Deduplicate
+
+Before anything goes to a verifier, fold suspicions that name the same line and the same mechanism into one, keeping the most concrete trigger. Drop any suspicion that has no trigger or no "reachable by" (record the count; it is a fact about the reviewer, not a finding). Record both counts, raised and after dedup, for the scope line. A lane with zero suspicions after this step gets no verifier; its verification file is one line, `no suspicions to verify`, plus the completion line, written by the orchestrator.
+
 ## Step 4: Verify, one verifier per lane
 
-Every suspicion goes to a verifier who did not write the lane report. The verifier reproduces each one:
+Every suspicion goes to a verifier who did not write the lane report. The verifier is asked a short question with a fixed answer set (the dispositions below), never for an essay. It reproduces each one:
 
 - a test that fails on the current code and names the input (`go test -run`, `pytest -k`, a scripted request), or
 - a probe transcript against a running instance, or
 - a traced code path with the exact values at each step, when the outcome cannot be executed here.
 
-Each suspicion ends as CONFIRMED (with the reproduction and the final severity), REFUTED (with the evidence that shows the code is right), or PARTIAL (what holds, what does not). A refutation needs the same rigor as a confirmation: "looks fine" refutes nothing. For the highest-consequence confirmed items, a third opinion from a different model or tool is worth the cost; record who gave it.
+Each suspicion ends as CONFIRMED (with the reproduction and the final severity), PLAUSIBLE (the mechanism is traced with exact values and the trigger is realistic, but it could not be produced here: timing, environment, hardware, a live system; recorded as an open finding whose evidence to close is the exact probe that would settle it, capped at IMPORTANT unless the money, time or permission exception in `audit-method.md` applies), REFUTED (with the evidence that shows the code is right), or PARTIAL (what holds, what does not). A refutation needs the same rigor as a confirmation: "looks fine", "unlikely" and "speculative" refute nothing. A refutation quotes the type, constant, invariant, guard or PROJECT.md line that makes the trigger impossible (the reachability rule in `review-calibration.md`). A suspicion that cites a file, line, function or commit that does not exist is REFUTED on the spot; a reviewer that did that twice in one lane is re-run from scratch. For the highest-consequence confirmed items, a third opinion from a different model or tool is worth the cost; record who gave it.
 
 Guard against a verifier that agrees with everything:
 
 - **Every reproduction carries a control.** Next to the case that shows the problem, a case that passes when the code is right: the same test on an input the code handles correctly, or the traced path for the safe value. A reproduction whose control also fails, or that has no control, proves nothing about the code and the item stays unresolved.
 - **A lane where nothing was refuted gets a blind re-check.** When a lane's verifier refuted none of the suspicions it was given (at least three; PARTIALs do not count as refutations), give up to three of its confirmed items, most severe first, to a second verifier that sees only the file:line, the triggering input and the claimed wrong outcome, not the reviewer's reasoning or the first verification. Record where the two disagree; a disagreement makes the item unresolved until evidence settles it (see Step 5).
 
-Verifiers write one item at a time to their file, word reproductions as tests, and end with the completion line, as reviewers do. On untrusted code they execute only inside the sandbox from Step 0.
+Verifiers write one item at a time to their file, word reproductions as tests, and end with the completion line, as reviewers do. A verifier is never asked to look again for more. On untrusted code they execute only inside the sandbox from Step 0.
 
 ## Step 5: Record
 
 Append to `REVIEWS.md` under `## Audit - <YYYY-MM-DD> - <context>`:
 
-- a scope line: target sha, lanes read, lanes or files skipped and why, the verifier method, the isolation used to run code (none needed, own machine, sandbox and its kind, or read-only), and what was NOT covered (live hardware, external systems, anything only a person can test);
-- one five-field finding line per CONFIRMED item, and per PARTIAL item for the part that holds (the description says what was not confirmed), grammar per `<plugin-root>/references/state-format.md`, filed under the finding's own lens id when the reviewer gave one of the five valid ids, otherwise the lane's default (a lane about permissions can still find a wrong unit, and that is a real-data finding, not a security one);
+- a scope line: target sha, lanes read, lanes or files skipped and why, the tally (suspicions raised, after dedup, confirmed, plausible, partial, refuted, unresolved), the verifier method, the isolation used to run code (none needed, own machine, sandbox and its kind, or read-only), and what was NOT covered (live hardware, external systems, anything only a person can test);
+- one five-field finding line per CONFIRMED item, per PLAUSIBLE item (the description starts `plausible, not reproduced here:` and the evidence to close is the probe that would settle it), and per PARTIAL item for the part that holds (the description says what was not confirmed), grammar per `<plugin-root>/references/state-format.md`, filed under the finding's own lens id when the reviewer gave one of the five valid ids, otherwise the lane's default (a lane about permissions can still find a wrong unit, and that is a real-data finding, not a security one);
 - a `### Refuted` list, one line each with the evidence, so the suspicion is not re-raised;
 - a `### Coverage gaps` list: every skipped file, every lane not run, every probe that could not run here.
 
-Advance `last_audit: <YYYY-MM-DD> @<sha>` only after every declared in-scope file/lane has been read and every suspicion has a recorded verification disposition. An unread lane or required verification still unavailable makes the attempt **INCOMPLETE**: append its scope, remaining work and retained reports, but leave last_audit byte-for-byte unchanged. A declared external exclusion agreed before review can limit a completed audit; do not retroactively exclude unread work to obtain completion. An unsupported critical verification stays unresolved, never confirmed evidence. An item with no control, a failed control, or an unsettled disagreement from the blind re-check is unresolved too: list it under `### Unresolved` with what is missing, and while any unresolved item could be CRITICAL or IMPORTANT the attempt is INCOMPLETE. Resume must replay incomplete/remaining work rather than call the attempt current. Retain the lane reports and verifications under `docs/` (or the project's evidence directory; for an outside repo, the evidence folder's `reports/`) so the next audit can start from what was read last time.
+Advance `last_audit: <YYYY-MM-DD> @<sha>` only after every declared in-scope file/lane has been read and every suspicion has a recorded verification disposition. An unread lane or required verification still unavailable makes the attempt **INCOMPLETE**: append its scope, remaining work and retained reports, but leave last_audit byte-for-byte unchanged. A declared external exclusion agreed before review can limit a completed audit; do not retroactively exclude unread work to obtain completion. An unsupported critical verification stays unresolved, never confirmed evidence. An item with no control, a failed control, or an unsettled disagreement from the blind re-check is unresolved too: list it under `### Unresolved` with what is missing, and while any unresolved item could be CRITICAL or IMPORTANT the attempt is INCOMPLETE. A PLAUSIBLE item is not unresolved: it has a traced mechanism and a named probe, it is recorded as open, and it does not keep the audit INCOMPLETE. Resume must replay incomplete/remaining work rather than call the attempt current. Retain the lane reports and verifications under `docs/` (or the project's evidence directory; for an outside repo, the evidence folder's `reports/`) so the next audit can start from what was read last time.
+
+## Re-audits of an unchanged target
+
+When the target sha (or tree hash) equals the one in `last_audit`, or a lane's files are byte-identical to the last audit's coverage list, that lane runs the gap-sweep brief from `audit-method.md` instead of the reviewer brief: it reads the previous report, refuted list and accepted risks first, looks only for what is not already recorded, never re-raises a refuted or accepted item, returns empty when nothing is new, and names the angle or file the previous pass missed for each new CRITICAL or IMPORTANT. The verifier step is unchanged.
 
 ## Step 6: Fix path
 
@@ -119,7 +130,7 @@ For an outside repo there is no fix wave here: the confirmed findings and their 
 
 ## Report shape
 
-At any profile the report opens with the scope line, then findings grouped by severity, criticals first, one line each, then refuted and coverage gaps as counts with a pointer to the retained reports. Guided adds one paragraph per CRITICAL on what it means for the user. Nothing else; an audit is long enough already.
+At any profile the report opens with the scope line, then CRITICAL and IMPORTANT findings grouped by severity, criticals first, one line each, then ADVISORY as a count ("plus N advisory, logged in REVIEWS.md"), then refuted and coverage gaps as counts with a pointer to the retained reports. An audit that confirmed nothing says so in one line after the scope line and does not pad with observations. Guided adds one paragraph per CRITICAL on what it means for the user. Nothing else; an audit is long enough already.
 
 ## Rationalization table
 
@@ -133,6 +144,9 @@ At any profile the report opens with the scope line, then findings grouped by se
 | "I'll follow audit-method.md by hand" | Then no state is written and the work is invisible to itworks. Start this skill; the method file is its reference. |
 | "It's just running their tests" | On someone else's repo that is running a stranger's code and unpinned dependencies on this machine. Sandbox or read only. |
 | "The agent said the lane finished" | Check the file's last line. Cut-off reports summarize as finished. |
+| "An empty lane means the reviewer was lazy" | An empty lane with a full coverage list is a result. A padded lane costs a verifier run per invented item. |
+| "It's rare, so it's not a finding" | Rare and realistic is PLAUSIBLE or CONFIRMED. Impossible, with the guard quoted, is REFUTED. Rarity alone decides nothing. |
+| "Ask the reviewer to look again" | A second look raises recall a little and halves the signal. Run the gap sweep only when the target is unchanged and the first pass is recorded. |
 
 ## "Not now"
 

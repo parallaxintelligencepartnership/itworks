@@ -1,6 +1,6 @@
 # itworks
 
-**1.0.2 audit patch.** Audits now handle outside repos and untrusted code; see the [release note](docs/releases/1.0.2.md). Upgrading from 1.0.0: read the [1.0.1 upgrade advisory](docs/releases/1.0.1.md) before your next deploy.
+**1.1.0 review calibration.** Every tier now says what counts as a finding, an empty review is a valid result, and audits record plausible-but-unreproduced items instead of stalling on them; see the [release note](docs/releases/1.1.0.md). Upgrading from 1.0.0: read the [1.0.1 upgrade advisory](docs/releases/1.0.1.md) before your next deploy.
 
 You describe what you want and the AI builds it. itworks adds checks for common gaps: no fake data pretending to be your app, no passwords sitting in public files, no "it works" that only means the happy path clicked once. It asks the questions an experienced developer would ask, at the moments they would ask them, in plain English, so you do not need to know the vocabulary to get the quality.
 
@@ -24,7 +24,11 @@ The reviews look through five lenses: security and auth, AI-feature safety (prom
 | "ship it", "deploy" | closeout | five fixed runbooks over the whole tree, then the reckoning |
 | "review the app", "full review", "is it solid", "audit" | audit | every lane's code in full, adversarially, then independent verification |
 
-Every review report opens with a scope line naming its tier and what it did not cover, so "no critical open" never quietly means more than it should. The checkpoint and closeout tiers cannot find a wrong calculation, a stale read, or a race; only the audit reads for those. Ask for one before real people depend on the app, and again when it has been a while.
+Every review report opens with a scope line naming its tier and what it did not cover, so "no critical open" never quietly means more than it should.
+
+### How findings are calibrated
+
+A model asked to find problems will find some, so every reviewer itworks launches is told what counts. Checkpoint and closeout report only what a runbook step and its rubric name, and a clean command is recorded as clean rather than dressed up. The audit's reviewers surface every suspicion with a concrete trigger and who can reach it, and an independent verifier then confirms, refutes with the guard quoted, or records it as plausible with the probe that would settle it; an empty report with a full coverage list is a complete report. The rules are in [references/review-calibration.md](references/review-calibration.md). The checkpoint and closeout tiers cannot find a wrong calculation, a stale read, or a race; only the audit reads for those. Ask for one before real people depend on the app, and again when it has been a while.
 
 ## Install
 

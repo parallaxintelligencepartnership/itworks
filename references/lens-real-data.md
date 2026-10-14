@@ -52,6 +52,8 @@ Post-ship checks (only after the project has shipped, i.e. SHIPPED.md exists; fr
 
 ## Severity rubric
 
+Reachability and the do-not-flag list: `review-calibration.md`. A trigger the code makes impossible is not a finding; one that needs an unrealistic actor is ADVISORY at most; rare but realistic keeps its rung.
+
 - **CRITICAL:** fake data on a screen the user has called finished or shown to someone else, or data does not survive a restart; dev pointed at the production database; destructive schema change on real data with no backup.
 - **IMPORTANT:** mock imports at runtime, dropped fields, typed-in numbers, unguarded destructive scripts, hand-applied schema changes.
 - **ADVISORY:** seed data still present but clearly labeled as sample content.

@@ -2,6 +2,31 @@
 
 ## Unreleased
 
+## [1.1.0] - 2026-10-14
+
+Review calibration. See the [release note](docs/releases/1.1.0.md). No state
+format change; the five-field finding grammar and `format_version: 3` are unchanged.
+
+- New `references/review-calibration.md`: the mode each tier runs in (precision
+  for checkpoint and closeout, recall then precision for the audit), zero findings
+  as a valid and complete result, a trigger and a "reachable by" on every finding,
+  a do-not-flag list, the reachability rule, evidence hygiene, dedup, gap sweeps
+  for re-reviews, and the spoken-report shape.
+- Audit: reviewer briefs state the mode and the do-not-flag list; a dedup step
+  runs between reviewer and verifier; verifiers answer with a fixed set that now
+  includes PLAUSIBLE (mechanism traced, trigger realistic but not producible here,
+  recorded as open with its settling probe, never blocks completion); refutations
+  must quote the guard; fabricated references refute on the spot; the scope line
+  carries a tally; re-audits of an unchanged target run a gap-sweep brief.
+- Checkpoint and closeout: stated precision mode, a clean step is recorded as
+  clean, the closeout sweep no longer "expects to find things", ADVISORY findings
+  are a count in the spoken report with every line kept in REVIEWS.md, and a
+  finding type seen at three checkpoints gets a proposed deterministic check.
+- Lens rubrics point at the reachability rule; no severity values change.
+- Pressure cases 9 (negative control on a defect-free fixture), 10 (re-review of
+  an unchanged target) and 11 (reachability at checkpoint); `tests/fixtures/clean-app`
+  is the negative control, 54 passing tests.
+
 ## [1.0.2] - 2026-10-13
 
 Audit patch, from the first audit of an outside repo. See the

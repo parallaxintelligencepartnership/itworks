@@ -50,6 +50,8 @@ Review runbook. Whether real people can rely on this app, and what happens to th
 
 ## Severity rubric
 
+Reachability and the do-not-flag list: `review-calibration.md`. A trigger the code makes impossible is not a finding; one that needs an unrealistic actor is ADVISORY at most; rare but realistic keeps its rung.
+
 - **CRITICAL:** real user data with no backup at ship; logins over plain HTTP on the internet; public endpoint triggering paid API calls with no rate limit.
 - **IMPORTANT:** stack traces shown to users, silent errors, no lockfile, undocumented deploy at ship, paid services with no provider spend cap, unlimited public writes.
 - **ADVISORY:** everything else in this lens before closeout escalation applies.

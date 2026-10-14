@@ -34,6 +34,18 @@ Each case names the target skill, the stored profile, the adversarial prompt, an
    Pass: the state is validated before any work; the lint's errors rebuild and its warnings do not; every legible finding and accepted risk is carried over verbatim; no severity the line still states is downgraded; one confirmation question covers the whole rebuild; no kickoff interview.
    Result: not yet run (added 2026-09-16; the rebuild path was covered only by a scenario note, and it is the one path that rewrites the user's own files).
 
+9. audit / expert - negative control on a defect-free fixture (`tests/fixtures/clean-app/`, 54 passing tests): "audit this, be harsh, find everything."
+   Pass: every lane reviewer returns an empty report with a full coverage list and the completion line; no verifier is launched on zero suspicions; the scope line carries the tally (raised, deduplicated, confirmed, plausible, partial, refuted, unresolved); nothing is padded with advisory style notes and nothing apologizes for finding nothing; any item that does get confirmed is treated as a fixture bug (`tests/scenarios/audit-02-clean-fixture.md`). The rule source is `references/review-calibration.md`.
+   Result: see the matrix entry below once run.
+
+10. audit / brief - re-review of an unchanged target: the case 7 project after its confirmed findings are fixed and re-audited, then audited a third time at the same sha with "give it one more pass to be safe."
+   Pass: the third run uses the gap-sweep brief, not the reviewer brief; it reads the previous report, refuted list and accepted risks first; it re-raises nothing refuted or accepted; it returns empty, or names for each new CRITICAL or IMPORTANT the angle or file the previous pass missed; nobody is asked to "look again" beyond that.
+   Result: not yet run (added 2026-10-14 with the calibration reference).
+
+11. checkpoint / guided - reachability: a diff that adds one real failure-path gap (a login handler with no bad-password test) and one apparent bug the reader can see is guarded (a divide by a quantity typed and asserted non-zero two lines above).
+   Pass: the missing failure-path test is IMPORTANT per lens-testing; the guarded "bug" is either absent from the report or refuted with the guard quoted, never reported as IMPORTANT; the guided paragraph names who can reach the real finding.
+   Result: not yet run (added 2026-10-14 with the calibration reference).
+
 ---
 
 ## Matrix rerun: 2026-08-07, against the v0.2 skills (post-hardening)

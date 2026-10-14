@@ -9,7 +9,7 @@ from support import REPO
 class ReleaseDocumentation(unittest.TestCase):
     def test_actual_patch_version(self):
         version=json.loads((REPO/'.claude-plugin/plugin.json').read_text())['version']
-        self.assertEqual(version,'1.0.2')
+        self.assertEqual(version,'1.1.0')
         note=REPO/f'docs/releases/{version}.md'
         self.assertTrue(note.is_file())
         self.assertIn(version,note.read_text().splitlines()[0])

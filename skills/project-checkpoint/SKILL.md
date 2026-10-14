@@ -7,7 +7,7 @@ description: Use when the user says a feature works, is finished, or asks to bui
 
 ## Overview
 
-A short, targeted review of what was just built, using at most two lenses, producing evidence-backed findings. Criticals block building on top. This is the skill that turns "I asked for X and got X, it works!" into an actual fact before the next layer gets stacked on it.
+A short, targeted review of what was just built, using at most two lenses, producing evidence-backed findings. Criticals block building on top. The tier runs in precision mode (`<plugin-root>/references/review-calibration.md`): it executes the runbook steps, records what each command showed, and reports only what a rubric names. A step that finds nothing records "clean" with the command and its output and moves on; a checkpoint with no findings is a result, not a failure to look hard enough, and nothing is added to make it look like work. This is the skill that turns "I asked for X and got X, it works!" into an actual fact before the next layer gets stacked on it.
 
 <HARD-GATE>
 An "it works" claim is accepted only with evidence. Run the failure path before agreeing. A CRITICAL finding blocks new feature work until fixed or accepted in writing.
@@ -68,11 +68,13 @@ Findings use the five-field grammar from `<plugin-root>/references/state-format.
 - `brief`: one context line per finding.
 - `expert`: a terse table, plus the one-sentence blocker line for each CRITICAL. That sentence is universal across profiles; everything else stays out.
 
-When findings are numerous, brevity comes from line length, never from dropping findings: group by severity, one line each, criticals first. A CRITICAL finding is stated as a blocker in one plain sentence, for example: "This must be fixed before we build more on top of it, because every new feature would inherit the hole." Never deliver a wall: two lenses maximum, findings only, no lecture.
+The spoken report lists CRITICAL and IMPORTANT findings in full, one line each, criticals first, and ADVISORY as a count ("plus 2 advisory, logged in REVIEWS.md"); REVIEWS.md keeps every line. Brevity comes from ranking, never from leaving the record short. A CRITICAL finding is stated as a blocker in one plain sentence, for example: "This must be fixed before we build more on top of it, because every new feature would inherit the hole." Never deliver a wall: two lenses maximum, findings only, no lecture.
 
 ## Step 5: Update state
 
 Append the checkpoint section to `REVIEWS.md`. Still-open findings from earlier checkpoints are not restated; leave them where they are (the report may say "plus N still open from Checkpoint n"). New findings only in the new section. In `PROFILE.md`: reset `lens_debt` to 0 for selected lenses, increment unselected applicable lenses by 1, and keep nonapplicable lenses at 0.
+
+Recurrences become rules: when a finding type (the same lens step, the same kind of gap) has appeared at three checkpoints of this project, add one line to the report proposing a deterministic check in its place (a lint rule, a test, a grep line under MAP.md Gotchas), instead of a fourth review comment. If the user takes it, record it in DECISIONS.md (`- <date> | <check> replaces review comment for <finding type> | why: recurred three times | instead of: a fourth comment`) and the runbook step points at the check from then on. Asked once per finding type.
 
 Patch `MAP.md`: any entry point, route registration, storage location, env var name, or run/test command the diff added or moved gets its row updated, and a row the diff made false is removed. Any correction the user made this stretch about the project or its environment that is not yet under Gotchas goes there, dated, in their sense if not their words. If MAP.md does not exist (a project from before it did), write it now from the tree and the README, at most about 60 lines, and set `format_version: 3`; this is the one time a checkpoint reads outside the diff, and it reads for layout only, never for findings.
 
@@ -121,6 +123,8 @@ Repeating the request is not acceptance, and silence on the consequence is not a
 | "Reviewing now kills their momentum" | Building feature 2 on a broken feature 1 kills the project. |
 | "It's a tiny feature" | Tiny features touch auth and data too. Select lenses, then decide. |
 | "Expert profile means lighter review" | Expert changes the words, never the checks. |
+| "A review that finds nothing looks like it did nothing" | The scope line says what ran. Clean output from a real command is the evidence. |
+| "That edge case could bite someday" | A trigger nobody in PROJECT.md can produce is ADVISORY at most; a trigger the code makes impossible is not a finding. Name who can reach it. |
 
 ## "Not now"
 
