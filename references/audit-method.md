@@ -56,7 +56,7 @@ Give each reviewer this, filled in:
 ```
 You are reviewing lane <letter> (<name>) of <project> at commit <sha>, read-only.
 Mode: recall. Pass on every suspicion that has a concrete trigger; an independent verifier filters, so do not self-censor and do not pad. An empty report with a full coverage list is a complete report, and nobody will ask you for more.
-Do not flag (see review-calibration.md): anything outside the files in scope, anything the project's typecheck, lint, build or the lens greps catch, settled decisions, behavior the diff's own tests assert as intended, style or taste, and anything the lens rubric has no rung for. A cited file, line, function or commit must exist; an invented one refutes the item and marks the report.
+Do not flag (see review-calibration.md): anything outside the files in scope, anything the project's typecheck, lint, build or the lens greps catch, settled decisions, behavior the task or DECISIONS.md states as intended (a test asserting it is not by itself proof; a test that asserts a wrong money, time or permission outcome is a testing finding), style or taste, and anything the lens rubric has no rung for. A cited file, line, function or commit must exist; an invented one refutes the item and marks the report.
 Files in scope: <list>. Read every one in full. If you skip a file, say so and why.
 Settled decisions you must not re-flag: <list from DECISIONS.md / house rules>.
 Invariants to attack: <list>. For each, try to construct an input, sequence, or timing that breaks it.
@@ -77,7 +77,7 @@ You are verifying lane <letter> of <project> at commit <sha>. You did not write 
 Mode: precision. Answer each item with exactly one of CONFIRMED, PLAUSIBLE, PARTIAL, REFUTED and the evidence for it; no essays.
 For each suspicion in <report path>: reproduce it. Acceptable reproductions: a test that fails on the current code and names the input; a probe transcript against a running instance; a traced code path with the exact values at each step when execution is not possible here.
 Every reproduction includes a control: a case that passes when the code is right (the same test on an input the code handles correctly, or the traced path for a safe value). No control, or a control that also fails, means the item is unresolved, not confirmed.
-Mark each CONFIRMED (reproduction and control attached, final severity), PLAUSIBLE (mechanism traced with exact values, trigger realistic but not producible here; name the exact probe that would settle it; IMPORTANT at most unless it changes stored money, time or permission outcomes), PARTIAL (what holds, what does not), or REFUTED (evidence that the code is right: quote the type, constant, invariant, guard or PROJECT.md line that makes the trigger impossible; "looks fine", "unlikely" and "speculative" are not evidence, and a realistic but rare trigger is not refuted for being rare). An item that cites a file, line, function or commit that does not exist is REFUTED; say so.
+Mark each CONFIRMED (reproduction and control attached, final severity), PLAUSIBLE (mechanism traced with exact values and a control safe path traced, but no concrete input or sequence reaching it could be named or produced here; name the condition and the exact probe that would settle it; IMPORTANT at most unless it changes stored money, time or permission outcomes, then an open CRITICAL), PARTIAL (what holds, what does not), or REFUTED (evidence that the code is right: quote the type, constant, invariant, guard or PROJECT.md line that makes the trigger impossible; "looks fine", "unlikely" and "speculative" are not evidence, and a realistic but rare trigger is not refuted for being rare). An item that cites a file, line, function or commit that does not exist is REFUTED; say so.
 <untrusted code only:> Run target code only inside <sandbox description>, which has no network. If an item needs execution and the sandbox cannot do it, trace the path instead and say so.
 For each CONFIRMED item write the fix spec: what must change, what test must fail before and pass after, and what must not change.
 You must not edit the repository except in a throwaway overlay or scratch directory, and you must not spawn agents of your own.
@@ -98,7 +98,7 @@ The last line of the file must be exactly: END OF REPORT: lane <letter>
 
 ## Blind re-check (template)
 
-Used when a lane's verifier refuted none of its suspicions (three or more; PARTIAL is not a refutation). Give up to three confirmed items, most severe first, to a fresh verifier:
+Used when a lane's verifier refuted none of its suspicions (three or more; PARTIAL and PLAUSIBLE are not refutations). Give up to three confirmed or plausible items, most severe first, to a fresh verifier:
 
 ```
 You are checking <n> claims about <project> at commit <sha>. For each: <file:line> is claimed to produce <wrong outcome> on <input>.
@@ -116,7 +116,7 @@ Untrusted code is read, not run. Reviewers get no probe commands. Verifiers exec
 
 ## Dedup
 
-Between reviewer and verifier the orchestrator folds suspicions that name the same line and the same mechanism into one, keeping the most concrete trigger, drops any with no trigger or no "reachable by" (counted, not reported), and records raised and deduplicated counts. A lane with nothing left gets no verifier.
+Between reviewer and verifier the orchestrator folds suspicions that name the same line and the same mechanism into one, keeping the most concrete trigger, drops only those with no trigger at all (counted, not reported), marks a missing "reachable by" as `reachability: unstated` for the verifier to fill, and records raised and deduplicated counts. A lane with nothing left gets no verifier.
 
 ## Severity
 
@@ -139,4 +139,6 @@ attempt INCOMPLETE. Keep intentional external exclusions stated
 before review distinct from unread in-scope files. Partial attempts append an
 INCOMPLETE audit section and remaining-work list, preserving the prior last_audit
 marker. Only a completed declared scope advances that marker. Unavailable probes
-remain explicit gaps; unsupported critical verification cannot become confirmed.
+remain explicit gaps; a critical claim with neither reproduction nor traced
+mechanism cannot become confirmed, and one with a traced mechanism but no
+producible input is PLAUSIBLE, open at its severity.

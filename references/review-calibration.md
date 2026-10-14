@@ -44,23 +44,30 @@ Every suspicion, finding and verification names:
   described in PROJECT.md (an anonymous visitor, a logged-in user, an admin, a
   scheduled job, a config change, a dependency upgrade).
 
-A suspicion with no trigger is not passed on. A finding with no "reachable by" is
-not written to REVIEWS.md.
+A suspicion with no trigger is not passed on: there is nothing to reproduce. A
+suspicion whose "reachable by" is missing is passed on marked `reachability:
+unstated`, and the verifier supplies it from the trigger; a missing field never
+keeps a suspicion from the verifier. A finding is written to REVIEWS.md with its
+"reachable by" filled in.
 
 ## The do-not-flag list
 
 Checked before a finding is emitted, at every tier:
 
-1. **Outside the scope.** At checkpoint, code the diff did not touch. At any tier,
-   a defect in a file the scope line lists as not covered. Say "not covered"; do
-   not report it as a finding of this review.
+1. **Reading outside the scope.** A reviewer does not go looking beyond its scope
+   (at checkpoint, application logic outside the diff is the audit's job). But a
+   runbook step that by design scans the whole tree (the secret scan, the
+   protected-route probe) reports what it finds wherever it sits, and anything a
+   reviewer actually observed that meets a CRITICAL rung is recorded, never filed
+   as "not covered". "Not covered" is for what was not read, not for what was seen.
 2. **Caught by the deterministic layers.** Anything the project's typecheck, lint,
    build or the lens greps already catch. Run those; do not re-report them in
    prose.
 3. **Settled.** A decision recorded in DECISIONS.md, or a rule in the house
    instructions. A reviewer who disagrees writes a "questions for the owner" line.
-4. **Intentional.** A behavior change the task asked for, or that the diff's own
-   tests assert.
+4. **Intentional.** A behavior the task asked for or DECISIONS.md records. A test
+   asserting a behavior is not by itself proof it is intended; a test that asserts
+   a wrong money, time or permission outcome is a testing finding.
 5. **Taste.** Style, naming, "could be cleaner", "consider extracting", and any
    change with no observable effect on behavior, data, security or cost.
 6. **Out of class.** A category the running lens's rubric does not name. A finding
@@ -93,14 +100,20 @@ the trigger looks, because the record is wrong and nobody is told.
 
 A verifier returns exactly one disposition per item, with the evidence attached:
 
-- **CONFIRMED**: the reproduction ran (a failing test that names the input, a probe
-  transcript) or the path was traced with exact values, and the control case
-  passed. Final severity from the lens rubric.
-- **PLAUSIBLE**: the mechanism is real (traced with exact values) and the trigger is
-  realistic, but it could not be produced here (timing, environment, hardware, a
-  live system). Recorded as an open finding whose evidence to close is the exact
-  probe that would settle it. Capped at IMPORTANT unless the money, time or
-  permission exception applies. A PLAUSIBLE item does not keep an audit INCOMPLETE.
+- **CONFIRMED**: a named concrete input or sequence, and either the reproduction
+  ran (a failing test that names it, a probe transcript) or the path was traced
+  from that input with exact values at each step to the wrong outcome; plus the
+  control case passed (the same test, or the same trace, on a safe input). Final
+  severity from the lens rubric.
+- **PLAUSIBLE**: the mechanism is real (traced with exact values) but no concrete
+  input or sequence that reaches it could be named or produced here; what is
+  known is the condition (a timing window, an environment, hardware, a live
+  system). It still carries a control: the traced safe path. Recorded as an open
+  finding whose evidence to close is the exact probe that would settle it. Capped
+  at IMPORTANT unless the money, time or permission exception applies; then it is
+  recorded as an open CRITICAL and gates ships like any other open CRITICAL. A
+  PLAUSIBLE item does not keep an audit INCOMPLETE. The line between the two is
+  the input: CONFIRMED names it, PLAUSIBLE names the condition.
 - **PARTIAL**: part of the claim holds and part does not; the record says which.
 - **REFUTED**: only with proof from the code or the deployment, per the
   reachability rule. "Looks fine", "unlikely" and "the framework probably handles
@@ -146,8 +159,10 @@ counts. Brevity comes from ranking, never from leaving the record short.
 ## Measure it
 
 Every audit scope line carries a tally: suspicions raised, after dedup, confirmed,
-plausible, partial, refuted, unresolved. A run where nothing was refuted gets the
-blind re-check `audit-method.md` describes. A refuted item is read, not just
+plausible, partial, refuted, unresolved. A lane whose verifier refuted none of at
+least three items (PARTIAL and PLAUSIBLE are not refutations) gets the blind
+re-check `audit-method.md` describes, sampled from its confirmed and plausible
+items. A refuted item is read, not just
 counted: when the same cause refutes three items across audits of one project,
 the reviewer brief for that project (LANES.md "Never re-flag") gets the line that
 would have stopped it.

@@ -124,7 +124,7 @@ Repeating the request is not acceptance, and silence on the consequence is not a
 | "It's a tiny feature" | Tiny features touch auth and data too. Select lenses, then decide. |
 | "Expert profile means lighter review" | Expert changes the words, never the checks. |
 | "A review that finds nothing looks like it did nothing" | The scope line says what ran. Clean output from a real command is the evidence. |
-| "That edge case could bite someday" | A trigger nobody in PROJECT.md can produce is ADVISORY at most; a trigger the code makes impossible is not a finding. Name who can reach it. |
+| "That edge case could bite someday" | A trigger the code or the deployment in PROJECT.md makes impossible is a refutation that quotes the guard or the line; one that needs an unrealistic actor is ADVISORY at most. Name who can reach it. |
 
 ## "Not now"
 
