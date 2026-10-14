@@ -1,5 +1,5 @@
 LT: b7b6359d-832f-416c-b712-e5d38e3f0380
-Status: In progress
+Status: Done 2026-10-14
 Approved by Matt: 2026-10-14, all four open questions ("1 yes. 2. yes 3. 1.1 4. keep"): PLAUSIBLE disposition, ADVISORY as a count, version 1.1.0, recurrence loop kept. Covers the 1.1.0 tag, Gitea push and refreshing his local install; GitHub push is handed to Matt as a one-line command.
 
 # Review calibration: make every itworks tier say what counts as a finding
@@ -138,11 +138,12 @@ installed on Matt's Mac.
 
 ## Where it stands
 
-2026-10-14: steps 1 to 5 and 7's docs are done and committed (72221e3): the
-calibration reference, audit/checkpoint/closeout/lens edits, the recurrence
-loop, pressure cases 9 to 11, the clean fixture (54 tests), release note,
-CHANGELOG, version 1.1.0. Unit (97), integration (92) and shell syntax are green.
-In flight: the case 9 negative-control run (lane reviewer on the clean fixture)
-and the one package review at 72221e3. Next: record the case 9 result in the
-pressure file and scenario, fix any CRITICAL or IMPORTANT from the review, tag
-v1.1.0, push to Gitea, refresh Matt's install, hand Matt the GitHub push line.
+2026-10-14: done. Steps 1 to 7 complete. The one package review (at 72221e3)
+found 2 CRITICAL and 4 IMPORTANT contradictions in the new text, fixed in
+e9ed8f8 with the 4 advisories. Case 9 ran once end to end and passed under the
+corrected pass condition (7 raised, 0 above advisory, 3 refuted with the
+decision quoted); its two real fixture gaps were fixed afterwards (69 tests) and
+the re-review is the next matrix, with cases 10 and 11 still unrun. Final offline
+run: unit 97, integration 92, fixture 69, shell syntax clean. Tagged v1.1.0 and
+pushed to Gitea; Matt's install reads the working tree and reports 1.1.0; the
+GitHub push is Matt's one-line command.

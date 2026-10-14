@@ -1,4 +1,6 @@
 import unittest
+from fractions import Fraction
+from math import floor
 
 from shiftpay import gross_pay, overtime_split
 
@@ -93,6 +95,26 @@ class OvertimeSplitTests(unittest.TestCase):
             overtime_split(True)
         with self.assertRaises(TypeError):
             overtime_split("10")
+
+
+class SweepTests(unittest.TestCase):
+    def test_gross_pay_matches_exact_reference(self):
+        for m in range(600):
+            for r in range(400):
+                want = floor(Fraction(m * r, 60) + Fraction(1, 2))
+                self.assertEqual(gross_pay(m, r), want, (m, r))
+
+    def test_overtime_split_invariants(self):
+        for t in (0, 1, 60, 2400):
+            for m in range(0, 5001):
+                regular, overtime = overtime_split(m, t)
+                self.assertEqual(regular + overtime, m, (m, t))
+                self.assertLessEqual(regular, t, (m, t))
+                self.assertEqual(regular, min(m, t), (m, t))
+        for m in (0, 2399, 2400, 2401, 10000, 20000):
+            regular, overtime = overtime_split(m)
+            self.assertEqual(regular + overtime, m)
+            self.assertLessEqual(regular, 2400)
 
 
 if __name__ == "__main__":

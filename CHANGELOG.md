@@ -25,7 +25,7 @@ format change; the five-field finding grammar and `format_version: 3` are unchan
 - Lens rubrics point at the reachability rule; no severity values change.
 - Pressure cases 9 (negative control on a defect-free fixture), 10 (re-review of
   an unchanged target) and 11 (reachability at checkpoint); `tests/fixtures/clean-app`
-  is the negative control, 54 passing tests.
+  is the negative control (69 tests after the case 9 fixes).
 
 ## [1.0.2] - 2026-10-13
 

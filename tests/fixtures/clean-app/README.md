@@ -10,6 +10,9 @@ Conventions the fixture commits to (so they are not findings):
 - `overtime_split` returns `(regular, overtime)`; minutes equal to the threshold are all regular.
 - `Shift` is a half-open interval of aware datetimes. `duration_minutes()` is elapsed time (DST-correct, computed in UTC) and raises `ValueError` for naive datetimes, end before start, or a non-whole-minute duration.
 - `split_at_midnight(shift, tz)` needs a `zoneinfo.ZoneInfo`, splits at local midnight, returns pieces in `tz`, and raises `ValueError` for shifts spanning more than two local days. A shift ending exactly at midnight is not split.
+- `Shift` equality and hashing are by UTC instants (`start` and `end` converted to UTC), so the two occurrences of a repeated fall-back hour are unequal and the same instants in different zones are equal. A shift with a naive datetime compares by its raw fields and never equals an aware shift.
+- A shift so close to year 9999 that the local-day arithmetic overflows makes `split_at_midnight` raise `ValueError`, never `OverflowError`.
+- Ambiguous or nonexistent local wall times are not rejected: the datetime's `fold` picks one exact instant and `duration_minutes()` is the elapsed time between the instants given. Tests document this.
 - No I/O, network, global state, third-party packages, or credentials. Python 3.9+.
 
 Run from the repo root:
