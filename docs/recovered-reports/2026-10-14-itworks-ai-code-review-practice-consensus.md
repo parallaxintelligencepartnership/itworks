@@ -1,3 +1,8 @@
+---
+tags: [recovered-report, itworks, research]
+date: 2026-10-14
+project: itworks
+---
 # Recovered: ai code review practice consensus (itworks, 2026-10-14)
 
 | Field | Value |
