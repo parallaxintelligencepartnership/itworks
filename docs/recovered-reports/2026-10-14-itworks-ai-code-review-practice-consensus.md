@@ -1,9 +1,16 @@
 ---
+title: "Recovered: ai code review practice consensus (itworks, 2026-10-14)"
+status: Historical
+created: 2026-10-14
+updated: 2026-10-31
 tags: [recovered-report, itworks, research]
 date: 2026-10-14
 project: itworks
 ---
 # Recovered: ai code review practice consensus (itworks, 2026-10-14)
+
+Tags: recovered-report, itworks, research
+Wiki: [[recovered-reports]], [[recovered-reports/INDEX|INDEX]]
 
 | Field | Value |
 |---|---|
